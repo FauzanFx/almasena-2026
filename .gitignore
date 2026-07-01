@@ -1,1 +1,25 @@
-venv
+# Environment Virtual (Sudah lu amankan)
+venv/
+.venv/
+env/
+
+# Python Garbage
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# IDE & Editor Configs
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# AI Weights / Big Files (Biar git ga berat)
+models/*.pt
+models/best.pt
+
+# Local Configurations (Biar ga tabrakan port serial antar anggota tim)
+ship_system/config/low_level_config.yaml

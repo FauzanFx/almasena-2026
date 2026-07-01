@@ -1,0 +1,15 @@
+# almasena-dev/ship_system/config/low_level_config.yaml
+
+network:
+  gcs_ip: "192.168.1.10"       # Alamat IP Laptop Operator Darat
+  ship_ip: "192.168.1.20"      # Alamat IP Raspberry Pi 4 Kapal
+  telemetry_port: 14550        # Port UDP untuk lalu lintas telemetri data
+  video_port_front: 5000       # Port UDP streaming Kamera Utama (Depan)
+  video_port_bottom: 5001      # Port UDP streaming Kamera Observasi (Bawah)
+
+hardware:
+  stm32_port: "/dev/ttyACM0"   # Port USB komunikasi serial ke STM32 Nucleo
+  serial_baudrate: 115200      # Kecepatan transmisi data serial fisik
+
+vision:
+  model_path: "models/yolov8n.pt"  # Direktori penyimpanan bobot YOLOv8 Nano

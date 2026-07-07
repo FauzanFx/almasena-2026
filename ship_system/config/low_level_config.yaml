@@ -1,15 +1,16 @@
 # almasena-dev/ship_system/config/low_level_config.yaml
 
 network:
-  gcs_ip: "192.168.1.10"       # Alamat IP Laptop Operator Darat
-  ship_ip: "192.168.1.20"      # Alamat IP Raspberry Pi 4 Kapal
-  telemetry_port: 14550        # Port UDP untuk lalu lintas telemetri data
-  video_port_front: 5000       # Port UDP streaming Kamera Utama (Depan)
-  video_port_bottom: 5001      # Port UDP streaming Kamera Observasi (Bawah)
+  gcs_ip: "192.168.1.15"          # Diarahkan ke IP Ubuntu VirtualBox lu
+  ship_ip: "192.168.1.20"         # IP Raspberry Pi 4 Kapal
+  telemetry_port: 5006            # Disamakan dengan recv_port di main_gcs.py
+  video_port_front: 5000
+  video_port_bottom: 5001
 
 hardware:
-  stm32_port: "/dev/ttyACM0"   # Port USB komunikasi serial ke STM32 Nucleo
-  serial_baudrate: 115200      # Kecepatan transmisi data serial fisik
+  stm32_port: "/dev/ttyACM0"      # Sementara biarkan sama, toh nanti muncul baris WARN saja
+  pixhawk_port: "/dev/ttyACM1"    # Dibedakan agar tidak bentrok port serial virtualnya
+  serial_baudrate: 115200
 
 vision:
-  model_path: "models/yolov8n.pt"  # Direktori penyimpanan bobot YOLOv8 Nano
+  model_path: "/home/almasena/almasena-dev/ship_system/src/models/yolov8n.pt" # Jalur absolut tanpa tilde

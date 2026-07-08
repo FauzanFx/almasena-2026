@@ -3,25 +3,30 @@
 import sys
 import os
 import time
+import cv2
 
 # Pastikan Python mengenali direktori src saat dieksekusi
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from net_handler import NetHandler
 from input_handler import InputHandler
+from video_receiver import VideoReceiver  # Modul video streaming terpisah kita
 
 def main():
     print("[MAIN-GCS] Memulai Ground Control Station ROV Almasena...")
 
-    # 1. Inisialisasi Modul Input Gamepad dan Jaringan UDP
-    # Ubah ke "127.0.0.1" jika tes lokal satu laptop, atau sesuaikan IP Raspi kapal nanti
+    # 1. Inisialisasi Modul Input Gamepad, Jaringan UDP, dan Modular Video Streaming
     input_manager = InputHandler()
     net_manager = NetHandler(rov_ip="192.168.1.20", send_port=5005, recv_port=5006)
+    
+    # Panggil engine video penerima tanpa mengganggu pipeline data stik/telemetri
+    video_engine = VideoReceiver(port_front=5000, port_bottom=5001)
+    video_engine.start()
 
-    # 2. Penguncian Frekuensi Perulangan Loop (~20Hz / 50 milidetik)
+    # 2. Penguncian Frekuensi Perulangan Loop (~10Hz / 100 milidetik)
     loop_interval = 0.1
-    print("[MAIN-GCS] Sistem siap. Memasuki Perulangan Headless GCS Loop (~20Hz).")
-    print("Tekan Ctrl+C untuk menghentikan GCS.")
+    print("[MAIN-GCS] Sistem siap. Memasuki Perulangan GCS Loop Terintegrasi Video.")
+    print("Tekan Ctrl+C atau tombol 'q' pada jendela video untuk menghentikan GCS.")
     print("-" * 85)
 
     try:
@@ -29,7 +34,7 @@ def main():
             loop_start = time.time()
 
             # ---------------------------------------------------------------
-            # TAHAP 1: BACA INPUT & KIRIM KOMANDO KE ROV
+            # TAHAP 1: BACA INPUT & KIRIM KOMANDO KE ROV (Gaya Asli Lu)
             # ---------------------------------------------------------------
             commands = input_manager.get_commands()
 
@@ -49,9 +54,22 @@ def main():
             rov_ai = 'TERKUNCI' if (telemetry and telemetry.get('autonomous_active', False)) else 'MENCARI'
 
             # ---------------------------------------------------------------
-            # TAHAP 3: TAMPILKAN HUD INTEGRASI (STICK LOKAL + TELEMETRI KAPAL)
+            # TAHAP 3: TARIK FRAME VIDEO & RENDER KE LAYAR (Tambahan Baru)
             # ---------------------------------------------------------------
-            # Menggunakan susunan rata kanan/kiri agar angka stik tidak bergeser berantakan
+            frame_front, frame_bottom = video_engine.get_latest_frames()
+
+            if frame_front is not None:
+                # Kita bisa sisipkan info telemetri ROV langsung di atas gambar kamera depan!
+                cv2.putText(frame_front, f"AI TARGET: {rov_ai}", (10, 20), 
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 255, 0), 1)
+                cv2.imshow("GCS Feed - Kamera Depan (YOLO/QR)", frame_front)
+
+            if frame_bottom is not None:
+                cv2.imshow("GCS Feed - Kamera Bawah", frame_bottom)
+
+            # ---------------------------------------------------------------
+            # TAHAP 4: TAMPILKAN HUD INTEGRASI TERMINAL (Asli Lu)
+            # ---------------------------------------------------------------
             log_msg = (
                 f"\r[GCS-LIVE] "
                 f"Surge: {commands['surge']:4d} | "
@@ -66,17 +84,25 @@ def main():
             sys.stdout.flush()
 
             # ---------------------------------------------------------------
-            # TAHAP 4: KONTROL WAKTU (DETERMINISTIK LOOP)
+            # TAHAP 5: KONTROL WAKTU & REFRESH EVENT WINDOW
             # ---------------------------------------------------------------
+            # cv2.waitKey(1) WAJIB dieksekusi di loop utama agar GUI OpenCV mau me-refresh render gambar
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                print("\n[MAIN-GCS] Instruksi penutupan sistem diterima dari keyboard window.")
+                break
+
             elapsed_time = time.time() - loop_start
             time.sleep(max(0, loop_interval - elapsed_time))
 
     except KeyboardInterrupt:
         print("\n\n[MAIN-GCS] Menerima instruksi interupsi keyboard. Mematikan GCS...")
     finally:
-        # Bersihkan soket jaringan sebelum keluar dari program
+        print("\n[MAIN-GCS] Menutup seluruh subsistem darat...")
+        # Bersihkan soket video, tutup window grafik, baru matikan net_manager asli lu
+        video_engine.stop()
+        cv2.destroyAllWindows()
         net_manager.close()
-        print("[MAIN-GCS] Aplikasi darat berhasil ditutup dengan aman.")
+        print("[MAIN-GCS] Aplikasi darat berhasil ditutup dengan aman. Safe dive!")
 
 if __name__ == "__main__":
     main()

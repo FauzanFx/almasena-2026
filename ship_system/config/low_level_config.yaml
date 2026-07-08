@@ -14,3 +14,5 @@ hardware:
 
 vision:
   model_path: "/home/almasena/almasena-dev/ship_system/src/models/yolov8n.pt" # Jalur absolut tanpa tilde
+  cam_front: "/dev/cam_front"
+  cam_bottom: "/dev/cam_bottom"

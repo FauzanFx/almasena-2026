@@ -46,7 +46,9 @@ def main():
         model_path=vis_cfg["model_path"],
         gcs_ip=net_cfg["gcs_ip"],
         port_front=net_cfg["video_port_front"],
-        port_bottom=net_cfg["video_port_bottom"]
+        port_bottom=net_cfg["video_port_bottom"],
+	cam_front_idx=vis_cfg["cam_front"],
+        cam_bottom_idx=vis_cfg["cam_bottom"]
     )
 
     # 3. Mengaktifkan Jalur Koneksi Perangkat Keras

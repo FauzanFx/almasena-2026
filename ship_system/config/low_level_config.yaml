@@ -8,8 +8,8 @@ network:
   video_port_bottom: 5001
 
 hardware:
-  stm32_port: "/dev/ttyACM0"      # Sementara biarkan sama, toh nanti muncul baris WARN saja
-  pixhawk_port: "/dev/ttyACM1"    # Dibedakan agar tidak bentrok port serial virtualnya
+  stm32_port: "/dev/ttyACM1"      # Sementara biarkan sama, toh nanti muncul baris WARN saja
+  pixhawk_port: "/dev/ttyACM0"    # Dibedakan agar tidak bentrok port serial virtualnya
   serial_baudrate: 115200
 
 vision:

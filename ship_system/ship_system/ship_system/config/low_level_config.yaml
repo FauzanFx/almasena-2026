@@ -1,0 +1,18 @@
+# almasena-dev/ship_system/config/low_level_config.yaml
+
+network:
+  gcs_ip: "192.168.1.15"          # Diarahkan ke IP Ubuntu VirtualBox lu
+  ship_ip: "192.168.1.20"         # IP Raspberry Pi 4 Kapal
+  telemetry_port: 5006            # Disamakan dengan recv_port di main_gcs.py
+  video_port_front: 5000
+  video_port_bottom: 5001
+
+hardware:
+  stm32_port: "/dev/ttyACM1"      # Sementara biarkan sama, toh nanti muncul baris WARN saja
+  pixhawk_port: "/dev/ttyACM0"    # Dibedakan agar tidak bentrok port serial virtualnya
+  serial_baudrate: 115200
+
+vision:
+  model_path: "/home/almasena/almasena-dev/ship_system/src/models/yolov8n.pt" # Jalur absolut tanpa tilde
+  cam_front: "/dev/cam_front"
+  cam_bottom: "/dev/cam_bottom"

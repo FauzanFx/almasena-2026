@@ -83,32 +83,25 @@ def main():
 
             # --- PARSING & EVALUASI TOMBOL EMERGENSI DARI GCS ---
             if gcs_commands:
-                # Memeriksa beberapa kemungkinan nama parameter tombol kill dari stik kendali
-                kill_trigger = (
-                    gcs_commands.get("kill_switch", False) or 
-                    gcs_commands.get("emergency_kill", False) or 
-                    gcs_commands.get("kill", False)
-                )
-                
-                # Jika salah satu tombol terbaca True, kunci status kill switch
-                if kill_trigger:
+                kill_trigger = gcs_commands.get("kill_switch", False)
+
+                if kill_trigger and not software_kill_active:
                     software_kill_active = True
-                    print("\n[SOFTWARE-KILL] !!! EMERGENCY SOFTWARE KILL SWITCH DIPICU VIA JOYSTICK !!!")
+                else:
+                    software_kill_active = kill_trigger
 
             # Inisialisasi alokasi data kontrol awal
             surge, yaw, heave, pitch = 0, 0, 0, 0
-            ballast_cmd, fin_angle, gripper_cmd = 0, 90, 0
+            ballast_cmd, gripper_cmd = 0, 0
             is_autonomous = False
 
             # --- PERCABANGAN KONDISI DARURAT AKTIF ---
             if software_kill_active:
-                # Paksa seluruh pergerakan motor, aktuator, dan periferal mati total ke posisi aman
                 surge, yaw, heave, pitch = 0, 0, 0, 0
-                ballast_cmd = 0
+                ballast_cmd = -99
                 gripper_cmd = 0
-                fin_angle = 90  # Balikkan servo sirip ke posisi netral tengah
-                
-                print(f"\r[EMERGENCY-LOCKED] Status: SOFTWARE KILL SWITCH AKTIF. Seluruh hardware terkunci aman. ", end="")
+                is_autonomous = False
+                auto_phase = "MANUAL"
 
             # --- PERCABANGAN KONDISI NORMAL OPERASIONAL ---
             else:
@@ -131,12 +124,10 @@ def main():
                         pitch = gcs_commands.get("pitch", 0)
 
                         ballast_cmd = gcs_commands.get("ballast_cmd", 0)
-                        fin_angle = gcs_commands.get("fin_angle", 90)
                         gripper_cmd = gcs_commands.get("gripper_cmd", 0)
                     else:
                         # Jalur 2: Logika Kendali Otomatis berbasis Visi Komputer
                         if vision_data["target_detected"]:
-                            # Target Terkunci: Hitung deviasi koordinat X/Y untuk visual servoing menuju objek
                             x_center, y_center, _, _ = vision_data["bbox"]
                             err_x = x_center - 320
                             err_y = y_center - 240
@@ -153,11 +144,11 @@ def main():
                                     print(f"[MAIN-SHIP] Dasar ({current_depth}m) tercapai. Switch ke Fase: ASCENT.")
                                     surge, yaw = 0, 0
                                     heave = 300
-                                    ballast_cmd = -1  # Menguras air ballast tank
+                                    ballast_cmd = -1
                                 else:
                                     surge, yaw = 0, 0
                                     heave = -300
-                                    ballast_cmd = 1   # Mengisi air ballast tank
+                                    ballast_cmd = 1
 
                             elif auto_phase == "ASCENT":
                                 if current_depth <= 0.2:
@@ -175,12 +166,21 @@ def main():
             pixhawk.send_manual_control(surge=surge, yaw=yaw, heave=heave, pitch=pitch)
 
             # Kirim instruksi periferal tambahan ke STM32
-            stm32.send_raw_control(ballast_speed=ballast_cmd, fin_angle=fin_angle, gripper_state=gripper_cmd)
+            stm32.send_raw_control(ballast_speed=ballast_cmd, gripper_state=gripper_cmd)
+
+            # --- OVERRIDE DATA DUMMY MEJA AGAR LOG LAPTOP BERUBAH ---
+            if "depth_raw" not in combined_telemetry:
+                combined_telemetry["depth_raw"] = 0.0
+            if "voltage_raw" not in combined_telemetry:
+                combined_telemetry["voltage_raw"] = 0.0
+            if "leak_status" not in combined_telemetry:
+                combined_telemetry["leak_status"] = False
 
             # Kembalikan status log telemetri dan data visi ke GCS laptop
-            combined_telemetry["software_kill_active"] = software_kill_active
-            combined_telemetry["autonomous_active"] = is_autonomous
-            combined_telemetry["auto_phase"] = auto_phase if is_autonomous else "MANUAL"
+            combined_telemetry["software_kill_active"] = bool(software_kill_active)
+            combined_telemetry["autonomous_active"] = bool(is_autonomous)
+            combined_telemetry["auto_phase"] = str(auto_phase if is_autonomous else "MANUAL")
+
             net.transmit_ship_status(raw_sensor_data=combined_telemetry, vision_data=vision_data)
 
             # Kalkulasi kompensasi waktu tidur agar frekuensi loop presisi di 20Hz

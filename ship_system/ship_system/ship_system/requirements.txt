@@ -1,0 +1,5 @@
+pyyaml
+pyserial
+pymavlink
+ultralytics
+ncnn

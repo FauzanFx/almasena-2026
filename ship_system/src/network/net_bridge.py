@@ -59,9 +59,9 @@ class NetBridge:
                     f"Yaw: {commands.get('yaw', 0):4d} | "
                     f"Heave: {commands.get('heave', 0):4d} | "
                     f"Ballast: {commands.get('ballast_cmd', 0):2d} | "
-                    f"Fin: {commands.get('fin_angle', 90):3d}° | "
                     f"Grip: {commands.get('gripper_cmd', 0):2d} | "
-                    f"Auto-Cmd: {str(commands.get('autonomous_mode', False)):5s}"
+                    f"Auto-Cmd: {str(commands.get('autonomous_mode', False)):5s} | "
+                    f"Kill-Cmd: {str(commands.get('kill_switch', False)):5s}"
                 )
                 sys.stdout.write(log_msg)
                 sys.stdout.flush()

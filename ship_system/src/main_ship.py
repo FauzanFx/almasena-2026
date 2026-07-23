@@ -1,12 +1,10 @@
-# almasena-dev/ship_system/src/main_ship.py
-
 import os
 import sys
 import time
 import yaml
 from pathlib import Path
 
-# Registrasi path root untuk kebutuhan modul internal src
+# Setup Path Modul
 current_file = Path(__file__).resolve()
 ship_system_root = current_file.parents[1]
 sys.path.append(os.path.join(ship_system_root, "src"))
@@ -17,7 +15,6 @@ from hardware_interface.pixhawk_bridge import PixhawkBridge
 from vision.vision_processor import VisionProcessor
 
 def load_config():
-    """Memuat parameter network, hardware, dan vision dari file YAML"""
     config_path = os.path.join(ship_system_root, "config", "low_level_config.yaml")
     try:
         with open(config_path, "r") as f:
@@ -25,6 +22,10 @@ def load_config():
     except Exception as e:
         print(f"[MAIN-SHIP] CRITICAL ERROR: Gagal membaca file konfigurasi: {e}")
         sys.exit(1)
+
+def clamp(val, min_val=1100, max_val=1900):
+    """Utility helper untuk membatasi rentang sinyal PWM agar aman untuk ESC"""
+    return max(min_val, min(max_val, int(val)))
 
 def main():
     print("[MAIN-SHIP] Memulai Orkestrasi Sistem ROV Almasena Candrassa...")
@@ -34,7 +35,6 @@ def main():
     hw_cfg = config["hardware"]
     vis_cfg = config["vision"]
 
-    # Inisialisasi objek driver subsistem komunikasi dan hardware
     net = NetBridge(gcs_ip=net_cfg["gcs_ip"], udp_port=net_cfg["telemetry_port"])
     stm32 = STM32Bridge(port=hw_cfg["stm32_port"], baudrate=hw_cfg["serial_baudrate"])
     pixhawk = PixhawkBridge(port=hw_cfg["pixhawk_port"], baudrate=hw_cfg["serial_baudrate"])
@@ -47,33 +47,35 @@ def main():
         cam_bottom_idx=vis_cfg["cam_bottom"]
     )
 
-    # Membuka koneksi fisik ke perangkat keras dan model YOLOv8
     if not stm32.connect():
         print("[MAIN-SHIP] WARN: Sistem berjalan tanpa kendali STM32.")
 
-    if not pixhawk.connect():
-        print("[MAIN-SHIP] WARN: Sistem berjalan tanpa kendali Pixhawk 4.")
+    if pixhawk.connect():
+        # Sambungan sukses: PixhawkBridge secara otomatis akan mengirim 1500us (2 detik) untuk unlock ESC
+        print("[MAIN-SHIP] Pixhawk 32 / Pixhawk 4 Terhubung & Inisialisasi ESC Selesai.")
+    else:
+        print("[MAIN-SHIP] WARN: Sistem berjalan tanpa kendali Pixhawk.")
 
     if vision.init_model():
         vision.start_cameras()
     else:
         print("[MAIN-SHIP] WARN: Engine AI YOLOv8 gagal berjalan.")
 
-    # Sinkronisasi frekuensi eksekusi loop utama di 20Hz (50ms)
-    loop_interval = 0.05
+    loop_interval = 0.05  # Loop 20Hz
     print("[MAIN-SHIP] Seluruh modul sinkron. Memasuki Deterministic Cyclic Loop (~20Hz).")
 
     prev_autonomous = False
     auto_phase = "DESCENT"
-
-    # === STATUS AWAL INTERLEAVED KILL SWITCH ===
     software_kill_active = False
+
+    # Variable pelacak heartbeat paket UDP dari GCS (Failsafe)
+    last_gcs_packet_time = time.time()
+    gcs_timeout_threshold = 1.0  # 1 detik tanpa sinyal = Failsafe Disarm
 
     try:
         while True:
             loop_start = time.time()
 
-            # Membaca Data Sensor Aktual
             sensor_data = stm32.get_latest_sensors()
             attitude_data = pixhawk.get_latest_attitude()
             vision_data = vision.get_latest_vision()
@@ -81,42 +83,47 @@ def main():
             combined_telemetry = {**sensor_data, **attitude_data}
             gcs_commands = net.receive_commands()
 
-            # --- PARSING & EVALUASI TOMBOL EMERGENSI DARI GCS ---
+            # --- 1. PARSING COMMAND & NETWORK FAILSAFE ---
             if gcs_commands:
-                # Memeriksa beberapa kemungkinan nama parameter tombol kill dari stik kendali
-                kill_trigger = (
-                    gcs_commands.get("kill_switch", False) or 
-                    gcs_commands.get("emergency_kill", False) or 
-                    gcs_commands.get("kill", False)
-                )
-                
-                # Jika salah satu tombol terbaca True, kunci status kill switch
-                if kill_trigger:
-                    software_kill_active = True
-                    print("\n[SOFTWARE-KILL] !!! EMERGENCY SOFTWARE KILL SWITCH DIPICU VIA JOYSTICK !!!")
+                last_gcs_packet_time = time.time()  # Reset timer paket masuk
+                kill_trigger = gcs_commands.get("kill_switch", False)
 
-            # Inisialisasi alokasi data kontrol awal
+                if kill_trigger and not software_kill_active:
+                    software_kill_active = True
+                    print("[MAIN-SHIP] EMERGENCY: Software Kill Switch Dipicu!")
+                else:
+                    if software_kill_active and not kill_trigger:
+                        print("[MAIN-SHIP] INFO: Kill Switch Dilepas. Re-Arming Pixhawk...")
+                        pixhawk.set_arm_state(arm=True)
+                    software_kill_active = kill_trigger
+            else:
+                # Failsafe: Koneksi UDP terputus > 1 detik
+                if (time.time() - last_gcs_packet_time) > gcs_timeout_threshold:
+                    if not software_kill_active:
+                        print("[MAIN-SHIP] FAILSAFE: Koneksi UDP GCS Terputus! Memaksa Kill Switch...")
+                        software_kill_active = True
+
             surge, yaw, heave, pitch = 0, 0, 0, 0
-            ballast_cmd, fin_angle, gripper_cmd = 0, 90, 0
+            ballast_cmd, gripper_cmd = 0, 0
             is_autonomous = False
 
-            # --- PERCABANGAN KONDISI DARURAT AKTIF ---
+            # --- 2. EVALUASI KONTROL & MODE OPERASIONAL ---
             if software_kill_active:
-                # Paksa seluruh pergerakan motor, aktuator, dan periferal mati total ke posisi aman
                 surge, yaw, heave, pitch = 0, 0, 0, 0
-                ballast_cmd = 0
+                ballast_cmd = -99
                 gripper_cmd = 0
-                fin_angle = 90  # Balikkan servo sirip ke posisi netral tengah
-                
-                print(f"\r[EMERGENCY-LOCKED] Status: SOFTWARE KILL SWITCH AKTIF. Seluruh hardware terkunci aman. ", end="")
+                is_autonomous = False
+                auto_phase = "MANUAL"
 
-            # --- PERCABANGAN KONDISI NORMAL OPERASIONAL ---
+                # Paksa MAVLink DISARM dan kunci PWM ke 1500us (Diam)
+                pixhawk.emergency_disarm_stop()
+
             else:
+                # KONDISI NORMAL OPERASIONAL
                 if gcs_commands:
                     is_autonomous = gcs_commands.get("autonomous_mode", False)
                     current_depth = sensor_data.get("depth_raw", 0.0)
 
-                    # Reset fase otonom ke awal (DESCENT) saat tombol baru dipicu
                     if is_autonomous and not prev_autonomous:
                         auto_phase = "DESCENT"
                         print("[MAIN-SHIP] Mode Otonom Dipicu. Mulai Fase: DESCENT.")
@@ -124,72 +131,90 @@ def main():
                     prev_autonomous = is_autonomous
 
                     if not is_autonomous:
-                        # Jalur 1: Parsing Data Input Manual dari Pilot di GCS
+                        # Mode MANUAL / JOYSTICK
                         surge = gcs_commands.get("surge", 0)
                         yaw = gcs_commands.get("yaw", 0)
                         heave = gcs_commands.get("heave", 0)
                         pitch = gcs_commands.get("pitch", 0)
 
                         ballast_cmd = gcs_commands.get("ballast_cmd", 0)
-                        fin_angle = gcs_commands.get("fin_angle", 90)
                         gripper_cmd = gcs_commands.get("gripper_cmd", 0)
                     else:
-                        # Jalur 2: Logika Kendali Otomatis berbasis Visi Komputer
-                        if vision_data["target_detected"]:
-                            # Target Terkunci: Hitung deviasi koordinat X/Y untuk visual servoing menuju objek
+                        # Mode OTONOM (AI Visual Tracking)
+                        if vision_data.get("target_detected", False):
                             x_center, y_center, _, _ = vision_data["bbox"]
                             err_x = x_center - 320
                             err_y = y_center - 240
 
-                            surge = 100
+                            surge = 50   # Maju pelan
                             yaw = int(err_x * 0.8)
                             heave = int(err_y * -0.8)
                             ballast_cmd = 0
                         else:
-                            # Target Hilang: Eksekusi pola Yo-Yo (Naik-Turun) mencari objek
                             if auto_phase == "DESCENT":
                                 if current_depth >= 2.5:
                                     auto_phase = "ASCENT"
-                                    print(f"[MAIN-SHIP] Dasar ({current_depth}m) tercapai. Switch ke Fase: ASCENT.")
                                     surge, yaw = 0, 0
-                                    heave = 300
-                                    ballast_cmd = -1  # Menguras air ballast tank
+                                    heave = 50
+                                    ballast_cmd = -1
                                 else:
                                     surge, yaw = 0, 0
-                                    heave = -300
-                                    ballast_cmd = 1   # Mengisi air ballast tank
+                                    heave = -50
+                                    ballast_cmd = 1
 
                             elif auto_phase == "ASCENT":
                                 if current_depth <= 0.2:
                                     auto_phase = "DESCENT"
-                                    print(f"[MAIN-SHIP] Permukaan ({current_depth}m) tercapai. Switch ke Fase: DESCENT.")
                                     surge, yaw = 0, 0
-                                    heave = -300
+                                    heave = -50
                                     ballast_cmd = 1
                                 else:
                                     surge, yaw = 0, 0
-                                    heave = 300
+                                    heave = 50
                                     ballast_cmd = -1
 
-            # Kirim data navigasi utama ke Pixhawk
-            pixhawk.send_manual_control(surge=surge, yaw=yaw, heave=heave, pitch=pitch)
+                # --- 3. KINEMATICS MIXER: KONVERSI INPUT KE PWM OVERRIDE (1100us - 1900us) ---
+                # Normalisasi skala input (-100 s.d 100) menjadi faktor desimal (-1.0 s.d 1.0)
+                norm_surge = surge / 100.0 if abs(surge) > 1.0 else surge
+                norm_yaw = yaw / 100.0 if abs(yaw) > 1.0 else yaw
 
-            # Kirim instruksi periferal tambahan ke STM32
-            stm32.send_raw_control(ballast_speed=ballast_cmd, fin_angle=fin_angle, gripper_state=gripper_cmd)
+                # Kalkulasi offset sinyal PWM dari titik netral 1500us
+                base_pwm = norm_surge * 300  # Maksimal offset ±300us (1200us s.d 1800us)
+                turn_pwm = norm_yaw * 150    # Offset pembelokan
 
-            # Kembalikan status log telemetri dan data visi ke GCS laptop
-            combined_telemetry["software_kill_active"] = software_kill_active
-            combined_telemetry["autonomous_active"] = is_autonomous
-            combined_telemetry["auto_phase"] = auto_phase if is_autonomous else "MANUAL"
+                # Differential Thrust untuk 4 Thruster Utama (MAIN OUT 1-4)
+                ch1_pwm = clamp(1500 + base_pwm + turn_pwm)
+                ch2_pwm = clamp(1500 + base_pwm - turn_pwm)
+                ch3_pwm = clamp(1500 + base_pwm + turn_pwm)
+                ch4_pwm = clamp(1500 + base_pwm - turn_pwm)
+
+                # Kirim sinyal PWMOverride MAVLink langsung ke Pix32!
+                pixhawk.send_thruster_pwm(ch1_pwm, ch2_pwm, ch3_pwm, ch4_pwm)
+
+            # --- 4. INSTRUKSI PERIFERAL & TELEMETRI REFEED ---
+            stm32.send_raw_control(ballast_speed=ballast_cmd, gripper_state=gripper_cmd)
+
+            if "depth_raw" not in combined_telemetry:
+                combined_telemetry["depth_raw"] = 0.0
+            if "voltage_raw" not in combined_telemetry:
+                combined_telemetry["voltage_raw"] = 0.0
+            if "leak_status" not in combined_telemetry:
+                combined_telemetry["leak_status"] = False
+
+            combined_telemetry["software_kill_active"] = bool(software_kill_active)
+            combined_telemetry["autonomous_active"] = bool(is_autonomous)
+            combined_telemetry["auto_phase"] = str(auto_phase if is_autonomous else "MANUAL")
+
             net.transmit_ship_status(raw_sensor_data=combined_telemetry, vision_data=vision_data)
 
-            # Kalkulasi kompensasi waktu tidur agar frekuensi loop presisi di 20Hz
+            # Jaga kestabilan deterministic loop 20Hz (50ms)
             elapsed_time = time.time() - loop_start
             time.sleep(max(0, loop_interval - elapsed_time))
 
     except KeyboardInterrupt:
         print("\n[MAIN-SHIP] Mematikan sistem via KeyboardInterrupt...")
     finally:
+        print("[MAIN-SHIP] Membersihkan dan menutup seluruh subsistem...")
         vision.stop()
         pixhawk.close()
         stm32.close()

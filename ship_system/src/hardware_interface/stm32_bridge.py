@@ -73,14 +73,14 @@ class STM32Bridge:
             # Mengabaikan paket data jika terjadi kehilangan byte di kabel data
             pass
 
-    def send_raw_control(self, ballast_speed, fin_angle, gripper_state):
+    def send_raw_control(self, ballast_speed, gripper_state):
         """
         Mengirimkan instruksi kendali mentah langsung ke unit aktuator STM32.
-        Format paket keluar ke STM32: "CMD,ballast_speed,fin_angle,gripper_state\n"
+        Format paket keluar ke STM32: "CMD,ballast_speed, gripper_state\n"
         """
         if self.is_running and self.serial_conn and self.serial_conn.is_open:
             # Membangun string perintah seminimal mungkin untuk efisiensi parser C/C++ di STM32
-            cmd_string = f"CMD,{ballast_speed},{fin_angle},{gripper_state}\n"
+            cmd_string = f"CMD,{ballast_speed},{gripper_state}\n"
             
             with self.write_lock:
                 try:

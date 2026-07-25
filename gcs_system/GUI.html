@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ROV GCS — KKI 2026 | TACTICAL DASHBOARD</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'rov-em': '#10b981', 'rov-em-d': '#34d399', 'rov-em-b': '#064e3b',
+          'rov-cy': '#06b6d4', 'rov-cy-d': '#22d3ee',
+          'rov-am': '#f59e0b', 'rov-am-d': '#fbbf24',
+          'rov-rd': '#ef4444', 'rov-rd-d': '#f87171',
+          'rov-bg': '#020c05', 'rov-panel': '#010e07', 'rov-border': '#0a3d20',
+        },
+        fontFamily: {
+          mono: ['"Share Tech Mono"', 'monospace'],
+          head: ['Rajdhani', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
+</head>
+
+<body class="w-full h-screen bg-rov-bg text-slate-100 flex flex-col overflow-hidden grid-bg" style="font-family:'Share Tech Mono',monospace;">
+
+<!-- ════════════════════════════════════════════════════
+     TOP BAR
+════════════════════════════════════════════════════ -->
+<div id="topbar" class="flex-shrink-0 h-6 bg-rov-panel border-b border-rov-border flex items-center justify-between px-3" style="font-size:8px;letter-spacing:.12em;">
+  <div class="flex items-center gap-3">
+    <span class="text-rov-em-d font-head font-bold" style="font-size:11px;letter-spacing:.25em;">KKI 2026</span>
+    <span class="bg-rov-bg border border-rov-border rounded px-1.5 py-px text-rov-em" style="font-size:7px;">ROV-ALPHA</span>
+    <span class="bg-rov-bg border border-rov-border rounded px-1.5 py-px text-rov-em" style="font-size:7px;">DUAL-CAM</span>
+    <span class="border rounded px-1.5 py-px text-rov-am" id="mode-badge" style="font-size:7px;background:rgba(28,13,0,.8);border-color:#92400e;">DEPTH HOLD</span>
+  </div>
+  <div class="flex items-center gap-3 text-slate-500">
+    <span id="tb-leak-alert" class="text-rov-rd hidden" style="animation:led-pulse .7s infinite;font-size:8px;">⚠ LEAK ALERT</span>
+    <span id="tb-ping" class="text-rov-em" style="font-size:8px;">45ms</span>
+    <span>|</span>
+    <span id="tb-clock" class="text-slate-500" style="font-size:8px;">00:00:00</span>
+    <span>|</span>
+    <span class="text-slate-500" style="font-size:8px;">GCS NOMINAL</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     MAIN ROW  (FPV + SIDEBAR)
+════════════════════════════════════════════════════ -->
+<div class="flex flex-1 overflow-hidden min-h-0">
+
+  <!-- ── FPV CENTER ZONE ── -->
+  <div id="fpv-zone" class="relative flex-1 overflow-hidden ocean-bg">
+
+    <!-- ── MAIN CAMERA STREAM (background layer, sits behind all HUD elements) ── -->
+    <img id="main-cam"
+         src="http://localhost:8000/video/depan"
+         alt="Main FPV Camera"
+         style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; background:#020c05;" />
+
+    <!-- Ocean caustic rays -->
+    <div style="position:absolute;top:0;left:22%;width:55px;height:72%;transform:rotate(-8deg);transform-origin:top;background:linear-gradient(180deg,rgba(56,189,248,.08) 0%,transparent 70%);opacity:.4;"></div>
+    <div style="position:absolute;top:0;left:43%;width:72px;height:82%;transform:rotate(3deg);transform-origin:top;background:linear-gradient(180deg,rgba(56,189,248,.07) 0%,transparent 70%);opacity:.32;"></div>
+    <div style="position:absolute;top:0;left:64%;width:48px;height:68%;transform:rotate(11deg);transform-origin:top;background:linear-gradient(180deg,rgba(56,189,248,.09) 0%,transparent 70%);opacity:.36;"></div>
+    <div style="position:absolute;top:0;left:80%;width:34px;height:60%;transform:rotate(-4deg);transform-origin:top;background:linear-gradient(180deg,rgba(56,189,248,.06) 0%,transparent 70%);opacity:.28;"></div>
+
+    <!-- Ocean grid overlay -->
+    <div class="ocean-grid absolute inset-0 pointer-events-none" style="z-index:1;background-color:transparent;"></div>
+
+    <!-- Scanline -->
+    <div class="scanline"></div>
+
+    <!-- Floating particles -->
+    <div class="particle" style="left:11%;bottom:22%;animation-duration:3.4s;animation-delay:0s;--dx:5px;--dy:-52px;"></div>
+    <div class="particle" style="left:27%;bottom:16%;animation-duration:4.3s;animation-delay:.9s;--dx:-4px;--dy:-48px;"></div>
+    <div class="particle" style="left:50%;bottom:40%;animation-duration:3.9s;animation-delay:1.8s;--dx:7px;--dy:-58px;"></div>
+    <div class="particle" style="left:67%;bottom:11%;animation-duration:5.1s;animation-delay:.4s;--dx:-6px;--dy:-44px;"></div>
+    <div class="particle" style="left:84%;bottom:52%;animation-duration:3.7s;animation-delay:2.4s;--dx:4px;--dy:-50px;"></div>
+    <div class="particle" style="left:37%;bottom:65%;animation-duration:4.8s;animation-delay:1.1s;--dx:-3px;--dy:-46px;"></div>
+    <div class="particle" style="left:73%;bottom:33%;animation-duration:4.1s;animation-delay:3.1s;--dx:8px;--dy:-56px;"></div>
+
+    <!-- ROV Arm SVG — commented out; it would sit on top of the live camera feed and
+         cover the center of frame. Uncomment if you still want it as a decorative overlay. -->
+    <!--
+    <div class="rov-arm">
+      <svg viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg" width="130" height="110">
+        <rect x="50" y="0" width="30" height="58" rx="5" fill="#152244" stroke="#3b82f6" stroke-width=".9" opacity=".93"/>
+        <circle cx="65" cy="58" r="11" fill="#1e3a6a" stroke="#60a5fa" stroke-width="1.1" opacity=".96"/>
+        <rect x="54" y="65" width="22" height="16" rx="2" fill="#152244" stroke="#3b82f6" stroke-width=".9" opacity=".93"/>
+        <path d="M54 81 Q37 85 31 93 Q35 97 41 96 L56 83 Z" fill="#1e3a6a" stroke="#60a5fa" stroke-width=".9" opacity=".96"/>
+        <path d="M76 81 Q93 85 99 93 Q95 97 89 96 L74 83 Z" fill="#1e3a6a" stroke="#60a5fa" stroke-width=".9" opacity=".96"/>
+        <rect x="36" y="15" width="11" height="24" rx="2" fill="#0e1e38" stroke="#2563eb" stroke-width=".7" opacity=".8"/>
+        <rect x="83" y="15" width="11" height="24" rx="2" fill="#0e1e38" stroke="#2563eb" stroke-width=".7" opacity=".8"/>
+        <circle cx="55" cy="3" r="3.2" fill="#fbbf24" opacity=".88"/>
+        <circle cx="75" cy="3" r="3.2" fill="#fbbf24" opacity=".88"/>
+        <ellipse cx="55" cy="6" rx="8" ry="3.5" fill="#fef3c7" opacity=".1"/>
+        <ellipse cx="75" cy="6" rx="8" ry="3.5" fill="#fef3c7" opacity=".1"/>
+      </svg>
+    </div>
+    -->
+
+    <!-- HUD corner brackets -->
+    <div class="hud-corner hud-tl"></div>
+    <div class="hud-corner hud-tr"></div>
+    <div class="hud-corner hud-bl"></div>
+    <div class="hud-corner hud-br"></div>
+
+    <!-- ── COMPASS STRIP (top-center) ── -->
+    <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:230px;height:28px;background:rgba(2,8,4,.9);border:1px solid rgba(6,182,212,.3);border-top:none;border-radius:0 0 5px 5px;overflow:hidden;z-index:10;">
+      <div id="compass-strip" style="display:flex;align-items:center;height:18px;white-space:nowrap;padding-left:115px;transition:transform .45s ease;font-family:'Share Tech Mono',monospace;"></div>
+      <!-- Center needle -->
+      <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:100%;background:rgba(245,158,11,.85);"></div>
+      <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:3px solid transparent;border-right:3px solid transparent;border-top:5px solid #f59e0b;"></div>
+      <div id="hdg-val" style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:7.5px;color:#f59e0b;letter-spacing:.1em;font-family:'Share Tech Mono',monospace;">045°</div>
+    </div>
+
+    <!-- ── ARTIFICIAL HORIZON (top-left) ── -->
+    <div style="position:absolute;top:18px;left:14px;display:flex;flex-direction:column;align-items:center;gap:3px;z-index:10;">
+      <div style="width:70px;height:70px;border-radius:50%;border:1.5px solid rgba(6,182,212,.7);overflow:hidden;position:relative;background:#000;">
+        <div id="ahi-sky" style="position:absolute;top:0;left:0;right:0;height:50%;background:#0f2d5e;transform-origin:center bottom;transition:transform .5s ease;"></div>
+        <div id="ahi-gnd" style="position:absolute;bottom:0;left:0;right:0;height:50%;background:#1a0d04;transform-origin:center top;transition:transform .5s ease;"></div>
+        <div id="ahi-line" style="position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(6,182,212,.85);transform:translateY(-50%);transition:transform .5s ease;"></div>
+        <!-- Fixed aircraft reference -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:26px;height:1.5px;background:#f59e0b;"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1.5px;height:7px;background:#f59e0b;"></div>
+        <!-- Tick marks -->
+        <svg style="position:absolute;inset:0;width:70px;height:70px;" viewBox="0 0 70 70">
+          <line x1="3" y1="35" x2="11" y2="35" stroke="rgba(6,182,212,.5)" stroke-width=".9"/>
+          <line x1="59" y1="35" x2="67" y2="35" stroke="rgba(6,182,212,.5)" stroke-width=".9"/>
+          <text x="35" y="18" text-anchor="middle" fill="rgba(6,182,212,.5)" font-size="5" font-family="monospace">+10</text>
+          <text x="35" y="55" text-anchor="middle" fill="rgba(6,182,212,.5)" font-size="5" font-family="monospace">-10</text>
+        </svg>
+      </div>
+      <div style="font-size:7px;color:rgba(6,182,212,.55);letter-spacing:.1em;">ATT</div>
+      <div id="rp-readout" style="font-size:7px;color:rgba(6,182,212,.55);letter-spacing:.05em;font-family:'Share Tech Mono',monospace;">R+1.2° P-0.8°</div>
+    </div>
+
+    <!-- ── DEPTH GAUGE (right side) ── -->
+    <div style="position:absolute;top:18px;right:14px;display:flex;flex-direction:column;align-items:center;gap:3px;z-index:10;">
+      <div style="font-size:7px;color:rgba(6,182,212,.55);letter-spacing:.08em;">DPTH</div>
+      <div style="width:13px;height:150px;background:rgba(2,15,8,.85);border:1px solid rgba(6,182,212,.3);border-radius:3px;position:relative;overflow:hidden;">
+        <div id="depth-fill" class="depth-fill-cyan" style="position:absolute;bottom:0;left:0;right:0;height:32%;border-radius:0 0 2px 2px;transition:height 1.8s ease;"></div>
+        <!-- Tick marks -->
+        <div style="position:absolute;bottom:25%;right:0;width:4px;height:1px;background:rgba(6,182,212,.3);"></div>
+        <div style="position:absolute;bottom:50%;right:0;width:4px;height:1px;background:rgba(6,182,212,.3);"></div>
+        <div style="position:absolute;bottom:75%;right:0;width:4px;height:1px;background:rgba(6,182,212,.3);"></div>
+      </div>
+      <div id="depth-val" style="font-size:8px;color:#22d3ee;letter-spacing:.05em;text-align:center;font-family:'Share Tech Mono',monospace;line-height:1.3;">3.2<br/><span style="font-size:6px;color:rgba(6,182,212,.4);">m</span></div>
+    </div>
+
+    <!-- Video meta top-right -->
+    <div style="position:absolute;top:30px;right:40px;font-size:7px;color:rgba(6,182,212,.4);line-height:1.85;text-align:right;letter-spacing:.08em;z-index:10;font-family:'Share Tech Mono',monospace;">
+      <div><span id="rec-dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ef4444;animation:blink-rec .9s infinite;margin-right:4px;vertical-align:middle;"></span>REC LIVE</div>
+      <div id="cam-label-main">FWD CAM-01</div>
+      <div>1920×1080</div>
+      <div>30 FPS</div>
+    </div>
+
+    <!-- ── PiP BOTTOM CAMERA ── -->
+    <div id="pip-window" class="pip-border absolute rounded overflow-hidden" style="bottom:14px;left:14px;width:185px;height:118px;z-index:20;cursor:pointer;" onclick="swapCams()">
+      <!-- PiP camera stream -->
+      <div id="pip-content" class="absolute inset-0" style="background:#020c05;">
+        <img id="pip-cam"
+             src="http://localhost:8000/video/bawah"
+             alt="PiP Camera"
+             style="width:100%; height:100%; object-fit:cover; display:block;" />
+      </div>
+      <!-- PiP corners -->
+      <div style="position:absolute;top:3px;left:3px;width:8px;height:8px;border-top:1px solid rgba(245,158,11,.6);border-left:1px solid rgba(245,158,11,.6);pointer-events:none;"></div>
+      <div style="position:absolute;top:3px;right:3px;width:8px;height:8px;border-top:1px solid rgba(245,158,11,.6);border-right:1px solid rgba(245,158,11,.6);pointer-events:none;"></div>
+      <div style="position:absolute;bottom:3px;left:3px;width:8px;height:8px;border-bottom:1px solid rgba(245,158,11,.6);border-left:1px solid rgba(245,158,11,.6);pointer-events:none;"></div>
+      <div style="position:absolute;bottom:3px;right:3px;width:8px;height:8px;border-bottom:1px solid rgba(245,158,11,.6);border-right:1px solid rgba(245,158,11,.6);pointer-events:none;"></div>
+      <!-- Label -->
+      <div id="pip-label" style="position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:6px;color:rgba(245,158,11,.75);letter-spacing:.1em;background:rgba(0,0,0,.55);padding:1px 5px;border-radius:2px;white-space:nowrap;font-family:'Share Tech Mono',monospace;z-index:2;">BTM CAM-02</div>
+      <div id="pip-alt" style="position:absolute;bottom:4px;left:6px;font-size:6px;color:rgba(245,158,11,.5);font-family:'Share Tech Mono',monospace;z-index:2;">ALT 0.8m</div>
+      <!-- Swap button -->
+      <button onclick="event.stopPropagation();swapCams();" style="position:absolute;bottom:4px;right:4px;background:rgba(2,15,8,.88);border:1px solid rgba(6,182,212,.4);border-radius:3px;padding:2px 5px;cursor:pointer;display:flex;align-items:center;gap:3px;color:rgba(6,182,212,.85);font-size:6px;letter-spacing:.08em;font-family:'Share Tech Mono',monospace;transition:all .2s;z-index:3;">
+        <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 4h8M7 1l2 3-2 3M11 8H3M5 5l-2 3 2 3"/>
+        </svg>
+        SWAP
+      </button>
+    </div>
+
+  </div><!-- /fpv-zone -->
+
+  <!-- ════════════════════════════════════════════════════
+       RIGHT SIDEBAR
+  ════════════════════════════════════════════════════ -->
+  <div class="w-52 flex-shrink-0 bg-rov-panel border-l border-rov-border flex flex-col overflow-hidden" style="padding:7px;gap:4px;">
+
+    <!-- Section title -->
+    <div style="font-size:8px;color:#34d399;letter-spacing:.15em;border-bottom:1px solid #0a3d20;padding-bottom:3px;flex-shrink:0;">SYS TELEMETRY</div>
+
+    <!-- PING -->
+    <div class="stat-row flex items-start gap-2 pb-1.5">
+      <div id="ping-led" class="led-dot mt-0.5" style="background:#34d399;box-shadow:0 0 6px #34d399;"></div>
+      <div>
+        <div style="font-size:6.5px;color:rgba(52,211,153,.4);letter-spacing:.1em;">PING / LATENCY</div>
+        <div id="ping-val" style="font-size:10px;color:#34d399;letter-spacing:.05em;">45 ms</div>
+      </div>
+    </div>
+
+    <!-- BATTERY -->
+    <div class="stat-row flex items-start gap-2 pb-1.5">
+      <div id="batt-led" class="led-dot mt-0.5" style="background:#34d399;box-shadow:0 0 6px #34d399;"></div>
+      <div style="flex:1;">
+        <div style="font-size:6.5px;color:rgba(52,211,153,.4);letter-spacing:.1em;">MAIN BATTERY</div>
+        <div id="batt-val" style="font-size:10px;color:#34d399;letter-spacing:.05em;">14.8V (92%)</div>
+        <div style="height:3px;background:rgba(6,78,59,.4);border-radius:2px;overflow:hidden;margin-top:3px;">
+          <div id="batt-bar" style="height:100%;width:92%;background:linear-gradient(90deg,#059669,#34d399);border-radius:2px;transition:width 1s ease;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENCL TEMP -->
+    <div class="stat-row flex items-start gap-2 pb-1.5">
+      <div id="temp-led" class="led-dot mt-0.5" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b;"></div>
+      <div>
+        <div style="font-size:6.5px;color:rgba(52,211,153,.4);letter-spacing:.1em;">ENCL. TEMP</div>
+        <div id="temp-val" style="font-size:10px;color:#f59e0b;letter-spacing:.05em;">32.0 °C</div>
+      </div>
+    </div>
+
+    <!-- WATER TEMP -->
+    <div class="stat-row flex items-start gap-2 pb-1.5">
+      <div class="led-dot mt-0.5" style="background:#22d3ee;box-shadow:0 0 6px #22d3ee;"></div>
+      <div>
+        <div style="font-size:6.5px;color:rgba(52,211,153,.4);letter-spacing:.1em;">WATER TEMP</div>
+        <div style="font-size:10px;color:#22d3ee;letter-spacing:.05em;">24.3 °C</div>
+      </div>
+    </div>
+
+    <!-- IMU -->
+    <div class="stat-row flex items-start gap-2 pb-1.5">
+      <div class="led-dot mt-0.5" style="background:#34d399;box-shadow:0 0 6px #34d399;"></div>
+      <div>
+        <div style="font-size:6.5px;color:rgba(52,211,153,.4);letter-spacing:.1em;">IMU ROLL / PITCH</div>
+        <div id="imu-val" style="font-size:10px;color:#34d399;letter-spacing:.04em;">+1.2° / -0.8°</div>
+      </div>
+    </div>
+
+    <!-- ── LEAK SENSOR ── -->
+    <button id="leak-btn" onclick="toggleLeak()" class="leak-safe rounded w-full text-left flex items-center gap-2 cursor-pointer" style="padding:5px 7px;flex-shrink:0;outline:none;border-radius:4px;">
+      <svg id="leak-ico" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <div>
+        <div style="font-size:6.5px;color:rgba(52,211,153,.45);letter-spacing:.1em;">LEAK SENSOR</div>
+        <div id="leak-val" style="font-size:11px;font-weight:bold;color:#34d399;letter-spacing:.1em;font-family:'Rajdhani',sans-serif;">✓ SAFE</div>
+      </div>
+    </button>
+
+    <!-- Divider -->
+    <div style="font-size:8px;color:#34d399;letter-spacing:.15em;border-bottom:1px solid #0a3d20;padding-bottom:3px;flex-shrink:0;margin-top:2px;">MISSION LOG</div>
+
+    <!-- Mission Log Terminal -->
+    <div id="log-terminal" style="flex:1;overflow-y:auto;background:rgba(0,0,0,.4);border:1px solid rgba(6,78,59,.4);border-radius:3px;padding:4px 5px;display:flex;flex-direction:column;gap:1px;min-height:0;"></div>
+
+  </div><!-- /sidebar -->
+
+</div><!-- /main row -->
+
+<!-- ════════════════════════════════════════════════════
+     BOTTOM BAR
+════════════════════════════════════════════════════ -->
+<div class="flex-shrink-0 border-t border-rov-border bg-rov-panel flex items-center gap-2" style="height:74px;padding:6px 10px;">
+
+  <!-- Mode label -->
+  <div style="font-size:7px;color:rgba(52,211,153,.3);letter-spacing:.15em;flex-shrink:0;margin-right:2px;">MODE ›</div>
+
+  <!-- Mode buttons -->
+  <button class="mode-btn active" id="btn-manual" onclick="setMode('manual')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/>
+    </svg>
+    <span style="font-size:8px;letter-spacing:.12em;color:inherit;">MANUAL</span>
+    <span id="msub-manual" style="font-size:6.5px;letter-spacing:.08em;color:rgba(52,211,153,.5);">FULL CTRL</span>
+  </button>
+
+  <div style="width:1px;height:38px;background:rgba(52,211,153,.1);flex-shrink:0;"></div>
+
+  <button class="mode-btn" id="btn-depth" onclick="setMode('depth')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="2" x2="12" y2="22"/><polyline points="17 7 12 2 7 7"/><polyline points="17 17 12 22 7 17"/>
+    </svg>
+    <span style="font-size:8px;letter-spacing:.12em;color:inherit;">DEPTH HOLD</span>
+    <span id="msub-depth" style="font-size:6.5px;letter-spacing:.08em;color:rgba(52,211,153,.28);">ALT LOCK</span>
+  </button>
+
+  <div style="width:1px;height:38px;background:rgba(52,211,153,.1);flex-shrink:0;"></div>
+
+  <button class="mode-btn" id="btn-heading" onclick="setMode('heading')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </svg>
+    <span style="font-size:8px;letter-spacing:.12em;color:inherit;">HDG HOLD</span>
+    <span id="msub-heading" style="font-size:6.5px;letter-spacing:.08em;color:rgba(52,211,153,.28);">YAW LOCK</span>
+  </button>
+
+  <!-- Divider -->
+  <div style="width:1px;height:48px;background:rgba(52,211,153,.12);flex-shrink:0;margin:0 4px;"></div>
+
+  <!-- Thruster panel -->
+  <div style="flex:1;display:flex;flex-direction:column;gap:4px;justify-content:center;min-width:0;">
+    <div style="font-size:7.5px;color:#34d399;letter-spacing:.15em;border-bottom:1px solid rgba(10,61,32,.6);padding-bottom:2px;margin-bottom:1px;">THRUSTERS</div>
+
+    <!-- FWD -->
+    <div style="display:flex;align-items:center;gap:5px;">
+      <span style="width:26px;font-size:7px;color:rgba(52,211,153,.38);letter-spacing:.08em;flex-shrink:0;">FWD</span>
+      <div class="tbar-bg"><div id="tbar-fwd" class="tbar-fill" style="width:62%;background:linear-gradient(90deg,#059669,#34d399);"></div></div>
+      <span id="tval-fwd" style="width:32px;font-size:7.5px;color:#34d399;letter-spacing:.04em;text-align:right;flex-shrink:0;">+62%</span>
+    </div>
+
+    <!-- VERT -->
+    <div style="display:flex;align-items:center;gap:5px;">
+      <span style="width:26px;font-size:7px;color:rgba(52,211,153,.38);letter-spacing:.08em;flex-shrink:0;">VERT</span>
+      <div class="tbar-bg"><div id="tbar-vert" class="tbar-fill" style="width:18%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div>
+      <span id="tval-vert" style="width:32px;font-size:7.5px;color:#22d3ee;letter-spacing:.04em;text-align:right;flex-shrink:0;">+18%</span>
+    </div>
+
+    <!-- LAT -->
+    <div style="display:flex;align-items:center;gap:5px;">
+      <span style="width:26px;font-size:7px;color:rgba(52,211,153,.38);letter-spacing:.08em;flex-shrink:0;">LAT</span>
+      <div class="tbar-bg"><div id="tbar-lat" class="tbar-fill" style="width:5%;background:linear-gradient(90deg,#d97706,#fbbf24);"></div></div>
+      <span id="tval-lat" style="width:32px;font-size:7.5px;color:#f59e0b;letter-spacing:.04em;text-align:right;flex-shrink:0;">-5%</span>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div style="width:1px;height:48px;background:rgba(52,211,153,.12);flex-shrink:0;margin:0 4px;"></div>
+
+  <!-- Quick stats -->
+  <div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0;min-width:80px;">
+    <div style="font-size:7.5px;color:#34d399;letter-spacing:.15em;border-bottom:1px solid rgba(10,61,32,.6);padding-bottom:2px;margin-bottom:1px;">QUICK STATS</div>
+    <div style="display:flex;justify-content:space-between;font-size:7px;color:rgba(52,211,153,.45);letter-spacing:.06em;">
+      <span>DEPTH</span><span id="qs-depth" style="color:#22d3ee;">3.2m</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:7px;color:rgba(52,211,153,.45);letter-spacing:.06em;">
+      <span>HDG</span><span id="qs-hdg" style="color:#22d3ee;">045°</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:7px;color:rgba(52,211,153,.45);letter-spacing:.06em;">
+      <span>BATT</span><span id="qs-batt" style="color:#34d399;">92%</span>
+    </div>
+  </div>
+
+</div><!-- /bottom bar -->
+
+<script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #064e3b; border-radius: 2px; }
+
+/* ─── Grid BG ─── */
+.grid-bg {
+  background-color: #020c05;
+  background-image:
+    linear-gradient(rgba(16,185,129,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16,185,129,.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ─── Ocean FPV (fallback shown before/behind the live stream) ─── */
+.ocean-bg {
+  background: linear-gradient(180deg,
+    #040e28 0%, #071a44 18%, #0a2456 35%,
+    #081d47 55%, #050f2a 78%, #020710 100%);
+}
+.ocean-grid {
+  background-image:
+    linear-gradient(rgba(6,182,212,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6,182,212,.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* ─── Bottom cam fallback ─── */
+.bottomcam-bg {
+  background: linear-gradient(168deg, #1a1005 0%, #211608 35%, #1c1508 60%, #171005 100%);
+  background-image:
+    linear-gradient(rgba(245,158,11,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,158,11,.05) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* ─── Animations ─── */
+@keyframes scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(600%); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(-7px); }
+}
+@keyframes particle {
+  0%   { opacity: 0; transform: translate(0, 0) scale(1); }
+  40%  { opacity: .6; }
+  100% { opacity: 0; transform: translate(var(--dx,5px), var(--dy,-52px)) scale(.5); }
+}
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .35; transform: scale(1.7); }
+}
+@keyframes leak-flash {
+  0%, 100% { background: rgba(127,29,29,.95); border-color: #dc2626; box-shadow: 0 0 22px rgba(220,38,38,.45); }
+  50%       { background: rgba(69,10,10,1);   border-color: #ef4444; box-shadow: 0 0 36px rgba(239,68,68,.65); }
+}
+@keyframes log-slide {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes blink-rec {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .15; }
+}
+@keyframes tbar-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes horizon-init {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.scanline {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 3;
+}
+.scanline::after {
+  content: '';
+  position: absolute; left: 0; right: 0; height: 64px;
+  background: linear-gradient(180deg, transparent, rgba(6,182,212,.045), transparent);
+  animation: scan 3.4s linear infinite;
+}
+
+.rov-arm {
+  position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 130px; height: 110px;
+  z-index: 4;
+  animation: bob 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: rgba(147,210,255,.5);
+  animation: particle linear infinite;
+  z-index: 2;
+}
+
+.led-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.led-pulse { animation: led-pulse .85s ease-in-out infinite; }
+
+.leak-safe {
+  border: 1px solid #064e3b;
+  background: rgba(2,30,14,.85);
+  transition: all .3s;
+}
+.leak-danger { animation: leak-flash .55s ease-in-out infinite; }
+
+.mode-btn {
+  flex: 1;
+  border: 1px solid rgba(16,185,129,.2);
+  background: rgba(1,15,8,.75);
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  font-family: 'Share Tech Mono', monospace;
+}
+.mode-btn:hover {
+  border-color: rgba(16,185,129,.5);
+  background: rgba(2,28,14,.9);
+}
+.mode-btn.active {
+  border-color: #10b981;
+  background: rgba(5,100,58,.22);
+}
+.mode-btn.active::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #34d399, transparent);
+}
+.mode-btn.active::after {
+  content: '';
+  position: absolute; bottom: 0; left: 25%; right: 25%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(52,211,153,.3), transparent);
+}
+
+.tbar-bg {
+  height: 6px;
+  background: rgba(6,78,59,.3);
+  border-radius: 3px;
+  overflow: hidden;
+  flex: 1;
+}
+.tbar-fill {
+  height: 100%; border-radius: 3px;
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+
+/* Corner HUD brackets */
+.hud-corner { position: absolute; width: 20px; height: 20px; border-color: rgba(6,182,212,.55); border-style: solid; pointer-events: none; z-index: 10; }
+.hud-tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+.hud-tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+.hud-bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+.hud-br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+/* Depth gauge glow */
+.depth-fill-cyan  { background: linear-gradient(180deg, #22d3ee, #0891b2); }
+.depth-fill-amber { background: linear-gradient(180deg, #f59e0b, #d97706); }
+.depth-fill-red   { background: linear-gradient(180deg, #ef4444, #dc2626); }
+
+/* Stat separator */
+.stat-row { border-bottom: 1px solid rgba(6,78,59,.35); }
+
+/* Log entry */
+.log-entry { animation: log-slide .3s ease; }
+
+/* Pip border glow */
+.pip-border { border: 1.5px solid rgba(6,182,212,.45); }
+.pip-border:hover { border-color: rgba(6,182,212,.75); }

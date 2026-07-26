@@ -79,8 +79,8 @@ class STM32Bridge:
         Format paket murni integer diikuti newline: "80\n" atau "-50\n"
         """
         if self.is_running and self.serial_conn and self.serial_conn.is_open:
-            # Mengirim angka bulat murni agar siap dibaca oleh atoi() di C/STM32
-            cmd_string = f"{int(ballast_speed)}\n"
+            # Mengirim 2 parameter dengan comma seperated pada sscanf() do C/STM32
+            cmd_string = f"{int(ballast_speed)},{int(gripper_state)}\n"
 
             with self.write_lock:
                 try:

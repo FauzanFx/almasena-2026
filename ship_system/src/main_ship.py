@@ -1,3 +1,5 @@
+# almasena-dev/ship_system/src/main_ship.py
+
 import os
 import sys
 import time
@@ -13,6 +15,8 @@ from network.net_bridge import NetBridge
 from hardware_interface.stm32_bridge import STM32Bridge
 from hardware_interface.pixhawk_bridge import PixhawkBridge
 from vision.vision_processor import VisionProcessor
+from controls.pid_controller import MiniPID
+
 
 def load_config():
     config_path = os.path.join(ship_system_root, "config", "low_level_config.yaml")
@@ -24,8 +28,8 @@ def load_config():
         sys.exit(1)
 
 def clamp(val, min_val=1100, max_val=1900):
-    """Utility helper untuk membatasi rentang sinyal PWM agar aman untuk ESC"""
     return max(min_val, min(max_val, int(val)))
+
 
 def main():
     print("[MAIN-SHIP] Memulai Orkestrasi Sistem ROV Almasena Candrassa...")
@@ -51,7 +55,6 @@ def main():
         print("[MAIN-SHIP] WARN: Sistem berjalan tanpa kendali STM32.")
 
     if pixhawk.connect():
-        # Sambungan sukses: PixhawkBridge secara otomatis akan mengirim 1500us (2 detik) untuk unlock ESC
         print("[MAIN-SHIP] Pixhawk 32 / Pixhawk 4 Terhubung & Inisialisasi ESC Selesai.")
     else:
         print("[MAIN-SHIP] WARN: Sistem berjalan tanpa kendali Pixhawk.")
@@ -61,16 +64,34 @@ def main():
     else:
         print("[MAIN-SHIP] WARN: Engine AI YOLOv8 gagal berjalan.")
 
-    loop_interval = 0.05  # Loop 20Hz
+    # Init PID Controller
+    # PID Depth membatasi output -100 s.d +100 (%) untuk mengendalikan kecepatan spuit STM32
+    pid_depth = MiniPID(kp=100.0, ki=2.0, kd=5.0, output_limits=(-100, 100))
+    pid_pitch = MiniPID(kp=3.0,   ki=0.1, kd=0.5, output_limits=(-100, 100))
+    pid_yaw   = MiniPID(kp=2.0,   ki=0.0, kd=0.2, output_limits=(-100, 100))
+
+    target_depth = 0.0
+    target_heading = 0.0
+    target_pitch = 0.0
+
+    depth_hold_active = False
+    heading_hold_active = False
+    prev_hold_pitch_toggle = False
+
+    loop_interval = 0.05  # Loop 20Hz (~50ms)
     print("[MAIN-SHIP] Seluruh modul sinkron. Memasuki Deterministic Cyclic Loop (~20Hz).")
 
     prev_autonomous = False
     auto_phase = "DESCENT"
     software_kill_active = False
 
-    # Variable pelacak heartbeat paket UDP dari GCS (Failsafe)
     last_gcs_packet_time = time.time()
-    gcs_timeout_threshold = 1.0  # 1 detik tanpa sinyal = Failsafe Disarm
+    gcs_timeout_threshold = 1.0  # Failsafe 1 Detik
+
+    # Konstanta Limit Kecepatan Thruster (PWM Offset)
+    SURGE_MAX_OFFSET = 400 * 0.5  # Max +-200 PWM
+    PITCH_MAX_OFFSET = 300 * 0.5  # Max +-150 PWM
+    YAW_MAX_OFFSET   = 300 * 0.5  # Max +-150 PWM
 
     try:
         while True:
@@ -80,12 +101,16 @@ def main():
             attitude_data = pixhawk.get_latest_attitude()
             vision_data = vision.get_latest_vision()
 
+            current_depth = attitude_data.get("depth_raw", 0.0)
+            current_pitch = attitude_data.get("pitch", 0.0)
+            current_heading = attitude_data.get("heading", 0.0)
+
             combined_telemetry = {**sensor_data, **attitude_data}
             gcs_commands = net.receive_commands()
 
-            # --- 1. PARSING COMMAND & NETWORK FAILSAFE ---
+            # 1. Network Failsafe & Kill Switch Parsing
             if gcs_commands:
-                last_gcs_packet_time = time.time()  # Reset timer paket masuk
+                last_gcs_packet_time = time.time()
                 kill_trigger = gcs_commands.get("kill_switch", False)
 
                 if kill_trigger and not software_kill_active:
@@ -94,35 +119,36 @@ def main():
                 else:
                     if software_kill_active and not kill_trigger:
                         print("[MAIN-SHIP] INFO: Kill Switch Dilepas. Re-Arming Pixhawk...")
+                        pixhawk.set_mode('MANUAL')
                         pixhawk.set_arm_state(arm=True)
                     software_kill_active = kill_trigger
             else:
-                # Failsafe: Koneksi UDP terputus > 1 detik
                 if (time.time() - last_gcs_packet_time) > gcs_timeout_threshold:
                     if not software_kill_active:
                         print("[MAIN-SHIP] FAILSAFE: Koneksi UDP GCS Terputus! Memaksa Kill Switch...")
                         software_kill_active = True
 
-            surge, yaw, heave, pitch = 0, 0, 0, 0
+            surge, yaw, pitch_cmd = 0, 0, 0
             ballast_cmd, gripper_cmd = 0, 0
             is_autonomous = False
+            hold_pitch_toggle = False
 
-            # --- 2. EVALUASI KONTROL & MODE OPERASIONAL ---
+            # 2. Mode Operations Parsing
             if software_kill_active:
-                surge, yaw, heave, pitch = 0, 0, 0, 0
-                ballast_cmd = -99
+                surge, yaw, pitch_cmd = 0, 0, 0
+                ballast_speed_stm32 = -99  # Kuras ballast saat darurat
                 gripper_cmd = 0
                 is_autonomous = False
                 auto_phase = "MANUAL"
 
-                # Paksa MAVLink DISARM dan kunci PWM ke 1500us (Diam)
+                depth_hold_active = False
+                heading_hold_active = False
                 pixhawk.emergency_disarm_stop()
 
             else:
-                # KONDISI NORMAL OPERASIONAL
                 if gcs_commands:
                     is_autonomous = gcs_commands.get("autonomous_mode", False)
-                    current_depth = sensor_data.get("depth_raw", 0.0)
+                    hold_pitch_toggle = gcs_commands.get("hold_pitch", False)
 
                     if is_autonomous and not prev_autonomous:
                         auto_phase = "DESCENT"
@@ -131,83 +157,126 @@ def main():
                     prev_autonomous = is_autonomous
 
                     if not is_autonomous:
-                        # Mode MANUAL / JOYSTICK
                         surge = gcs_commands.get("surge", 0)
                         yaw = gcs_commands.get("yaw", 0)
-                        heave = gcs_commands.get("heave", 0)
-                        pitch = gcs_commands.get("pitch", 0)
+                        pitch_cmd = gcs_commands.get("pitch", 0)
 
-                        ballast_cmd = gcs_commands.get("ballast_cmd", 0)
+                        ballast_cmd = gcs_commands.get("ballast_cmd", 0)  # -100 s.d 100
                         gripper_cmd = gcs_commands.get("gripper_cmd", 0)
                     else:
-                        # Mode OTONOM (AI Visual Tracking)
                         if vision_data.get("target_detected", False):
                             x_center, y_center, _, _ = vision_data["bbox"]
                             err_x = x_center - 320
                             err_y = y_center - 240
 
-                            surge = 50   # Maju pelan
-                            yaw = int(err_x * 0.8)
-                            heave = int(err_y * -0.8)
-                            ballast_cmd = 0
+                            surge = 500
+                            yaw = int(err_x * 1.5)
+                            ballast_cmd = int(err_y * -0.4)
                         else:
                             if auto_phase == "DESCENT":
                                 if current_depth >= 2.5:
                                     auto_phase = "ASCENT"
                                     surge, yaw = 0, 0
-                                    heave = 50
-                                    ballast_cmd = -1
+                                    ballast_cmd = -80
                                 else:
                                     surge, yaw = 0, 0
-                                    heave = -50
-                                    ballast_cmd = 1
+                                    ballast_cmd = 80
 
                             elif auto_phase == "ASCENT":
                                 if current_depth <= 0.2:
                                     auto_phase = "DESCENT"
                                     surge, yaw = 0, 0
-                                    heave = -50
-                                    ballast_cmd = 1
+                                    ballast_cmd = 80
                                 else:
                                     surge, yaw = 0, 0
-                                    heave = 50
-                                    ballast_cmd = -1
+                                    ballast_cmd = -80
 
-                # --- 3. KINEMATICS MIXER: KONVERSI INPUT KE PWM OVERRIDE (1100us - 1900us) ---
-                # Normalisasi skala input (-100 s.d 100) menjadi faktor desimal (-1.0 s.d 1.0)
-                norm_surge = surge / 100.0 if abs(surge) > 1.0 else surge
-                norm_yaw = yaw / 100.0 if abs(yaw) > 1.0 else yaw
+                # 3. KONTROL KEDALAMAN / BALLAST (STM32 Offloading)
+                if abs(ballast_cmd) > 0:
+                    # Mode Manual: Forward kecepatan (-100 s.d 100) langsung ke STM32
+                    ballast_speed_stm32 = ballast_cmd
+                    target_depth = current_depth
+                    depth_hold_active = False
+                    pid_depth.reset()
+                else:
+                    # Mode Auto-Hold: PID menghitung kecepatan spuit otomatis untuk menahan kedalaman
+                    depth_hold_active = True
+                    ballast_speed_stm32 = int(max(-100, min(100, pid_depth.compute(target_depth, current_depth))))
 
-                # Kalkulasi offset sinyal PWM dari titik netral 1500us
-                base_pwm = norm_surge * 300  # Maksimal offset ±300us (1200us s.d 1800us)
-                turn_pwm = norm_yaw * 150    # Offset pembelokan
+                # 4. KONTROL PITCH (PIXHAWK) & PITCH HOLD
+                raw_p = float(pitch_cmd)
+                
+                if hold_pitch_toggle:
+                    # Pitch Hold Aktif (Edge Detection Lock)
+                    if not prev_hold_pitch_toggle:
+                        target_pitch = current_pitch
+                        pid_pitch.reset()
+                        print(f"[MAIN-SHIP] Pitch Hold AKTIF! Lock Target Pitch: {target_pitch:.2f}°")
+                    
+                    # Tahan sudut terkuci via PID Thruster Vertikal (Abaikan joystick)
+                    pitch_axis = pid_pitch.compute(target_pitch, current_pitch)
+                else:
+                    # Pitch Hold Non-Aktif
+                    if abs(raw_p) > 50:
+                        # Control Manual via Gamepad
+                        pitch_axis = (raw_p / 1000.0) * PITCH_MAX_OFFSET
+                    else:
+                        # Idle: Auto-Level Kembali ke 0 Derajat
+                        pitch_axis = pid_pitch.compute(0.0, current_pitch)
 
-                # Differential Thrust untuk 4 Thruster Utama (MAIN OUT 1-4)
-                ch1_pwm = clamp(1500 + base_pwm + turn_pwm)
-                ch2_pwm = clamp(1500 + base_pwm - turn_pwm)
-                ch3_pwm = clamp(1500 + base_pwm + turn_pwm)
-                ch4_pwm = clamp(1500 + base_pwm - turn_pwm)
+                prev_hold_pitch_toggle = hold_pitch_toggle
 
-                # Kirim sinyal PWMOverride MAVLink langsung ke Pix32!
-                pixhawk.send_thruster_pwm(ch1_pwm, ch2_pwm, ch3_pwm, ch4_pwm)
+                # 5. KONTROL YAW (PIXHAWK)
+                raw_y = float(yaw)
+                norm_yaw = raw_y / 1000.0
+                if abs(raw_y) > 50:
+                    heading_hold_active = False
+                    yaw_axis = norm_yaw * YAW_MAX_OFFSET
+                else:
+                    if not heading_hold_active:
+                        target_heading = current_heading
+                        heading_hold_active = True
+                        pid_yaw.reset()
+                    yaw_axis = pid_yaw.compute(target_heading, current_heading)
 
-            # --- 4. INSTRUKSI PERIFERAL & TELEMETRI REFEED ---
-            stm32.send_raw_control(ballast_speed=ballast_cmd, gripper_state=gripper_cmd)
+                # 6. KONTROL SURGE (PIXHAWK)
+                norm_surge = float(surge) / 1000.0
+                surge_axis = norm_surge * SURGE_MAX_OFFSET
 
-            if "depth_raw" not in combined_telemetry:
-                combined_telemetry["depth_raw"] = 0.0
+                # 7. Semburkan Target Sumbu ke Pixhawk (ArduSub simplerov Mixer)
+                cmd_pitch = 1500  # Netral (Channel 1 tidak dipakai di simplerov)
+                cmd_roll  = 1500  # Netral
+                cmd_heave = clamp(1500 + pitch_axis)  # Channel 3 (Throttle) Mengendalikan Motor 1 & 2 untuk Pitch
+                cmd_yaw   = clamp(1500 + yaw_axis)     # Channel 4 (Motor 3 & 4 Diferensial)
+                cmd_surge = clamp(1500 + surge_axis)   # Channel 5 (Motor 3 & 4 Bersamaan)
+
+                pixhawk.send_movement_target(
+                    pitch=cmd_pitch,
+                    roll=cmd_roll,
+                    heave=cmd_heave,
+                    yaw=cmd_yaw,
+                    surge=cmd_surge
+                )
+
+            # 8. Kirim Perintah Kecepatan Spuit & Gripper ke STM32 via UART Serial
+            stm32.send_raw_control(ballast_speed=ballast_speed_stm32, gripper_state=gripper_cmd)
+
+            # 9. Feed Telemetri Kembali ke GCS
             if "voltage_raw" not in combined_telemetry:
                 combined_telemetry["voltage_raw"] = 0.0
             if "leak_status" not in combined_telemetry:
                 combined_telemetry["leak_status"] = False
 
+            combined_telemetry["depth_raw"] = float(current_depth)
             combined_telemetry["software_kill_active"] = bool(software_kill_active)
             combined_telemetry["autonomous_active"] = bool(is_autonomous)
             combined_telemetry["auto_phase"] = str(auto_phase if is_autonomous else "MANUAL")
+            combined_telemetry["depth_hold"] = bool(depth_hold_active)
+            combined_telemetry["heading_hold"] = bool(heading_hold_active)
+            combined_telemetry["pitch_hold"] = bool(hold_pitch_toggle)
 
             net.transmit_ship_status(raw_sensor_data=combined_telemetry, vision_data=vision_data)
 
-            # Jaga kestabilan deterministic loop 20Hz (50ms)
             elapsed_time = time.time() - loop_start
             time.sleep(max(0, loop_interval - elapsed_time))
 

@@ -88,9 +88,9 @@ def main():
                 f"\r[GCS-LIVE] "
                 f"Surge: {commands['surge']:4d} | "
                 f"Yaw: {commands['yaw']:4d} | "
-                f"Heave: {commands['heave']:4d} | "
-                f"Ballast: {ballast_status} | "
-                f"Grip: {gripper_status} | "
+                f"Pitch: {commands['pitch']:4d} | "
+                f"Ballast: {commands['ballast_cmd']:4d} | "
+                f"Pitch-Hold: {str(commands['hold_pitch']):5s} | "
                 f"Kill-Stik: {str(commands['kill_switch']):5s} || "
                 f"ROV -> State: {rov_kill:8s} | Mode: {rov_mode:12s} | Depth: {rov_depth:.2f}m | Volt: {rov_volt:.1f}V | Leak: {rov_leak:10s}    "
             )

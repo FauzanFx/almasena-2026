@@ -12,9 +12,6 @@ class NetBridge:
         # Inisialisasi soket UDP lokal untuk media komunikasi Ethernet
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-        # ---------------------------------------------------------------
-        # PERBAIKAN UTAMA: WAJIB BIND PORT AGAR RASPI BISA MENDENGAR GCS
-        # ---------------------------------------------------------------
         # Mengikat soket ke port 5005 agar bisa menangkap data masuk dari GCS
         self.sock.bind(('0.0.0.0', listen_port))
 
@@ -57,7 +54,7 @@ class NetBridge:
                     f"\r[NET-RX LIVE] "
                     f"Surge: {commands.get('surge', 0):4d} | "
                     f"Yaw: {commands.get('yaw', 0):4d} | "
-                    f"Heave: {commands.get('heave', 0):4d} | "
+                    f"Pitch: {commands['pitch']:4d} | "
                     f"Ballast: {commands.get('ballast_cmd', 0):2d} | "
                     f"Grip: {commands.get('gripper_cmd', 0):2d} | "
                     f"Auto-Cmd: {str(commands.get('autonomous_mode', False)):5s} | "

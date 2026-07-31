@@ -1,8 +1,8 @@
 # almasena-dev/ship_system/config/low_level_config.yaml
 
 network:
-  gcs_ip: "192.168.1.15"          # Diarahkan ke IP Ubuntu VirtualBox lu
-  ship_ip: "192.168.1.20"         # IP Raspberry Pi 4 Kapal
+  gcs_ip: "100.81.234.32"          # Diarahkan ke IP Ubuntu VirtualBox lu
+  ship_ip: "100.64.105.25"         # IP Raspberry Pi 4 Kapal
   telemetry_port: 5006            # Disamakan dengan recv_port di main_gcs.py
   video_port_front: 5000
   video_port_bottom: 5001

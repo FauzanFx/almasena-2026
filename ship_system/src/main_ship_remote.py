@@ -11,7 +11,7 @@ current_file = Path(__file__).resolve()
 ship_system_root = current_file.parents[1]
 sys.path.append(os.path.join(ship_system_root, "src"))
 
-from network.net_bridge import NetBridge
+from network.net_bridge_remote import NetBridge
 from hardware_interface.stm32_bridge import STM32Bridge
 from hardware_interface.pixhawk_bridge import PixhawkBridge
 from vision.vision_processor import VisionProcessor
@@ -22,7 +22,7 @@ from controls.motion_controller import MotionController
 
 
 def load_config():
-    config_path = os.path.join(ship_system_root, "config", "low_level_config.yaml")
+    config_path = os.path.join(ship_system_root, "config", "low_level_config_remote.yaml")
     try:
         with open(config_path, "r") as f:
             return yaml.safe_load(f)

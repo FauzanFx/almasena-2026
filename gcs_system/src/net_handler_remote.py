@@ -4,7 +4,7 @@ import socket
 import json
 
 class NetHandler:
-    def __init__(self, rov_ip="192.168.1.20", send_port=5005, recv_port=5006):
+    def __init__(self, rov_ip="100.64.105.25", send_port=5005, recv_port=5006):
         self.rov_ip = rov_ip
         self.send_port = send_port
         self.recv_port = recv_port

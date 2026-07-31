@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ROV GCS — KKI 2026 | TACTICAL DASHBOARD</title>
+
+<script src="js/tailwindcss.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'rov-em': '#10b981', 'rov-em-d': '#34d399', 'rov-em-b': '#064e3b',
+          'rov-cy': '#06b6d4', 'rov-cy-d': '#22d3ee',
+          'rov-am': '#f59e0b', 'rov-am-d': '#fbbf24',
+          'rov-rd': '#ef4444', 'rov-rd-d': '#f87171',
+          'rov-bg': '#020c05', 'rov-panel': '#010e07', 'rov-border': '#0a3d20',
+        },
+        fontFamily: {
+          mono: ['"Share Tech Mono"', 'monospace'],
+          head: ['Rajdhani', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
+</head>
+
+<body class="w-full h-screen bg-rov-bg text-slate-100 flex flex-col overflow-hidden grid-bg" style="font-family:'Share Tech Mono',monospace;">
+
+<!-- TOP BAR -->
+<div id="topbar" class="flex-shrink-0 h-6 bg-rov-panel border-b border-rov-border flex items-center justify-between px-3" style="font-size:8px;letter-spacing:.12em;">
+  <div class="flex items-center gap-3">
+    <span class="text-rov-em-d font-head font-bold" style="font-size:11px;letter-spacing:.25em;">KKI 2026</span>
+    <span class="bg-rov-bg border border-rov-border rounded px-1.5 py-px text-rov-em" style="font-size:7px;">ROV-ALPHA</span>
+    <span class="bg-rov-bg border border-rov-border rounded px-1.5 py-px text-rov-em" style="font-size:7px;">DUAL-CAM</span>
+    <span class="border rounded px-1.5 py-px text-rov-am" id="mode-badge" style="font-size:7px;background:rgba(28,13,0,.8);border-color:#92400e;">DEPTH HOLD</span>
+  </div>
+  <div class="flex items-center gap-3 text-slate-500">
+    <span id="tb-ping" class="text-rov-em" style="font-size:8px;">0 ms</span>
+    <span>|</span>
+    <span id="tb-clock" class="text-slate-500" style="font-size:8px;">00:00:00</span>
+    <span>|</span>
+    <span class="text-slate-500" style="font-size:8px;">GCS NOMINAL</span>
+  </div>
+</div>
+
+<!-- MAIN ROW -->
+<div class="flex flex-1 overflow-hidden min-h-0">
+
+  <!-- FPV CENTER ZONE -->
+  <div id="fpv-zone" class="relative flex-1 overflow-hidden ocean-bg">
+    <img id="main-cam" src="/video/front" alt="Main FPV Camera" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; background:#020c05;" />
+
+    <div class="ocean-grid absolute inset-0 pointer-events-none" style="z-index:1;background-color:transparent;"></div>
+    <div class="scanline"></div>
+
+    <div class="hud-corner hud-tl"></div>
+    <div class="hud-corner hud-tr"></div>
+    <div class="hud-corner hud-bl"></div>
+    <div class="hud-corner hud-br"></div>
+
+    <!-- COMPASS STRIP -->
+    <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:230px;height:28px;background:rgba(2,8,4,.9);border:1px solid rgba(6,182,212,.3);border-top:none;border-radius:0 0 5px 5px;overflow:hidden;z-index:10;">
+      <div id="compass-strip" style="display:flex;align-items:center;height:18px;white-space:nowrap;padding-left:115px;transition:transform .45s ease;font-family:'Share Tech Mono',monospace;"></div>
+      <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:100%;background:rgba(245,158,11,.85);"></div>
+      <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:3px solid transparent;border-right:3px solid transparent;border-top:5px solid #f59e0b;"></div>
+      <div id="hdg-val" style="position:absolute;bottom:2px;left:50%;transform:translateX(-50%);font-size:7.5px;color:#f59e0b;letter-spacing:.1em;font-family:'Share Tech Mono',monospace;">000°</div>
+    </div>
+
+    <!-- ARTIFICIAL HORIZON -->
+    <div style="position:absolute;top:18px;left:14px;display:flex;flex-direction:column;align-items:center;gap:3px;z-index:10;">
+      <div style="width:70px;height:70px;border-radius:50%;border:1.5px solid rgba(6,182,212,.7);overflow:hidden;position:relative;background:#000;">
+        <div id="ahi-sky" style="position:absolute;top:0;left:0;right:0;height:50%;background:#0f2d5e;transform-origin:center bottom;transition:transform .5s ease;"></div>
+        <div id="ahi-gnd" style="position:absolute;bottom:0;left:0;right:0;height:50%;background:#1a0d04;transform-origin:center top;transition:transform .5s ease;"></div>
+        <div id="ahi-line" style="position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(6,182,212,.85);transform:translateY(-50%);transition:transform .5s ease;"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:26px;height:1.5px;background:#f59e0b;"></div>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1.5px;height:7px;background:#f59e0b;"></div>
+      </div>
+      <div style="font-size:7px;color:rgba(6,182,212,.55);letter-spacing:.1em;">ATTITUDE</div>
+      <div id="rp-readout" style="font-size:7px;color:rgba(6,182,212,.55);letter-spacing:.05em;">R+0.0° P+0.0°</div>
+    </div>
+
+    <!-- DEPTH GAUGE -->
+    <div style="position:absolute;top:18px;right:14px;display:flex;flex-direction:column;align-items:center;gap:3px;z-index:10;">
+      <div style="font-size:7px;color:rgba(6,182,212,.55);letter-spacing:.08em;">DPTH</div>
+      <div style="width:13px;height:150px;background:rgba(2,15,8,.85);border:1px solid rgba(6,182,212,.3);border-radius:3px;position:relative;overflow:hidden;">
+        <div id="depth-fill" class="depth-fill-cyan" style="position:absolute;bottom:0;left:0;right:0;height:0%;border-radius:0 0 2px 2px;transition:height 0.5s ease;"></div>
+      </div>
+      <div id="depth-val" style="font-size:8px;color:#22d3ee;letter-spacing:.05em;text-align:center;line-height:1.3;">0.0<br/><span style="font-size:6px;color:rgba(6,182,212,.4);">m</span></div>
+    </div>
+
+    <!-- PiP BOTTOM CAMERA -->
+    <div id="pip-window" class="pip-border absolute rounded overflow-hidden" style="bottom:14px;left:14px;width:185px;height:118px;z-index:20;cursor:pointer;" onclick="swapCams()">
+      <div id="pip-content" class="absolute inset-0" style="background:#020c05;">
+        <img id="pip-cam" src="/video/bottom" alt="PiP Camera" style="width:100%; height:100%; object-fit:cover; display:block;" />
+      </div>
+      <div id="pip-label" style="position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:6px;color:rgba(245,158,11,.75);letter-spacing:.1em;background:rgba(0,0,0,.55);padding:1px 5px;border-radius:2px;z-index:2;">BTM CAM-02</div>
+      <button onclick="event.stopPropagation();swapCams();" style="position:absolute;bottom:4px;right:4px;background:rgba(2,15,8,.88);border:1px solid rgba(6,182,212,.4);border-radius:3px;padding:2px 5px;cursor:pointer;color:rgba(6,182,212,.85);font-size:6px;z-index:3;">SWAP</button>
+    </div>
+
+  </div>
+
+  <!-- RIGHT SIDEBAR (Dipersederhana Sesuai Data Riil) -->
+  <div class="w-52 flex-shrink-0 bg-rov-panel border-l border-rov-border flex flex-col overflow-hidden" style="padding:7px;gap:6px;">
+
+    <div style="font-size:8px;color:#34d399;letter-spacing:.15em;border-bottom:1px solid #0a3d20;padding-bottom:3px;flex-shrink:0;">SYS TELEMETRY</div>
+
+    <!-- REAL PING -->
+    <div class="stat-row flex items-start gap-2 pb-1">
+      <div id="ping-led" class="led-dot mt-0.5" style="background:#34d399;box-shadow:0 0 6px #34d399;"></div>
+      <div>
+        <div style="font-size:6.5px;color:rgba(52,211,153,.4);letter-spacing:.1em;">PING / LATENCY</div>
+        <div id="ping-val" style="font-size:10px;color:#34d399;letter-spacing:.05em;">0 ms</div>
+      </div>
+    </div>
+
+    <!-- BALLAST TANK -->
+    <div class="stat-row flex items-start gap-2 pb-1">
+      <div id="ballast-led" class="led-dot mt-0.5" style="background:#22d3ee;box-shadow:0 0 6px #22d3ee;"></div>
+      <div style="flex:1;">
+        <div class="flex justify-between items-center">
+          <div style="font-size:6.5px;color:rgba(52,211,153,.4);letter-spacing:.1em;">BALLAST TANK</div>
+          <span id="ballast-status" style="font-size:6.5px;color:#22d3ee;">IDLE</span>
+        </div>
+        <div id="ballast-val" style="font-size:10px;color:#22d3ee;">0%</div>
+        <div style="height:3px;background:rgba(6,78,59,.4);border-radius:2px;overflow:hidden;margin-top:2px;">
+          <div id="ballast-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#0891b2,#22d3ee);transition:width 0.3s ease;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PEMISAHAN IMU ROLL -->
+    <div class="stat-row flex items-start gap-2 pb-1">
+      <div class="led-dot mt-0.5" style="background:#34d399;box-shadow:0 0 6px #34d399;"></div>
+      <div>
+        <div style="font-size:6.5px;color:rgba(52,211,153,.4);letter-spacing:.1em;">IMU ROLL</div>
+        <div id="roll-val" style="font-size:10px;color:#34d399;letter-spacing:.04em;">+0.0°</div>
+      </div>
+    </div>
+
+    <!-- PEMISAHAN IMU PITCH -->
+    <div class="stat-row flex items-start gap-2 pb-1">
+      <div class="led-dot mt-0.5" style="background:#34d399;box-shadow:0 0 6px #34d399;"></div>
+      <div>
+        <div style="font-size:6.5px;color:rgba(52,211,153,.4);letter-spacing:.1em;">IMU PITCH</div>
+        <div id="pitch-val" style="font-size:10px;color:#34d399;letter-spacing:.04em;">+0.0°</div>
+      </div>
+    </div>
+
+    <!-- MISSION LOG TERMINAL (Otomatis Mengisi Sisa Ruang) -->
+    <div style="font-size:8px;color:#34d399;letter-spacing:.15em;border-bottom:1px solid #0a3d20;padding-bottom:3px;flex-shrink:0;margin-top:4px;">MISSION LOG</div>
+    <div id="log-terminal" style="flex:1;overflow-y:auto;background:rgba(0,0,0,.4);border:1px solid rgba(6,78,59,.4);border-radius:3px;padding:4px 5px;display:flex;flex-direction:column;gap:1px;min-height:0;"></div>
+
+  </div>
+
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="flex-shrink-0 border-t border-rov-border bg-rov-panel flex items-center gap-2" style="height:74px;padding:6px 10px;">
+
+  <div style="font-size:7px;color:rgba(52,211,153,.3);letter-spacing:.15em;flex-shrink:0;">MODE ›</div>
+
+  <!-- Mode Buttons -->
+  <!-- Tombol Manual -->
+  <button class="mode-btn active" id="btn-manual" onclick="setMode('manual')">
+    <span style="font-size:8px;letter-spacing:.12em;color:inherit;">MANUAL</span>
+    <span style="font-size:6.5px;color:rgba(52,211,153,.5);">FULL CTRL</span>
+  </button>
+
+  <div style="width:1px;height:38px;background:rgba(52,211,153,.1);flex-shrink:0;"></div>
+
+  <!-- Tombol Otomatis -->
+  <button class="mode-btn" id="btn-auto" onclick="setMode('auto')">
+    <span style="font-size:8px;letter-spacing:.12em;color:inherit;">AUTONOMOUS</span>
+    <span style="font-size:6.5px;color:rgba(52,211,153,.28);">AI MISSION</span>
+  </button>
+
+  <div style="width:1px;height:48px;background:rgba(52,211,153,.12);flex-shrink:0;margin:0 4px;"></div>
+
+  <!-- THRUSTER PANEL (FWD, VERT, YAW) -->
+  <div style="flex:1;display:flex;flex-direction:column;gap:3px;justify-content:center;min-width:0;">
+    <div style="font-size:7.5px;color:#34d399;letter-spacing:.15em;border-bottom:1px solid rgba(10,61,32,.6);padding-bottom:2px;margin-bottom:2px;">THRUSTERS INPUT</div>
+
+    <!-- FWD (Surge Joystick) -->
+    <div style="display:flex;align-items:center;gap:5px;">
+      <span style="width:26px;font-size:7px;color:rgba(52,211,153,.38);letter-spacing:.08em;flex-shrink:0;">FWD</span>
+      <div class="tbar-bg" style="flex:1;height:5px;background:rgba(6,78,59,.4);border-radius:2px;overflow:hidden;">
+        <div id="tbar-fwd" style="height:100%;width:0%;background:linear-gradient(90deg,#059669,#34d399);transition:width 0.1s linear;"></div>
+      </div>
+      <span id="tval-fwd" style="width:36px;font-size:7.5px;color:#34d399;text-align:right;flex-shrink:0;">0%</span>
+    </div>
+
+    <!-- VERT (Pitch Joystick) -->
+    <div style="display:flex;align-items:center;gap:5px;">
+      <span style="width:26px;font-size:7px;color:rgba(52,211,153,.38);letter-spacing:.08em;flex-shrink:0;">VERT</span>
+      <div class="tbar-bg" style="flex:1;height:5px;background:rgba(6,78,59,.4);border-radius:2px;overflow:hidden;">
+        <div id="tbar-vert" style="height:100%;width:0%;background:linear-gradient(90deg,#0891b2,#22d3ee);transition:width 0.1s linear;"></div>
+      </div>
+      <span id="tval-vert" style="width:36px;font-size:7.5px;color:#22d3ee;text-align:right;flex-shrink:0;">0%</span>
+    </div>
+
+    <!-- YAW (Yaw Joystick) -->
+    <div style="display:flex;align-items:center;gap:5px;">
+      <span style="width:26px;font-size:7px;color:rgba(52,211,153,.38);letter-spacing:.08em;flex-shrink:0;">YAW</span>
+      <div class="tbar-bg" style="flex:1;height:5px;background:rgba(6,78,59,.4);border-radius:2px;overflow:hidden;">
+        <div id="tbar-yaw" style="height:100%;width:0%;background:linear-gradient(90deg,#d97706,#fbbf24);transition:width 0.1s linear;"></div>
+      </div>
+      <span id="tval-yaw" style="width:36px;font-size:7.5px;color:#fbbf24;text-align:right;flex-shrink:0;">0%</span>
+    </div>
+  </div>
+
+  <div style="width:1px;height:48px;background:rgba(52,211,153,.12);flex-shrink:0;margin:0 4px;"></div>
+
+  <!-- QUICK STATS -->
+  <div style="display:flex;flex-direction:column;gap:3px;flex-shrink:0;min-width:80px;">
+    <div style="font-size:7.5px;color:#34d399;letter-spacing:.15em;border-bottom:1px solid rgba(10,61,32,.6);padding-bottom:2px;">QUICK STATS</div>
+    <div style="display:flex;justify-content:space-between;font-size:7px;color:rgba(52,211,153,.45);">
+      <span>DEPTH</span><span id="qs-depth" style="color:#22d3ee;">0.0m</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:7px;color:rgba(52,211,153,.45);">
+      <span>HDG</span><span id="qs-hdg" style="color:#22d3ee;">000°</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:7px;color:rgba(52,211,153,.45);">
+      <span>BALLAST</span><span id="qs-ballast" style="color:#22d3ee;">0%</span>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>

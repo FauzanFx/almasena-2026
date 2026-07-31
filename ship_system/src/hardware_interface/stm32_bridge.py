@@ -10,19 +10,15 @@ class STM32Bridge:
         self.baudrate = baudrate
         self.serial_conn = None
         self.is_running = False
-        
-        # Thread safety lock untuk mencegah tabrakan data saat mengirim instruksi
         self.write_lock = threading.Lock()
-        
-        # Penampung data sensor aktual hasil parsing dari STM32
+
         self.latest_sensor_data = {
-            "leak_status": 0,    # 0 = Aman, 1 = Kebocoran terdeteksi
-            "depth_raw": 0.0,    # Nilai kedalaman mentah dalam meter
-            "voltage_raw": 0.0   # Tegangan baterai utama dalam Volt
+            "encoder_ticks": 0,
+            "ballast_speed": 0,
+            "gripper_status": 0
         }
 
     def connect(self):
-        """Membuka jalur fisik serial dan mengaktifkan thread pembaca latar belakang"""
         try:
             self.serial_conn = serial.Serial(
                 port=self.port,
@@ -30,8 +26,6 @@ class STM32Bridge:
                 timeout=0.1
             )
             self.is_running = True
-            
-            # Alokasikan thread latar belakang khusus untuk membaca buffer serial
             self.read_thread = threading.Thread(target=self._read_loop, daemon=True)
             self.read_thread.start()
             print(f"[STM32-SERIAL] Sukses terhubung ke port {self.port} @ {self.baudrate} bps.")
@@ -42,11 +36,9 @@ class STM32Bridge:
             return False
 
     def _read_loop(self):
-        """Loop pasif latar belakang yang terus-menerus menguras buffer data masuk"""
         while self.is_running and self.serial_conn and self.serial_conn.is_open:
             try:
                 if self.serial_conn.in_waiting > 0:
-                    # Membaca baris data dari STM32 hingga karakter newline '\n'
                     raw_line = self.serial_conn.readline().decode('utf-8', errors='ignore').strip()
                     if raw_line:
                         self._parse_raw_string(raw_line)
@@ -55,46 +47,36 @@ class STM32Bridge:
 
     def _parse_raw_string(self, raw_string):
         """
-        Memecah string telemetri mentah dari STM32 Nucleo.
-        Ekspektasi format dari firmware STM32: "LEAK:0,DEPTH:1.45,VOLT:14.2"
+        Memecah format dari STM32: "ENC:1234 | SPD:50 | GRP:1"
         """
         try:
-            parts = raw_string.split(',')
+            parts = raw_string.split('|')
             data_dict = {}
             for part in parts:
-                key, value = part.split(':')
-                data_dict[key.strip()] = float(value.strip())
-            
-            # Perbarui kontainer memori internal dengan konversi tipe data yang tepat
-            self.latest_sensor_data["leak_status"] = int(data_dict.get("LEAK", 0))
-            self.latest_sensor_data["depth_raw"] = data_dict.get("DEPTH", 0.0)
-            self.latest_sensor_data["voltage_raw"] = data_dict.get("VOLT", 0.0)
+                if ':' in part:
+                    key, value = part.split(':')
+                    data_dict[key.strip()] = value.strip()
+
+            self.latest_sensor_data["encoder_ticks"] = int(data_dict.get("ENC", 0))
+            self.latest_sensor_data["ballast_speed"] = int(data_dict.get("SPD", 0))
+            self.latest_sensor_data["gripper_status"] = int(data_dict.get("GRP", 0))
         except Exception:
-            # Mengabaikan paket data jika terjadi kehilangan byte di kabel data
             pass
 
     def send_raw_control(self, ballast_speed, gripper_state=0):
-        """
-        Mengirimkan instruksi kecepatan ballast (-100 s.d 100) langsung ke STM32.
-        Format paket murni integer diikuti newline: "80\n" atau "-50\n"
-        """
         if self.is_running and self.serial_conn and self.serial_conn.is_open:
-            # Mengirim 2 parameter dengan comma seperated pada sscanf() do C/STM32
             cmd_string = f"{int(ballast_speed)},{int(gripper_state)}\n"
-
             with self.write_lock:
                 try:
                     self.serial_conn.write(cmd_string.encode('utf-8'))
                 except Exception as e:
-                    print(f"[STM32-SERIAL] Gagal melemparkan perintah ke hardware: {e}")
+                    print(f"[STM32-SERIAL] Gagal mengirim perintah: {e}")
 
     def get_latest_sensors(self):
-        """Menyediakan data sensor aktual untuk ditarik oleh Traffic Manager"""
         return self.latest_sensor_data
 
     def close(self):
-        """Mematikan thread dan menutup port hardware secara bersih"""
         self.is_running = False
         if self.serial_conn and self.serial_conn.is_open:
             self.serial_conn.close()
-        print("[STM32-SERIAL] Pipa komunikasi fisik ditutup secara aman.")
+        print("[STM32-SERIAL] Pipa komunikasi fisik ditutup.")

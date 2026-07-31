@@ -6,7 +6,7 @@ import time
 import sys
 
 class NetBridge:
-    def __init__(self, gcs_ip="192.168.1.15", udp_port=5006, listen_port=5005):
+    def __init__(self, gcs_ip="100.81.234.32", udp_port=5006, listen_port=5005):
         self.gcs_address = (gcs_ip, udp_port)
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

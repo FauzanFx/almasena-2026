@@ -8,11 +8,11 @@ network:
   video_port_bottom: 5001
 
 hardware:
-  stm32_port: "/dev/serial0"      # Sementara biarkan sama, toh nanti muncul baris WARN saja
+  stm32_port: "/dev/serial/by-id/usb-STMicroelectronics_STM32_STLink_066EFF383430484257144950-if02"      # Sementara biarkan sama, toh nanti muncul baris WARN saja
   pixhawk_port: "/dev/serial/by-id/usb-ArduPilot_Pixhawk1_2F0039000D51373336363539-if00"    # Dibedakan agar tidak bentrok port serial virtualnya
   serial_baudrate: 115200
 
 vision:
   model_path: "/home/almasena/almasena-dev/ship_system/src/models/yolov8n.pt" # Jalur absolut tanpa tilde
-  cam_front: "/dev/v4l/by-id/usb-SunplusIT_Inc_USB_2.0_Camera_N2020113001-video-index0"
-  cam_bottom: "/dev/cam_bottom"
+  cam_front: "/dev/cam_front"
+  cam_bottom: "dev/cam_bottom"

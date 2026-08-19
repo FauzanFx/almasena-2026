@@ -41,7 +41,11 @@ class GUIBridge:
             if self.control_callback:
                 self.control_callback(cmd)
             return {"status": "ok"}
-
+        @self.app.post("/api/hardware")
+        async def post_hardware(cmd: dict):
+            if self.control_callback:
+                self.control_callback(cmd)
+            return {"status": "ok"}
         # --- STREAM KAMERA DEPAN ---
         async def generate_front_stream():
             while True:

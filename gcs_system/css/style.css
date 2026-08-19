@@ -187,3 +187,19 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
 /* Pip border glow */
 .pip-border { border: 1.5px solid rgba(6,182,212,.45); }
 .pip-border:hover { border-color: rgba(6,182,212,.75); }
+/* Hilangkan panah spinner bawaan browser pada input PID */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+/* Opsional: Tambahkan sedikit padding dan styling agar terlihat menyatu dengan panel */
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+  background: #020c05;
+  border: 1px solid #0a3d20;
+  color: #34d399;
+  text-align: center;
+  outline: none;
+}

@@ -4,7 +4,8 @@
   const S = {
     missionSec: 0,
     lastLogSignature: "",
-    isCamSwapped: false
+    isCamSwapped: false,
+    pidChartData: []
   };
 
   // 1. Mission Clock
@@ -64,6 +65,102 @@
     if (btnManual) btnManual.classList.toggle("active", !isAuto);
     if (btnAuto) btnAuto.classList.toggle("active", isAuto);
     if (modeBadge) modeBadge.textContent = isAuto ? "AUTONOMOUS" : "MANUAL";
+  }
+
+  /* ── PID SETTINGS MODAL CONTROLLER ── */
+  window.togglePIDModal = function (show) {
+    const modal = document.getElementById("pid-modal");
+    if (modal) {
+      if (show) {
+        modal.classList.remove("hidden");
+        appendLog("00:00", "Ballast PID Settings Window Opened", "sys");
+      } else {
+        modal.classList.add("hidden");
+      }
+    }
+  };
+
+  /* ── HARDWARE CONTROL (PID & ZEROING) ── */
+  window.sendPID = function () {
+    const kp = parseFloat(document.getElementById("pid-kp").value);
+    const ki = parseFloat(document.getElementById("pid-ki").value);
+    const kd = parseFloat(document.getElementById("pid-kd").value);
+
+    fetch("/api/hardware", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ command: "set_pid", kp: kp, ki: ki, kd: kd })
+    }).catch(err => console.error("PID Send Error:", err));
+
+    appendLog("00:00", `Ballast PID Saved -> Kp:${kp}, Ki:${ki}, Kd:${kd}`, "warn");
+  };
+
+  window.sendZeroing = function () {
+    fetch("/api/hardware", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ command: "zeroing" })
+    }).catch(err => console.error("Zeroing Error:", err));
+
+    appendLog("00:00", "Zeroing Encoder Command Dispatched", "warn");
+  };
+
+  /* ── LIVE PID RESPONSE GRAPH ── */
+  function updatePIDChart(targetVal, currentVal) {
+    const canvas = document.getElementById("pid-chart");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    S.pidChartData.push({ t: targetVal, c: currentVal });
+    if (S.pidChartData.length > 60) S.pidChartData.shift();
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = "rgba(6,182,212,0.15)";
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    for (let i = 0; i < canvas.width; i += 20) { ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); }
+    for (let i = 0; i < canvas.height; i += 20) { ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); }
+    ctx.stroke();
+
+    if (S.pidChartData.length < 2) return;
+
+    let minVal = Math.min(...S.pidChartData.map(pt => Math.min(pt.t, pt.c)));
+    let maxVal = Math.max(...S.pidChartData.map(pt => Math.max(pt.t, pt.c)));
+
+    let range = maxVal - minVal;
+    if (range === 0) range = 100;
+    minVal -= range * 0.2;
+    maxVal += range * 0.2;
+    range = maxVal - minVal;
+
+    const step = canvas.width / 59;
+
+    // 1. PLOT TARGET (Garis Putus-putus Oranye)
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(245,158,11,0.8)";
+    ctx.setLineDash([3, 3]);
+    ctx.lineWidth = 1;
+    S.pidChartData.forEach((pt, i) => {
+      const x = i * step;
+      const y = canvas.height - ((pt.t - minVal) / range) * canvas.height;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 2. PLOT ACTUAL (Garis Solid Cyan)
+    ctx.beginPath();
+    ctx.strokeStyle = "#22d3ee";
+    ctx.lineWidth = 1.5;
+    S.pidChartData.forEach((pt, i) => {
+      const x = i * step;
+      const y = canvas.height - ((pt.c - minVal) / range) * canvas.height;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
   }
 
   /* ── CAMERA STREAM SWAP HANDLER ── */
@@ -179,6 +276,12 @@
     const tvalYaw = document.getElementById("tval-yaw");
     if (tbarYaw) tbarYaw.style.width = `${Math.abs(yawPct)}%`;
     if (tvalYaw) tvalYaw.textContent = `${yawPct >= 0 ? "+" : ""}${yawPct}%`;
+
+    // Render Grafik PID Response (Berjalan otomatis di background / modal)
+    const targetStm = data.target_stm32 !== undefined ? data.target_stm32 : 0;
+    const currentStm = data.encoder_ticks !== undefined ? data.encoder_ticks : 0;
+    updatePIDChart(targetStm, currentStm);
+
     // Sync Mission Log Terminal
     if (data.ship_logs && Array.isArray(data.ship_logs) && data.ship_logs.length > 0) {
       const latestLog = data.ship_logs[data.ship_logs.length - 1];

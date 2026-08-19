@@ -1,14 +1,16 @@
 # almasena-dev/ship_system/src/hardware_interface/pixhawk_bridge.py
 
 from pymavlink import mavutil
+import serial.tools.list_ports # Modul sakti untuk auto-detect USB
 import threading
 import time
 import math
 
 class PixhawkBridge:
-    def __init__(self, port="/dev/ttyACM0", baudrate=115200):
-        self.port = port
+    def __init__(self, port="auto", baudrate=115200):
         self.baudrate = baudrate
+        self.port = self._auto_detect_port(port)
+        
         self.mav_conn = None
         self.is_running = False
         self.is_armed = False
@@ -19,6 +21,20 @@ class PixhawkBridge:
             "pitch": 0.0,
             "depth_raw": 0.0
         }
+
+    def _auto_detect_port(self, fallback_port):
+        """Fungsi pelacak port USB otomatis berdasarkan Hardware ID Pixhawk"""
+        print("[PIXHAWK-MAVLINK] Memindai port USB secara otomatis...")
+        ports = serial.tools.list_ports.comports()
+        
+        for p in ports:
+            # Cari VID:PID Pixhawk (1209:5741) atau kata kunci di deskripsinya
+            if "1209:5741" in p.hwid or "Pixhawk" in p.description or "ArduPilot" in p.description:
+                print(f"[PIXHAWK-MAVLINK] >> Ditemukan Pixhawk di: {p.device}")
+                return p.device
+                
+        print(f"[PIXHAWK-MAVLINK] WARNING: Pixhawk tidak ditemukan otomatis! Menggunakan fallback: {fallback_port}")
+        return fallback_port
 
     def connect(self):
         try:
@@ -98,8 +114,6 @@ class PixhawkBridge:
                 target_sys = self.mav_conn.target_system if self.mav_conn.target_system else 1
                 target_comp = self.mav_conn.target_component if self.mav_conn.target_component else 1
 
-                # Mapping RC Channel standar ArduSub:
-                # Ch1: Pitch | Ch2: Roll | Ch3: Heave | Ch4: Yaw | Ch5: Surge | Ch6: Sway
                 self.mav_conn.mav.rc_channels_override_send(
                     target_sys, target_comp,
                     int(pitch),

@@ -4,9 +4,10 @@ import cv2
 import socket
 import threading
 import time
+import os
 
 class VisionProcessor:
-    def __init__(self, model_path, gcs_ip, port_front, port_bottom, cam_front_idx=0, cam_bottom_idx=2):
+    def __init__(self, model_path, gcs_ip, port_front, port_bottom, cam_front_idx="/dev/cam_front", cam_bottom_idx="/dev/cam_bottom"):
         self.model_path = model_path
         self.gcs_ip = gcs_ip
         self.addr_front = (gcs_ip, port_front)
@@ -18,16 +19,16 @@ class VisionProcessor:
         # Inisialisasi Soket UDP khusus Video Streaming
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-        # Inisialisasi QR Code Detector bawaan OpenCV (Ringan & Instan)
+        # Inisialisasi QR Code Detector bawaan OpenCV
         self.qr_detector = cv2.QRCodeDetector()
 
-        # Thread Management & Shared Memory (Dipisah agar tidak tabrakan antar thread)
+        # Thread Management & Shared Memory
         self.is_running = False
         self.latest_data = {
             "front_detected": False,
             "front_bbox": [0, 0, 0, 0],
             "front_qr_data": "",
-            
+
             "bottom_detected": False,
             "bottom_bbox": [0, 0, 0, 0],
             "bottom_qr_data": ""
@@ -38,20 +39,25 @@ class VisionProcessor:
         print(f"[VISION-YOLO] Memuat arsitektur model dari: {self.model_path}")
         return True
 
-    def _stream_logic(self, cam_idx, destination_addr, is_front_cam=True):
+    def _stream_logic(self, cam_path, destination_addr, is_front_cam=True):
         """Worker thread untuk mengurus satu kamera: Baca -> Proses QR -> Kirim UDP"""
-        cap = cv2.VideoCapture(cam_idx, cv2.CAP_V4L2)
-        cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
         
-        # Set resolusi rendah (320x240) agar bandwidth LAN tidak mampet dan FPS tinggi
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+        # LANGSUNG BUKA MENGGUNAKAN STRING PATH SYMLINK (Tanpa di-resolve ke Index Angka)
+        cap = cv2.VideoCapture(cam_path, cv2.CAP_V4L2)
+
+        # Config camera hardware (Disesuaikan ke max 720p agar C270 tidak crash)
+        cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+        cap.set(cv2.CAP_PROP_FPS, 15)
+        cap.set(cv2.CAP_PROP_BUFFERSIZE, 2)
 
         if not cap.isOpened():
-            print(f"[VISION-ENGINE] ERROR: Gagal membuka kamera pada indeks {cam_idx}")
+            print(f"[VISION-ENGINE] ERROR: Gagal membuka kamera pada path {cam_path}!")
             return
+        else:
+            print(f"[VISION-ENGINE] SUKSES: Kamera {cam_path} berhasil dibuka.")
 
-        # Jangkar waktu internal masing-masing thread (Lokal variabel, aman tidak bentrok)
         last_qr_check = 0.0
         cam_label = "FRONT" if is_front_cam else "BOTTOM"
         prefix = "front" if is_front_cam else "bottom"
@@ -62,28 +68,26 @@ class VisionProcessor:
                 time.sleep(0.01)
                 continue
 
-            # --- PROSES MEMBACA QR CODE (Aktif di Kedua Kamera per 0.5 Detik) ---
+            # --- 1. PROSES MEMBACA QR CODE ---
             current_time = time.time()
             if current_time - last_qr_check > 0.5:
                 last_qr_check = current_time
-                
-                # Eksekuasi pembacaan matriks gambar QR
+
                 data, bbox, _ = self.qr_detector.detectAndDecode(frame)
                 if bbox is not None and len(data) > 0:
                     x, y, w, h = int(bbox[0][0][0]), int(bbox[0][0][1]), int(bbox[0][2][0] - bbox[0][0][0]), int(bbox[0][2][1] - bbox[0][0][1])
-                    
-                    # Kunci data ke memori bersama khusus kubu masing-masing
+
                     self.latest_data[f"{prefix}_detected"] = True
                     self.latest_data[f"{prefix}_bbox"] = [x + w//2, y + h//2, w, h]
                     self.latest_data[f"{prefix}_qr_data"] = data
-                    
-                    # LOG INSTAN DI TERMINAL: Biar bisa langsung dipantau saat tes!
+
                     print(f"[{cam_label}-QR INTERCEPT] Terdeteksi String: '{data}' | Bbox Center: [{x + w//2}, {y + h//2}]")
                 else:
                     self.latest_data[f"{prefix}_detected"] = False
 
-            # --- KOMPRESI GAMBAR & KIRIM VIA UDP ---
-            ret_encode, encoded_img = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 30])
+            # --- 2. KOMPRESI GAMBAR & KIRIM VIA UDP ---
+            stream_frame = cv2.resize(frame, (640, 360))
+            ret_encode, encoded_img = cv2.imencode('.jpg', stream_frame, [int(cv2.IMWRITE_JPEG_QUALITY), 40])
             if ret_encode:
                 bytes_data = encoded_img.tobytes()
                 if len(bytes_data) < 61000:
@@ -92,12 +96,12 @@ class VisionProcessor:
                     except Exception:
                         pass
 
-            time.sleep(0.03)  # Batasi FPS streaming di kisaran ~30 FPS
+            time.sleep(0.03)
 
         cap.release()
 
     def start_cameras(self):
-        """Menyalakan pipa streaming kedua kamera secara paralel di latar belakang"""
+        """Menyalakan pipa streaming kedua kamera secara paralel"""
         self.is_running = True
         print("[VISION-ENGINE] Pipa pengaliran data & Dual QR Scanner resmi berjalan aktif.")
 
@@ -111,27 +115,22 @@ class VisionProcessor:
         self.thread_bottom.start()
 
     def get_latest_vision(self):
-        """Dipanggil oleh main_ship.py untuk membaca status target otonom"""
+        """Membaca status target otonom terbaru"""
         combined_data = self.latest_data.copy()
-        
-        # --- JEMBATAN BACKWARD COMPATIBILITY (Mencegah KeyError di main_ship.py) ---
-        # Prioritaskan kamera bawah terlebih dahulu jika sedang dalam fase DESCENT/Menyelam
+
         if combined_data["bottom_detected"]:
             combined_data["target_detected"] = True
             combined_data["bbox"] = combined_data["bottom_bbox"]
             combined_data["qr_data"] = combined_data["bottom_qr_data"]
-            
         elif combined_data["front_detected"]:
             combined_data["target_detected"] = True
             combined_data["bbox"] = combined_data["front_bbox"]
             combined_data["qr_data"] = combined_data["front_qr_data"]
-            
         else:
-            # Jika kedua kamera tidak melihat apa-apa
             combined_data["target_detected"] = False
             combined_data["bbox"] = [0, 0, 0, 0]
             combined_data["qr_data"] = ""
-            
+
         return combined_data
 
     def stop(self):

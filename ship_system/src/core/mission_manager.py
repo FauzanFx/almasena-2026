@@ -39,8 +39,12 @@ class MissionManager:
 
         if not self.is_autonomous:
             self.auto_phase = "MANUAL"
-            cmds["surge"] = gcs_commands.get("surge", 0)
-            cmds["yaw"] = gcs_commands.get("yaw", 0)
+            
+            # --- FIX HARDWARE: TUKAR SURGE & YAW (Mode Manual) ---
+            cmds["surge"] = gcs_commands.get("yaw", 0)
+            cmds["yaw"] = gcs_commands.get("surge", 0)
+            # -----------------------------------------------------
+            
             cmds["pitch"] = gcs_commands.get("pitch", 0)
             cmds["ballast_cmd"] = gcs_commands.get("ballast_cmd", 0)
             cmds["gripper_cmd"] = gcs_commands.get("gripper_cmd", 0)
@@ -50,12 +54,13 @@ class MissionManager:
                 x_center, y_center, _, _ = vision_data["bbox"]
                 err_x = x_center - 320
 
-                cmds["surge"] = 500
-                cmds["yaw"] = int(err_x * 1.5)
-                
+                # --- FIX HARDWARE: TUKAR SURGE & YAW (Mode Otonom) ---
+                cmds["surge"] = int(err_x * 1.5)  # Awalnya yaw
+                cmds["yaw"] = 500                 # Awalnya surge
+                # -----------------------------------------------------
+
                 cmds["ballast_cmd"] = 0
                 cmds["target_depth"] = None
-                
                 self.auto_phase = "TRACKING"
             else:
                 if self.auto_phase == "DESCENT":

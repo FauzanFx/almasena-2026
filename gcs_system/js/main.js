@@ -5,6 +5,7 @@
     missionSec: 0,
     lastLogSignature: "",
     lastQrResult: "",
+    lastQrOverlay: null,
     isCamSwapped: false,
     pidChartData: []
   };
@@ -190,6 +191,45 @@
     }
   };
 
+  function renderQrOverlay(qrData) {
+    const overlay = document.getElementById("qr-overlay");
+    const label = document.getElementById("qr-overlay-label");
+    const frame = document.getElementById("fpv-zone");
+    const mainCam = document.getElementById("main-cam");
+    const bbox = qrData.qr_bbox;
+    const isPrimaryCamera = qrData.qr_camera === (S.isCamSwapped ? "bottom" : "front");
+
+    if (!overlay || !label || !frame || !mainCam || !qrData.qr_data || !isPrimaryCamera ||
+        !Array.isArray(bbox) || bbox.length !== 4) {
+      if (overlay) overlay.style.display = "none";
+      return;
+    }
+
+    const [x, y, width, height] = bbox.map(Number);
+    if (![x, y, width, height].every(Number.isFinite) || width <= 0 || height <= 0) {
+      overlay.style.display = "none";
+      return;
+    }
+
+    // Match the browser overlay to object-fit: cover used by the primary feed.
+    const frameRect = frame.getBoundingClientRect();
+    const imageRect = mainCam.getBoundingClientRect();
+    const sourceWidth = mainCam.naturalWidth || 640;
+    const sourceHeight = mainCam.naturalHeight || 360;
+    const scale = Math.max(imageRect.width / sourceWidth, imageRect.height / sourceHeight);
+    const drawnWidth = sourceWidth * scale;
+    const drawnHeight = sourceHeight * scale;
+    const cropX = (imageRect.width - drawnWidth) / 2;
+    const cropY = (imageRect.height - drawnHeight) / 2;
+
+    overlay.style.display = "block";
+    overlay.style.left = `${imageRect.left - frameRect.left + cropX + x * drawnWidth}px`;
+    overlay.style.top = `${imageRect.top - frameRect.top + cropY + y * drawnHeight}px`;
+    overlay.style.width = `${width * drawnWidth}px`;
+    overlay.style.height = `${height * drawnHeight}px`;
+    label.textContent = `QR: ${qrData.qr_data}`;
+  }
+
   /* ── TELEMETRY UI RENDERER ── */
   function updateTelemetryUI(data) {
     if (!data) return;
@@ -318,7 +358,16 @@
         }
       }
     }
+
+    S.lastQrOverlay = {
+      qr_data: scannedQr,
+      qr_camera: data.qr_camera,
+      qr_bbox: data.qr_bbox
+    };
+    renderQrOverlay(S.lastQrOverlay);
   }
+
+  window.addEventListener("resize", () => renderQrOverlay(S.lastQrOverlay || {}));
 
   // 5. WebSocket Client dengan Auto-Reconnect
   function connectWebSocket() {

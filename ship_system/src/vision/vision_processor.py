@@ -28,10 +28,12 @@ class VisionProcessor:
             "front_detected": False,
             "front_bbox": [0, 0, 0, 0],
             "front_qr_data": "",
+            "front_qr_bbox": [],
 
             "bottom_detected": False,
             "bottom_bbox": [0, 0, 0, 0],
-            "bottom_qr_data": ""
+            "bottom_qr_data": "",
+            "bottom_qr_bbox": []
         }
 
     def init_model(self):
@@ -81,27 +83,17 @@ class VisionProcessor:
                     self.latest_data[f"{prefix}_detected"] = True
                     self.latest_data[f"{prefix}_bbox"] = [x + w//2, y + h//2, w, h]
                     self.latest_data[f"{prefix}_qr_data"] = data
+                    frame_height, frame_width = frame.shape[:2]
+                    self.latest_data[f"{prefix}_qr_bbox"] = [
+                        x / frame_width,
+                        y / frame_height,
+                        w / frame_width,
+                        h / frame_height
+                    ]
 
                     print(f"[{cam_label}-QR INTERCEPT] Terdeteksi String: '{data}' | Bbox Center: [{x + w//2}, {y + h//2}]")
                 else:
                     self.latest_data[f"{prefix}_detected"] = False
-
-            # Gambar anotasi sebelum frame dikompresi, agar operator melihat
-            # lokasi QR dan isi teksnya langsung di feed kamera GCS.
-            if self.latest_data[f"{prefix}_detected"]:
-                center_x, center_y, width, height = self.latest_data[f"{prefix}_bbox"]
-                x1 = max(0, int(center_x - width // 2))
-                y1 = max(0, int(center_y - height // 2))
-                x2 = min(frame.shape[1] - 1, int(center_x + width // 2))
-                y2 = min(frame.shape[0] - 1, int(center_y + height // 2))
-                qr_text = self.latest_data[f"{prefix}_qr_data"]
-
-                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                label = f"QR: {qr_text}"
-                label_y = max(22, y1 - 8)
-                cv2.putText(frame, label, (x1, label_y),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2,
-                            cv2.LINE_AA)
 
             # --- 2. KOMPRESI GAMBAR & KIRIM VIA UDP ---
             stream_frame = cv2.resize(frame, (640, 360))
@@ -141,16 +133,19 @@ class VisionProcessor:
             combined_data["bbox"] = combined_data["bottom_bbox"]
             combined_data["qr_data"] = combined_data["bottom_qr_data"]
             combined_data["qr_camera"] = "bottom"
+            combined_data["qr_bbox"] = combined_data["bottom_qr_bbox"]
         elif combined_data["front_detected"]:
             combined_data["target_detected"] = True
             combined_data["bbox"] = combined_data["front_bbox"]
             combined_data["qr_data"] = combined_data["front_qr_data"]
             combined_data["qr_camera"] = "front"
+            combined_data["qr_bbox"] = combined_data["front_qr_bbox"]
         else:
             combined_data["target_detected"] = False
             combined_data["bbox"] = [0, 0, 0, 0]
             combined_data["qr_data"] = ""
             combined_data["qr_camera"] = ""
+            combined_data["qr_bbox"] = []
 
         return combined_data
 

@@ -75,7 +75,8 @@ class VisionProcessor:
 
                 data, bbox, _ = self.qr_detector.detectAndDecode(frame)
                 if bbox is not None and len(data) > 0:
-                    x, y, w, h = int(bbox[0][0][0]), int(bbox[0][0][1]), int(bbox[0][2][0] - bbox[0][0][0]), int(bbox[0][2][1] - bbox[0][0][1])
+                    qr_points = bbox.astype(int).reshape(-1, 2)
+                    x, y, w, h = cv2.boundingRect(qr_points)
 
                     self.latest_data[f"{prefix}_detected"] = True
                     self.latest_data[f"{prefix}_bbox"] = [x + w//2, y + h//2, w, h]
@@ -84,6 +85,23 @@ class VisionProcessor:
                     print(f"[{cam_label}-QR INTERCEPT] Terdeteksi String: '{data}' | Bbox Center: [{x + w//2}, {y + h//2}]")
                 else:
                     self.latest_data[f"{prefix}_detected"] = False
+
+            # Gambar anotasi sebelum frame dikompresi, agar operator melihat
+            # lokasi QR dan isi teksnya langsung di feed kamera GCS.
+            if self.latest_data[f"{prefix}_detected"]:
+                center_x, center_y, width, height = self.latest_data[f"{prefix}_bbox"]
+                x1 = max(0, int(center_x - width // 2))
+                y1 = max(0, int(center_y - height // 2))
+                x2 = min(frame.shape[1] - 1, int(center_x + width // 2))
+                y2 = min(frame.shape[0] - 1, int(center_y + height // 2))
+                qr_text = self.latest_data[f"{prefix}_qr_data"]
+
+                cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                label = f"QR: {qr_text}"
+                label_y = max(22, y1 - 8)
+                cv2.putText(frame, label, (x1, label_y),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2,
+                            cv2.LINE_AA)
 
             # --- 2. KOMPRESI GAMBAR & KIRIM VIA UDP ---
             stream_frame = cv2.resize(frame, (640, 360))
@@ -122,14 +140,17 @@ class VisionProcessor:
             combined_data["target_detected"] = True
             combined_data["bbox"] = combined_data["bottom_bbox"]
             combined_data["qr_data"] = combined_data["bottom_qr_data"]
+            combined_data["qr_camera"] = "bottom"
         elif combined_data["front_detected"]:
             combined_data["target_detected"] = True
             combined_data["bbox"] = combined_data["front_bbox"]
             combined_data["qr_data"] = combined_data["front_qr_data"]
+            combined_data["qr_camera"] = "front"
         else:
             combined_data["target_detected"] = False
             combined_data["bbox"] = [0, 0, 0, 0]
             combined_data["qr_data"] = ""
+            combined_data["qr_camera"] = ""
 
         return combined_data
 

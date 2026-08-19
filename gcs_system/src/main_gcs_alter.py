@@ -48,7 +48,8 @@ def main():
         "ballast_pct": 0,
         "ballast_status": "IDLE",
         "ship_logs": [],
-        "qr_data": ""
+        "qr_data": "",
+        "qr_camera": ""
     }
 
     print("[MAIN-GCS] Dashboard Aktif: http://localhost:8000")
@@ -105,6 +106,7 @@ def main():
                 vision = telemetry.get("vision", {}) if isinstance(telemetry, dict) else {}
                 if isinstance(vision, dict):
                     gcs_state["qr_data"] = vision.get("qr_data", "")
+                    gcs_state["qr_camera"] = vision.get("qr_camera", "")
                 # -------------------------------------
             else:
                 # Jika tidak ada data telemetri > 1.5 detik, set ping ke 0 (Offline)

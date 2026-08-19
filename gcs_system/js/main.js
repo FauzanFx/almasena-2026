@@ -308,6 +308,14 @@
       if (scannedQr !== S.lastQrResult) {
         S.lastQrResult = scannedQr;
         appendLog("QR", `QR BERHASIL DI-SCAN! Hasil: ${scannedQr}`, "info");
+
+        // Promote the camera that found the QR to the primary display so the
+        // annotated bounding box and text are immediately visible.
+        const qrCamera = data.qr_camera;
+        const shouldShowBottom = qrCamera === "bottom";
+        if ((shouldShowBottom && !S.isCamSwapped) || (!shouldShowBottom && S.isCamSwapped)) {
+          window.swapCams();
+        }
       }
     }
   }

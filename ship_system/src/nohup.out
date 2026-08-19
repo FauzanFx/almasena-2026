@@ -1,0 +1,26 @@
+Connect /dev/ttyACM0,115200 source_system=255
+Log Directory: 
+Telemetry log: mav.tlog
+Waiting for heartbeat from /dev/ttyACM0
+MAV> Unloading module link
+Unloading module signing
+Unloading module log
+Unloading module wp
+Unloading module rally
+Unloading module fence
+Unloading module ftp
+Unloading module param
+Unloading module relay
+Unloading module tuneopt
+Unloading module arm
+Unloading module mode
+Unloading module calibration
+Unloading module rc
+Unloading module auxopt
+Unloading module misc
+Unloading module cmdlong
+Unloading module battery
+Unloading module terrain
+Unloading module output
+Unloading module adsb
+Unloading module layout

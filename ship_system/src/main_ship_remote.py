@@ -1,3 +1,5 @@
+# almasena-dev/ship_system/src/main_ship.py
+
 import os
 import sys
 import time
@@ -9,7 +11,7 @@ current_file = Path(__file__).resolve()
 ship_system_root = current_file.parents[1]
 sys.path.append(os.path.join(ship_system_root, "src"))
 
-from network.net_bridge import NetBridge
+from network.net_bridge_remote import NetBridge
 from hardware_interface.stm32_bridge import STM32Bridge
 from hardware_interface.pixhawk_bridge import PixhawkBridge
 from vision.vision_processor import VisionProcessor
@@ -20,7 +22,7 @@ from controls.motion_controller import MotionController
 
 
 def load_config():
-    config_path = os.path.join(ship_system_root, "config", "low_level_config.yaml")
+    config_path = os.path.join(ship_system_root, "config", "low_level_config_remote.yaml")
     try:
         with open(config_path, "r") as f:
             return yaml.safe_load(f)
@@ -58,14 +60,8 @@ def main():
         cam_bottom_idx=vis_cfg["cam_bottom"]
     )
 
-    # --- PERBAIKAN: Tambahkan Print Log STM32 ---
-    if stm32.connect():
-        print(f"[STM32-BALLAST] Terhubung ke STM32 via {stm32.port}! Telemetri & Control Active.")
-        logger.push("STM32 Ballast System Connected.", "sys")
-    else:
-        print(f"[STM32-BALLAST] ERROR: Gagal terhubung ke STM32 via {hw_cfg['stm32_port']}!")
+    if not stm32.connect():
         logger.push("WARN: STM32 tidak terdeteksi!", "warn")
-    # --------------------------------------------
 
     if pixhawk.connect():
         logger.push("Pixhawk 4 Terhubung & Arming Ready.", "sys")
@@ -81,24 +77,12 @@ def main():
     loop_interval = 0.05  # 20Hz Loop Rate
     logger.push("Memasuki Deterministic Orchestrator Loop (~20Hz)", "sys")
 
-    # Variabel pembantu untuk mengurangi spam print (print setiap 1 detik saja)
-    last_debug_print = time.time()
-
     try:
         while True:
             loop_start = time.time()
 
             # 1. Pembacaan Seluruh Hardware & Network Data
             sensor_data = stm32.get_latest_sensors()
-
-            # --- DEBUG PRINT: Tampilkan Nilai Encoder ke Terminal ---
-            if loop_start - last_debug_print > 1.0:
-                t_enc = sensor_data.get('encoder_ticks')
-                t_tgt = sensor_data.get('target_stm32')
-                t_pwm = sensor_data.get('pwm_stm32')
-                last_debug_print = loop_start
-            # --------------------------------------------------------
-
             attitude_data = pixhawk.get_latest_attitude()
             vision_data = vision.get_latest_vision()
             gcs_commands = net.receive_commands()

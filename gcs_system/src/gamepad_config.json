@@ -1,0 +1,27 @@
+{
+    "axes": {
+        "surge": {
+            "axis": 1,
+            "invert": true
+        },
+        "yaw": {
+            "axis": 0,
+            "invert": false
+        },
+        "pitch": {
+            "axis": 2,
+            "invert": true
+        },
+        "ballast": {
+            "axis": 3,
+            "invert": false
+        }
+    },
+    "buttons": {
+        "gripper_close": 0,
+        "gripper_open": 1,
+        "kill_switch": 8,
+        "autonomous": 9,
+        "hold_pitch": 3
+    }
+}

@@ -1,3 +1,5 @@
+# almasena-dev/ship_system/src/main_ship.py
+
 import os
 import sys
 import time
@@ -30,9 +32,8 @@ def load_config():
 
 
 def main():
-    print("[MAIN-SHIP] Memulai Orkestrasi Sistem ROV Almasena Candrassa (Modular Architecture)...")
+    print("[MAIN-SHIP] Memulai Orkestrasi Sistem ROV Almasena Candrassa...")
 
-    # 1. Inisialisasi Utilities & Managers
     logger = ShipLogger(max_logs=15)
     failsafe = FailsafeManager(timeout_threshold=1.0)
     mission = MissionManager()
@@ -40,7 +41,6 @@ def main():
 
     logger.push("Sistem ROV Almasena Inisialisasi...", "sys")
 
-    # 2. Load Config & Connect Hardware Interface
     config = load_config()
     net_cfg = config["network"]
     hw_cfg = config["hardware"]
@@ -58,102 +58,86 @@ def main():
         cam_bottom_idx=vis_cfg["cam_bottom"]
     )
 
-    # --- PERBAIKAN: Tambahkan Print Log STM32 ---
     if stm32.connect():
-        print(f"[STM32-BALLAST] Terhubung ke STM32 via {stm32.port}! Telemetri & Control Active.")
-        logger.push("STM32 Ballast System Connected.", "sys")
+        print(f"[STM32-BALLAST] Terhubung ke STM32 via {stm32.port}!")
     else:
         print(f"[STM32-BALLAST] ERROR: Gagal terhubung ke STM32 via {hw_cfg['stm32_port']}!")
-        logger.push("WARN: STM32 tidak terdeteksi!", "warn")
-    # --------------------------------------------
 
     if pixhawk.connect():
-        logger.push("Pixhawk 4 Terhubung & Arming Ready.", "sys")
-    else:
-        logger.push("WARN: Pixhawk gagal terhubung!", "warn")
-
+        pass
     if vision.init_model():
         vision.start_cameras()
-        logger.push("AI YOLOv8 Engine Active.", "sys")
-    else:
-        logger.push("WARN: Engine AI Gagal!", "warn")
 
-    loop_interval = 0.05  # 20Hz Loop Rate
-    logger.push("Memasuki Deterministic Orchestrator Loop (~20Hz)", "sys")
-
-    # Variabel pembantu untuk mengurangi spam print (print setiap 1 detik saja)
+    loop_interval = 0.05
     last_debug_print = time.time()
 
     try:
+        # Pancing 1 baris kosong di awal
+        print("\n")
+
         while True:
             loop_start = time.time()
 
-            # 1. Pembacaan Seluruh Hardware & Network Data
             sensor_data = stm32.get_latest_sensors()
-
-            # --- DEBUG PRINT: Tampilkan Nilai Encoder ke Terminal ---
-            if loop_start - last_debug_print > 1.0:
-                t_enc = sensor_data.get('encoder_ticks')
-                t_tgt = sensor_data.get('target_stm32')
-                t_pwm = sensor_data.get('pwm_stm32')
-                last_debug_print = loop_start
-            # --------------------------------------------------------
-
             attitude_data = pixhawk.get_latest_attitude()
             vision_data = vision.get_latest_vision()
-            gcs_commands = net.receive_commands()
-
+            gcs_commands = net.receive_commands() or {}
             current_depth = attitude_data.get("depth_raw", 0.0)
 
-            # 2. Evaluasi Keamanan / Failsafe
             software_kill_active = failsafe.update(gcs_commands, logger, pixhawk)
 
-            # 3. Evaluasi State Mesin Misi (Manual vs Otonom)
+            # --- RENDER DASHBOARD (1Hz) ---
+            if loop_start - last_debug_print > 0.1:
+                srg = gcs_commands.get('surge', 0)
+                yw = gcs_commands.get('yaw', 0)
+                pch = gcs_commands.get('pitch', 0)
+                blst = gcs_commands.get('ballast_cmd', 0)
+                grp = gcs_commands.get('gripper_cmd', 0)
+                z_cmd = gcs_commands.get('zero_encoder', False)
+                m_cmd = gcs_commands.get('max_encoder', False)
+
+                t_enc = sensor_data.get('encoder_ticks', 0)
+                t_tgt = sensor_data.get('target_stm32', 0)
+                t_pwm = sensor_data.get('pwm_stm32', 0)
+
+                # Cetak NET-RX lalu STM32 di bawahnya, kemudian kursor naik
+                print(f"\r\033[K[NET-RX LIVE] Surge: {srg:4} | Yaw: {yw:4} | Pitch: {pch:4} | Ballast: {blst:3} | Grip: {grp:2} | Z: {z_cmd} | M: {m_cmd}")
+                print(f"\r\033[K[STM32-STATUS] ENC: {t_enc} | TGT: {t_tgt} | PWM: {t_pwm}\033[F", end="", flush=True)
+
+                last_debug_print = loop_start
+
             cmds = mission.update(
-                gcs_commands=gcs_commands,
-                vision_data=vision_data,
-                current_depth=current_depth,
-                software_kill_active=software_kill_active,
+                gcs_commands=gcs_commands, vision_data=vision_data,
+                current_depth=current_depth, software_kill_active=software_kill_active,
                 logger=logger
             )
 
-            # 4. Kalkulasi Kendali Motor & Eksekusi Hardware
             motion_telemetry = motion.process_and_send(
-                cmds=cmds,
-                sensor_data=sensor_data,
-                attitude_data=attitude_data,
-                software_kill_active=software_kill_active,
-                stm32=stm32,
-                pixhawk=pixhawk,
-                logger=logger
+                cmds=cmds, sensor_data=sensor_data, attitude_data=attitude_data,
+                software_kill_active=software_kill_active, stm32=stm32,
+                pixhawk=pixhawk, logger=logger
             )
 
-            # 5. Satukan Seluruh Telemetri & Tembakkan Kembali ke GCS
             combined_telemetry = {
-                **sensor_data,
-                **attitude_data,
-                **motion_telemetry,
+                **sensor_data, **attitude_data, **motion_telemetry,
                 "software_kill_active": software_kill_active,
-                "autonomous_active": cmds["is_autonomous"],
-                "auto_phase": cmds["auto_phase"],
+                "autonomous_active": cmds.get("is_autonomous", False),
+                "auto_phase": cmds.get("auto_phase", "MANUAL"),
                 "ship_logs": logger.get_logs()
             }
 
             net.transmit_ship_status(raw_sensor_data=combined_telemetry, vision_data=vision_data)
 
-            # 6. Pengaturan Interval Loop (20Hz)
             elapsed_time = time.time() - loop_start
             time.sleep(max(0, loop_interval - elapsed_time))
 
     except KeyboardInterrupt:
-        print("\n[MAIN-SHIP] Mematikan sistem via KeyboardInterrupt...")
+        print("\n\n[MAIN-SHIP] Mematikan sistem...")
     finally:
-        logger.push("Shutdown Sistem ROV Almasena...", "sys")
         vision.stop()
         pixhawk.close()
         stm32.close()
         net.close()
-        print("[MAIN-SHIP] Seluruh modul resmi dimatikan secara bersih.")
 
 
 if __name__ == "__main__":

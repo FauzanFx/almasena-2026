@@ -19,22 +19,8 @@ class VisionProcessor:
         # Inisialisasi Soket UDP khusus Video Streaming
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-        # Inisialisasi QR Code Detector bawaan OpenCV
-        self.qr_detector = cv2.QRCodeDetector()
-
-        # Thread Management & Shared Memory
+        # Thread Management
         self.is_running = False
-        self.latest_data = {
-            "front_detected": False,
-            "front_bbox": [0, 0, 0, 0],
-            "front_qr_data": "",
-            "front_qr_bbox": [],
-
-            "bottom_detected": False,
-            "bottom_bbox": [0, 0, 0, 0],
-            "bottom_qr_data": "",
-            "bottom_qr_bbox": []
-        }
 
     def init_model(self):
         """Validasi kesiapan modul visi"""
@@ -42,12 +28,11 @@ class VisionProcessor:
         return True
 
     def _stream_logic(self, cam_path, destination_addr, is_front_cam=True):
-        """Worker thread untuk mengurus satu kamera: Baca -> Proses QR -> Kirim UDP"""
+        """Worker thread untuk mengurus satu kamera: Baca -> Kirim UDP (QR didecode di GCS)"""
         
-        # LANGSUNG BUKA MENGGUNAKAN STRING PATH SYMLINK (Tanpa di-resolve ke Index Angka)
         cap = cv2.VideoCapture(cam_path, cv2.CAP_V4L2)
 
-        # Config camera hardware (Disesuaikan ke max 720p agar C270 tidak crash)
+        # Config camera hardware
         cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
@@ -60,42 +45,13 @@ class VisionProcessor:
         else:
             print(f"[VISION-ENGINE] SUKSES: Kamera {cam_path} berhasil dibuka.")
 
-        last_qr_check = 0.0
-        cam_label = "FRONT" if is_front_cam else "BOTTOM"
-        prefix = "front" if is_front_cam else "bottom"
-
         while self.is_running:
             ret, frame = cap.read()
             if not ret:
                 time.sleep(0.01)
                 continue
 
-            # --- 1. PROSES MEMBACA QR CODE ---
-            current_time = time.time()
-            if current_time - last_qr_check > 0.5:
-                last_qr_check = current_time
-
-                data, bbox, _ = self.qr_detector.detectAndDecode(frame)
-                if bbox is not None and len(data) > 0:
-                    qr_points = bbox.astype(int).reshape(-1, 2)
-                    x, y, w, h = cv2.boundingRect(qr_points)
-
-                    self.latest_data[f"{prefix}_detected"] = True
-                    self.latest_data[f"{prefix}_bbox"] = [x + w//2, y + h//2, w, h]
-                    self.latest_data[f"{prefix}_qr_data"] = data
-                    frame_height, frame_width = frame.shape[:2]
-                    self.latest_data[f"{prefix}_qr_bbox"] = [
-                        x / frame_width,
-                        y / frame_height,
-                        w / frame_width,
-                        h / frame_height
-                    ]
-
-                    print(f"[{cam_label}-QR INTERCEPT] Terdeteksi String: '{data}' | Bbox Center: [{x + w//2}, {y + h//2}]")
-                else:
-                    self.latest_data[f"{prefix}_detected"] = False
-
-            # --- 2. KOMPRESI GAMBAR & KIRIM VIA UDP ---
+            # --- KOMPRESI GAMBAR & KIRIM VIA UDP ---
             stream_frame = cv2.resize(frame, (640, 360))
             ret_encode, encoded_img = cv2.imencode('.jpg', stream_frame, [int(cv2.IMWRITE_JPEG_QUALITY), 40])
             if ret_encode:
@@ -113,7 +69,7 @@ class VisionProcessor:
     def start_cameras(self):
         """Menyalakan pipa streaming kedua kamera secara paralel"""
         self.is_running = True
-        print("[VISION-ENGINE] Pipa pengaliran data & Dual QR Scanner resmi berjalan aktif.")
+        print("[VISION-ENGINE] Pipa pengaliran data resmi berjalan aktif.")
 
         self.thread_front = threading.Thread(target=self._stream_logic, args=(self.cam_front_idx, self.addr_front, True))
         self.thread_bottom = threading.Thread(target=self._stream_logic, args=(self.cam_bottom_idx, self.addr_bottom, False))
@@ -125,29 +81,14 @@ class VisionProcessor:
         self.thread_bottom.start()
 
     def get_latest_vision(self):
-        """Membaca status target otonom terbaru"""
-        combined_data = self.latest_data.copy()
-
-        if combined_data["bottom_detected"]:
-            combined_data["target_detected"] = True
-            combined_data["bbox"] = combined_data["bottom_bbox"]
-            combined_data["qr_data"] = combined_data["bottom_qr_data"]
-            combined_data["qr_camera"] = "bottom"
-            combined_data["qr_bbox"] = combined_data["bottom_qr_bbox"]
-        elif combined_data["front_detected"]:
-            combined_data["target_detected"] = True
-            combined_data["bbox"] = combined_data["front_bbox"]
-            combined_data["qr_data"] = combined_data["front_qr_data"]
-            combined_data["qr_camera"] = "front"
-            combined_data["qr_bbox"] = combined_data["front_qr_bbox"]
-        else:
-            combined_data["target_detected"] = False
-            combined_data["bbox"] = [0, 0, 0, 0]
-            combined_data["qr_data"] = ""
-            combined_data["qr_camera"] = ""
-            combined_data["qr_bbox"] = []
-
-        return combined_data
+        """Karena QR dipindah ke GCS, modul di kapal mengembalikan data kosong."""
+        return {
+            "target_detected": False,
+            "bbox": [0, 0, 0, 0],
+            "qr_data": "",
+            "qr_camera": "",
+            "qr_bbox": []
+        }
 
     def stop(self):
         """Mematikan seluruh thread secara bersih"""

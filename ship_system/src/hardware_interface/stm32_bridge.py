@@ -1,3 +1,5 @@
+#ship_system/src/hardware_interface/STM32_bridge.py
+
 import serial
 import serial.tools.list_ports
 import threading
@@ -23,7 +25,6 @@ class STM32Bridge:
         }
 
     def _auto_detect_port(self, fallback_port):
-        # --- PERBAIKAN: Bersihkan trailing slash agar Linux tidak menganggapnya folder ---
         if isinstance(fallback_port, str):
             fallback_port = fallback_port.rstrip('/')
 
@@ -71,31 +72,53 @@ class STM32Bridge:
                 "target_stm32": int(data.get("TGT", self.latest_sensor_data["target_stm32"])),
                 "pwm_stm32": int(data.get("PWM", self.latest_sensor_data["pwm_stm32"])),
                 "encoder_ticks": int(data.get("ENC", self.latest_sensor_data["encoder_ticks"])),
-                "ballast_speed": int(data.get("SPD", self.latest_sensor_data["pwm_stm32"])),
+                "ballast_speed": int(data.get("SPD", self.latest_sensor_data["ballast_speed"])),
                 "gripper_status": int(data.get("GRP", self.latest_sensor_data["gripper_status"]))
             })
         except Exception:
             pass
 
+    def send_manual_speed(self, speed: int):
+        if self.is_running and self.serial_conn and self.serial_conn.is_open:
+            val = abs(int(speed))
+            if speed > 0:
+                cmd = f"F,{val}\n"
+            elif speed < 0:
+                cmd = f"B,{val}\n"
+            else:
+                cmd = "F,0\n"
+
+            with self.write_lock:
+                try:
+                    self.serial_conn.write(cmd.encode('utf-8'))
+                except Exception:
+                    pass
+
     def send_target_position(self, target_pos, gripper_state=0):
         if self.is_running and self.serial_conn and self.serial_conn.is_open:
             cmd = f"C,{int(target_pos)},{int(gripper_state)}\n"
             with self.write_lock:
-                try: self.serial_conn.write(cmd.encode('utf-8'))
-                except Exception: pass
+                try:
+                    self.serial_conn.write(cmd.encode('utf-8'))
+                except Exception:
+                    pass
 
     def send_pid_tuning(self, kp: float, ki: float, kd: float):
         if self.is_running and self.serial_conn and self.serial_conn.is_open:
             cmd = f"P,{float(kp):.3f},{float(ki):.3f},{float(kd):.3f}\n"
             with self.write_lock:
-                try: self.serial_conn.write(cmd.encode('utf-8'))
-                except Exception: pass
+                try:
+                    self.serial_conn.write(cmd.encode('utf-8'))
+                except Exception:
+                    pass
 
     def send_zeroing(self):
         if self.is_running and self.serial_conn and self.serial_conn.is_open:
             with self.write_lock:
-                try: self.serial_conn.write(b"Z\n")
-                except Exception: pass
+                try:
+                    self.serial_conn.write(b"Z\n")
+                except Exception:
+                    pass
 
     def save_pid_config(self, kp: float, ki: float, kd: float):
         self.send_pid_tuning(kp, ki, kd)

@@ -1,3 +1,5 @@
+# almasena-dev/ship_system/src/controls/motion_controller.py
+
 from controls.pid_controller import MiniPID
 
 def clamp(val, min_val=1100, max_val=1900):
@@ -31,17 +33,37 @@ class MotionController:
 
         encoder_ticks = sensor_data.get("encoder_ticks", 0)
 
+        # --- CEK DOUBLE CLICK DARI GCS ---
+        zero_encoder_cmd = cmds.get("zero_encoder", False)
+        max_encoder_cmd = cmds.get("max_encoder", False)
+
+        # 1. Kalau R3 di-double-click (Set Titik 0)
+        if zero_encoder_cmd:
+            stm32.send_zeroing()
+            self.min_encoder_tick = 0
+            self.target_encoder = 0.0
+            encoder_ticks = 0
+            print("[MOTION] === BALLAST ZEROING (TITIK 0) DIAKTIFKAN! ===")
+
+        # 2. Kalau L3 di-double-click (Set Titik Maksimal)
+        if max_encoder_cmd:
+            if encoder_ticks > 500: # Pastikan gak di-set saat spuit masih kosong
+                self.max_encoder_tick = encoder_ticks
+                print(f"[MOTION] === BALLAST MAX LIMIT DIKUNCI DI: {self.max_encoder_tick} ===")
+            else:
+                print("[MOTION] WARNING: Nilai max terlalu rendah, tarik spuit lebih jauh dulu!")
+
         if self.target_encoder is None:
             self.target_encoder = float(encoder_ticks)
 
         encoder_range = self.max_encoder_tick - self.min_encoder_tick
         if encoder_range <= 0: encoder_range = 1
-        
-        # Hitung % persentase ballast
+
         ballast_pct = int(max(0, min(100, ((encoder_ticks - self.min_encoder_tick) / encoder_range) * 100)))
 
         if software_kill_active:
             pixhawk.emergency_disarm_stop()
+            stm32.send_manual_speed(0)
             stm32.send_target_position(target_pos=encoder_ticks, gripper_state=0)
             return {
                 "ballast_pct": ballast_pct, "ballast_status": "KILL",
@@ -52,22 +74,33 @@ class MotionController:
         current_pitch = attitude_data.get("pitch", 0.0)
         current_heading = attitude_data.get("heading", 0.0)
 
-        ballast_cmd = cmds.get("ballast_cmd", 0)
-        gripper_cmd = cmds.get("gripper_cmd", 0)
+        ballast_cmd = cmds.get("ballast_cmd", cmds.get("ballast", 0))
+        gripper_cmd = cmds.get("gripper_cmd", cmds.get("grip", 0))
         hold_pitch_toggle = cmds.get("hold_pitch", False)
         target_depth_auto = cmds.get("target_depth", None)
 
+        # --- LOGIKA KENDALI BALLAST ---
         if cmds.get("is_autonomous", False) and target_depth_auto is not None:
             virtual_joystick = self.pid_depth.compute(target_depth_auto, current_depth)
             self.target_encoder += (virtual_joystick * 2.5)
+            self.target_encoder = max(self.min_encoder_tick, min(self.max_encoder_tick, self.target_encoder))
+            stm32.send_target_position(self.target_encoder, gripper_cmd)
 
-        elif abs(ballast_cmd) > 5:
-            self.target_encoder += (ballast_cmd * 3.0)
+        else:
+            # === MODE DEBUG ENCODER: LIMIT DIBOBOL SEMENTARA ===
+            if ballast_cmd > 5:
+                stm32.send_manual_speed(100)
+                #print(f">>> [TEST MAJU] NILAI ENCODER SAAT INI: {encoder_ticks}")
+            elif ballast_cmd < -5:
+                stm32.send_manual_speed(-100) 
+                #print(f"<<< [TEST MUNDUR] NILAI ENCODER SAAT INI: {encoder_ticks}")
+            else:
+                stm32.send_manual_speed(0)
 
-        self.target_encoder = max(self.min_encoder_tick, min(self.max_encoder_tick, self.target_encoder))
-        stm32.send_target_position(self.target_encoder, gripper_cmd)
+            if abs(gripper_cmd) > 0:
+                stm32.send_target_position(self.target_encoder, gripper_cmd)
+        # ------------------------------
 
-        # Penentuan status GUI (Membaca sensor_data atau perintah joystick langsung)
         ballast_speed = sensor_data.get("ballast_speed", 0)
         if ballast_speed > 5 or ballast_cmd > 5:
             ballast_status_str = "MENGISI"

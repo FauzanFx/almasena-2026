@@ -39,7 +39,7 @@ def main():
         "ping_ms": 0,
         "surge_cmd": 0,
         "pitch_cmd": 0,
-	"yaw_cmd": 0,
+        "yaw_cmd": 0,
         "autonomous_active": False,
         "roll": 0.0,
         "pitch": 0.0,
@@ -96,29 +96,25 @@ def main():
                     gcs_state["ballast_pct"] = int(sensors.get("ballast_pct", 0))
                     gcs_state["ballast_status"] = sensors.get("ballast_status", "IDLE")
 
-                # --- PERBAIKAN MISSION LOG DI SINI ---
-                # Cek ship_logs baik di dalam "sensors" maupun di luar root telemetry
                 if isinstance(sensors, dict) and "ship_logs" in sensors:
                     gcs_state["ship_logs"] = sensors["ship_logs"]
                 elif isinstance(telemetry, dict) and "ship_logs" in telemetry:
                     gcs_state["ship_logs"] = telemetry["ship_logs"]
-
-                # Hasil QR dari VisionProcessor dikirim pada objek telemetry.vision.
-                vision = telemetry.get("vision", {}) if isinstance(telemetry, dict) else {}
-                if isinstance(vision, dict):
-                    gcs_state["qr_data"] = vision.get("qr_data", "")
-                    gcs_state["qr_camera"] = vision.get("qr_camera", "")
-                    gcs_state["qr_bbox"] = vision.get("qr_bbox", [])
-                # -------------------------------------
             else:
                 # Jika tidak ada data telemetri > 1.5 detik, set ping ke 0 (Offline)
                 if last_telemetry_time > 0 and (now - last_telemetry_time) > 1.5:
                     gcs_state["ping_ms"] = 0
 
-            # 3. SIARKAN KE WEBSOCKET BROWSER SETIAP ITERASI LOOP (20Hz)
+            # 3. AMBIL DATA QR DARI VIDEO RECEIVER (Lokal GCS)
+            qr_info = video_engine.get_qr_state()
+            gcs_state["qr_data"] = qr_info.get("qr_data", "")
+            gcs_state["qr_camera"] = qr_info.get("qr_camera", "")
+            gcs_state["qr_bbox"] = qr_info.get("qr_bbox", [])
+
+            # 4. SIARKAN KE WEBSOCKET BROWSER SETIAP ITERASI LOOP (20Hz)
             gui.broadcast_telemetry(gcs_state)
 
-            # 4. PREVIEW VIDEO OPENCV
+            # 5. PREVIEW VIDEO OPENCV
             frame_front, frame_bottom = video_engine.get_latest_frames()
             if frame_front is not None:
                 cv2.imshow("GCS Feed - Kamera Depan", frame_front)
@@ -137,7 +133,6 @@ def main():
         video_engine.stop()
         cv2.destroyAllWindows()
         net_manager.close()
-
 
 if __name__ == "__main__":
     main()

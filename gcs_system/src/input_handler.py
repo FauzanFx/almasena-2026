@@ -3,7 +3,7 @@
 import pygame
 import json
 import os
-import time  # <-- Tambahkan untuk menghitung waktu double-click
+import time
 
 class InputHandler:
     def __init__(self):
@@ -18,15 +18,17 @@ class InputHandler:
         self.prev_kill_btn = False
         self.prev_auto_btn = False
         self.prev_pitch_btn = False
-        
+
         # Variabel untuk Double Click R3 dan L3
         self.prev_r3_btn = False
         self.r3_last_click_time = 0.0
-        
+        self.r3_active_until = 0.0  # Penahan Sinyal Zeroing
+
         self.prev_l3_btn = False
         self.l3_last_click_time = 0.0
-        
-        self.double_click_threshold = 0.5 # Maksimal setengah detik antar klik
+        self.l3_active_until = 0.0  # Penahan Sinyal Max Limit
+
+        self.double_click_threshold = 0.5 
 
         self.config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gamepad_config.json")
         self.config = self.load_config()
@@ -35,10 +37,8 @@ class InputHandler:
     def load_config(self):
         if os.path.exists(self.config_path):
             with open(self.config_path, "r") as f:
-                print(f"[GCS-INPUT] Memuat konfigurasi gamepad dari JSON.")
                 return json.load(f)
         else:
-            print("[GCS-INPUT] WARNING: gamepad_config.json tidak ditemukan! Menggunakan fallback default.")
             return {
                 "axes": {
                     "surge": {"axis": 3, "invert": True},
@@ -52,8 +52,8 @@ class InputHandler:
                     "kill_switch": 8,
                     "autonomous": 9,
                     "hold_pitch": 2,
-                    "zero_encoder": 11, # R3
-                    "max_encoder": 10   # L3
+                    "zero_encoder": 11, # R3 (Pastikan indeks di stikmu benar 11)
+                    "max_encoder": 10   # L3 (Pastikan indeks di stikmu benar 10)
                 }
             }
 
@@ -81,7 +81,7 @@ class InputHandler:
             return {
                 "surge": 0, "yaw": 0, "heave": 0, "pitch": 0,
                 "ballast_cmd": 0, "gripper_cmd": 0,
-                "autonomous_mode": False, "kill_switch": False, 
+                "autonomous_mode": False, "kill_switch": False,
                 "hold_pitch": False, "zero_encoder": False, "max_encoder": False
             }
 
@@ -110,34 +110,36 @@ class InputHandler:
             self.hold_pitch_toggle = not self.hold_pitch_toggle
         self.prev_pitch_btn = curr_pitch
 
-        # --- LOGIKA DOUBLE CLICK R3 (ZEROING) ---
+        now = time.time()
+
+        # --- LOGIKA DOUBLE CLICK R3 (ZEROING) DENGAN SIGNAL STRETCHER ---
         curr_r3 = self.joystick.get_button(btn_cfg.get("zero_encoder", 11))
-        zero_trigger = False
         if curr_r3 and not self.prev_r3_btn:
-            now = time.time()
             if now - self.r3_last_click_time < self.double_click_threshold:
-                zero_trigger = True
-                self.r3_last_click_time = 0.0 # Reset setelah berhasil
+                self.r3_active_until = now + 0.5  # Tahan sinyal selama 0.5 detik penuh
+                self.r3_last_click_time = 0.0
             else:
                 self.r3_last_click_time = now
         self.prev_r3_btn = curr_r3
+        
+        zero_trigger = now < self.r3_active_until
 
-        # --- LOGIKA DOUBLE CLICK L3 (MAXING) ---
+        # --- LOGIKA DOUBLE CLICK L3 (MAXING) DENGAN SIGNAL STRETCHER ---
         curr_l3 = self.joystick.get_button(btn_cfg.get("max_encoder", 10))
-        max_trigger = False
         if curr_l3 and not self.prev_l3_btn:
-            now = time.time()
             if now - self.l3_last_click_time < self.double_click_threshold:
-                max_trigger = True
-                self.l3_last_click_time = 0.0 # Reset setelah berhasil
+                self.l3_active_until = now + 0.5  # Tahan sinyal selama 0.5 detik penuh
+                self.l3_last_click_time = 0.0
             else:
                 self.l3_last_click_time = now
         self.prev_l3_btn = curr_l3
+        
+        max_trigger = now < self.l3_active_until
 
         return {
             "surge": surge,
             "yaw": yaw,
-            "heave": 0, 
+            "heave": 0,
             "pitch": pitch,
             "ballast_cmd": ballast_cmd,
             "gripper_cmd": gripper_cmd,

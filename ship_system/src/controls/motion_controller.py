@@ -1,18 +1,17 @@
-# almasena-dev/ship_system/src/controls/motion_controller.py
-
 from controls.pid_controller import MiniPID
 
 def clamp(val, min_val=1100, max_val=1900):
     return max(min_val, min(max_val, int(val)))
 
 class MotionController:
-    def __init__(self, min_encoder_tick=0, max_encoder_tick=16000):
+    # Masukkan angka maksimum absolut yang kamu dapatkan di sini (1705)
+    def __init__(self, min_encoder_tick=0, max_encoder_tick=1705):
         self.min_encoder_tick = min_encoder_tick
         self.max_encoder_tick = max_encoder_tick
 
-        self.pid_depth   = MiniPID(kp=80.0, ki=1.0,   kd=5.0,  output_limits=(-100, 100))
-        self.pid_pitch   = MiniPID(kp=3.0,  ki=0.1,   kd=0.5,  output_limits=(-150, 150))
-        self.pid_yaw     = MiniPID(kp=2.0,  ki=0.0,   kd=0.2,  output_limits=(-100, 100))
+        self.pid_depth   = MiniPID(kp=80.0, ki=1.0,  kd=5.0,  output_limits=(-100, 100))
+        self.pid_pitch   = MiniPID(kp=3.0,  ki=0.1,  kd=0.5,  output_limits=(-150, 150))
+        self.pid_yaw     = MiniPID(kp=2.0,  ki=0.0,  kd=0.2,  output_limits=(-100, 100))
 
         self.target_encoder = None
         self.target_depth = 0.0
@@ -24,6 +23,10 @@ class MotionController:
         self.pitch_baseline = 0.0
         self.last_pitch_effort = 0.0
 
+        # PENGAMAN EDGE-DETECTION UNTUK TOMBOL GCS
+        self.prev_zero_cmd = False
+        self.prev_max_cmd = False
+
         self.SURGE_MAX_OFFSET = 400 * 0.3
         self.PITCH_MAX_OFFSET = 300 * 0.4
         self.YAW_MAX_OFFSET   = 300 * 0.3
@@ -33,28 +36,36 @@ class MotionController:
 
         encoder_ticks = sensor_data.get("encoder_ticks", 0)
 
-        # --- CEK DOUBLE CLICK DARI GCS ---
+        # Paksa reset ke 0 dan set target awal ke 0 pada boot pertama kali
+        if self.target_encoder is None:
+            self.target_encoder = 0.0
+            stm32.send_zeroing()
+            print("[MOTION] === BOOT: ENCODER & TARGET DI-RESET KE 0 ===")
+
+        # --- BACA INPUT DARI GCS (TERMASUK YANG DI-BYPASS DARI MAIN_SHIP) ---
         zero_encoder_cmd = cmds.get("zero_encoder", False)
         max_encoder_cmd = cmds.get("max_encoder", False)
 
-        # 1. Kalau R3 di-double-click (Set Titik 0)
-        if zero_encoder_cmd:
+        # 1. PENANGKAP TOMBOL ZEROING (Tahan R3) DENGAN EDGE DETECTION
+        if zero_encoder_cmd and not self.prev_zero_cmd:
             stm32.send_zeroing()
             self.min_encoder_tick = 0
             self.target_encoder = 0.0
             encoder_ticks = 0
-            print("[MOTION] === BALLAST ZEROING (TITIK 0) DIAKTIFKAN! ===")
+            print("[MOTION] === BALLAST ZEROING (TITIK 0) DIAKTIFKAN VIA GCS! ===")
+        self.prev_zero_cmd = zero_encoder_cmd
 
-        # 2. Kalau L3 di-double-click (Set Titik Maksimal)
-        if max_encoder_cmd:
-            if encoder_ticks > 500: # Pastikan gak di-set saat spuit masih kosong
+        # 2. PENANGKAP TOMBOL MAX LIMIT (Tahan L3) DENGAN EDGE DETECTION
+        if max_encoder_cmd and not self.prev_max_cmd:
+            if encoder_ticks > 500:
                 self.max_encoder_tick = encoder_ticks
+                if self.target_encoder > self.max_encoder_tick:
+                    self.target_encoder = float(self.max_encoder_tick)
                 print(f"[MOTION] === BALLAST MAX LIMIT DIKUNCI DI: {self.max_encoder_tick} ===")
             else:
-                print("[MOTION] WARNING: Nilai max terlalu rendah, tarik spuit lebih jauh dulu!")
-
-        if self.target_encoder is None:
-            self.target_encoder = float(encoder_ticks)
+                print("[MOTION] WARNING: Nilai max terlalu rendah, tarik lebih jauh dulu!")
+        self.prev_max_cmd = max_encoder_cmd
+        # ---------------------------------------------------------------------
 
         encoder_range = self.max_encoder_tick - self.min_encoder_tick
         if encoder_range <= 0: encoder_range = 1
@@ -79,27 +90,22 @@ class MotionController:
         hold_pitch_toggle = cmds.get("hold_pitch", False)
         target_depth_auto = cmds.get("target_depth", None)
 
-        # --- LOGIKA KENDALI BALLAST ---
         if cmds.get("is_autonomous", False) and target_depth_auto is not None:
             virtual_joystick = self.pid_depth.compute(target_depth_auto, current_depth)
             self.target_encoder += (virtual_joystick * 2.5)
             self.target_encoder = max(self.min_encoder_tick, min(self.max_encoder_tick, self.target_encoder))
-            stm32.send_target_position(self.target_encoder, gripper_cmd)
-
+            stm32.send_target_position(int(self.target_encoder), gripper_cmd)
         else:
-            # === MODE DEBUG ENCODER: LIMIT DIBOBOL SEMENTARA ===
-            if ballast_cmd > 5:
-                stm32.send_manual_speed(100)
-                #print(f">>> [TEST MAJU] NILAI ENCODER SAAT INI: {encoder_ticks}")
-            elif ballast_cmd < -5:
-                stm32.send_manual_speed(-100) 
-                #print(f"<<< [TEST MUNDUR] NILAI ENCODER SAAT INI: {encoder_ticks}")
-            else:
-                stm32.send_manual_speed(0)
+            if abs(ballast_cmd) > 15:
+                if ballast_cmd > 0:
+                    step_speed = 15.0 + (ballast_cmd * 0.2)
+                else:
+                    step_speed = -15.0 + (ballast_cmd * 0.2)
 
-            if abs(gripper_cmd) > 0:
-                stm32.send_target_position(self.target_encoder, gripper_cmd)
-        # ------------------------------
+                self.target_encoder += step_speed
+                self.target_encoder = max(self.min_encoder_tick, min(self.max_encoder_tick, self.target_encoder))
+
+            stm32.send_target_position(int(self.target_encoder), gripper_cmd)
 
         ballast_speed = sensor_data.get("ballast_speed", 0)
         if ballast_speed > 5 or ballast_cmd > 5:

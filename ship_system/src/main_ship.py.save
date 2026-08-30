@@ -37,7 +37,7 @@ def main():
     logger = ShipLogger(max_logs=15)
     failsafe = FailsafeManager(timeout_threshold=1.0)
     mission = MissionManager()
-    motion = MotionController()
+    motion = MotionController(max_encoder_tick=1705.0)
 
     logger.push("Sistem ROV Almasena Inisialisasi...", "sys")
 
@@ -111,8 +111,7 @@ def main():
                 current_depth=current_depth, software_kill_active=software_kill_active,
                 logger=logger
             )
-            cmds["zero_encoder"] = gcs_commands.get("zero_encoder", False)
-            cmds["max_encoder"] = gcs_commands.get("max_encoder", False)
+
             motion_telemetry = motion.process_and_send(
                 cmds=cmds, sensor_data=sensor_data, attitude_data=attitude_data,
                 software_kill_active=software_kill_active, stm32=stm32,

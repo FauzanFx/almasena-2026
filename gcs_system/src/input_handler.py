@@ -1,5 +1,3 @@
-# almasena-dev/gcs_system/src/input_handler.py
-
 import pygame
 import json
 import os
@@ -19,16 +17,12 @@ class InputHandler:
         self.prev_auto_btn = False
         self.prev_pitch_btn = False
 
-        # Variabel untuk Double Click R3 dan L3
-        self.prev_r3_btn = False
-        self.r3_last_click_time = 0.0
-        self.r3_active_until = 0.0  # Penahan Sinyal Zeroing
+        # Variabel timer untuk menahan tombol (Hold to trigger)
+        self.r3_press_start = 0.0
+        self.r3_triggered = False
 
-        self.prev_l3_btn = False
-        self.l3_last_click_time = 0.0
-        self.l3_active_until = 0.0  # Penahan Sinyal Max Limit
-
-        self.double_click_threshold = 0.5 
+        self.l3_press_start = 0.0
+        self.l3_triggered = False
 
         self.config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gamepad_config.json")
         self.config = self.load_config()
@@ -52,8 +46,8 @@ class InputHandler:
                     "kill_switch": 8,
                     "autonomous": 9,
                     "hold_pitch": 2,
-                    "zero_encoder": 11, # R3 (Pastikan indeks di stikmu benar 11)
-                    "max_encoder": 10   # L3 (Pastikan indeks di stikmu benar 10)
+                    "zero_encoder": 11,
+                    "max_encoder": 10
                 }
             }
 
@@ -112,29 +106,33 @@ class InputHandler:
 
         now = time.time()
 
-        # --- LOGIKA DOUBLE CLICK R3 (ZEROING) DENGAN SIGNAL STRETCHER ---
+        # --- LOGIKA TAHAN R3 1.5 DETIK (ZEROING) ---
         curr_r3 = self.joystick.get_button(btn_cfg.get("zero_encoder", 11))
-        if curr_r3 and not self.prev_r3_btn:
-            if now - self.r3_last_click_time < self.double_click_threshold:
-                self.r3_active_until = now + 0.5  # Tahan sinyal selama 0.5 detik penuh
-                self.r3_last_click_time = 0.0
-            else:
-                self.r3_last_click_time = now
-        self.prev_r3_btn = curr_r3
-        
-        zero_trigger = now < self.r3_active_until
+        zero_trigger = False
+        if curr_r3:
+            if self.r3_press_start == 0.0:
+                self.r3_press_start = now
+            elif (now - self.r3_press_start > 1.5):
+                zero_trigger = True
+                self.r3_triggered = True  # Kunci sinyal agar hanya terkirim 1x
+                print("[INPUT] Sinyal Zeroing (R3) Terkirim!")
+        else:
+            self.r3_press_start = 0.0
+            self.r3_triggered = False
 
-        # --- LOGIKA DOUBLE CLICK L3 (MAXING) DENGAN SIGNAL STRETCHER ---
+        # --- LOGIKA TAHAN L3 1.5 DETIK (MAXING) ---
         curr_l3 = self.joystick.get_button(btn_cfg.get("max_encoder", 10))
-        if curr_l3 and not self.prev_l3_btn:
-            if now - self.l3_last_click_time < self.double_click_threshold:
-                self.l3_active_until = now + 0.5  # Tahan sinyal selama 0.5 detik penuh
-                self.l3_last_click_time = 0.0
-            else:
-                self.l3_last_click_time = now
-        self.prev_l3_btn = curr_l3
-        
-        max_trigger = now < self.l3_active_until
+        max_trigger = False
+        if curr_l3:
+            if self.l3_press_start == 0.0:
+                self.l3_press_start = now
+            elif (now - self.l3_press_start > 1.5):
+                max_trigger = True
+                self.l3_triggered = True  # Kunci sinyal agar hanya terkirim 1x
+                print("[INPUT] Sinyal Max Limit (L3) Terkirim!")
+        else:
+            self.l3_press_start = 0.0
+            self.l3_triggered = False
 
         return {
             "surge": surge,

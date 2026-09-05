@@ -1,25 +1,17 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 100%; height: 100%; overflow: hidden; }
 
-/* ══════════════════════════════════════════════════════════
-   DESIGN TOKENS
-   ══════════════════════════════════════════════════════════ */
-:root {
-  /* type */
+:root, [data-theme="dark"] {
   --font-ui: 'Inter', -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
+  --font-mono: 'JetBrains Mono', monospace;
 
-  /* spacing scale */
   --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px;
   --sp-4: 16px; --sp-5: 20px; --sp-6: 24px;
 
-  /* radius scale */
   --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 20px;
 
-  /* shadow */
   --shadow-panel: 0 1px 2px rgba(0,0,0,.24), 0 8px 24px -12px rgba(0,0,0,.4);
 
-  /* color — dark (default) */
   --bg-rgb: 9,13,12;
   --panel-rgb: 15,20,18;
   --card-rgb: 20,27,24;
@@ -27,11 +19,11 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
   --text-rgb: 230,237,233;
   --muted-rgb: 148,166,157;
 
-  --primary-rgb: 62,207,142;         /* #3ecf8e — soft emerald accent */
-  --primary-bright-rgb: 94,224,166;  /* lighter mint for values/highlights */
-  --primary-dim-rgb: 20,54,38;       /* deep green wash for fills/hover */
+  --primary-rgb: 62,207,142;
+  --primary-bright-rgb: 94,224,166;
+  --primary-dim-rgb: 20,54,38;
 
-  --secondary-rgb: 45,184,168;       /* soft teal, sits next to the emerald family */
+  --secondary-rgb: 45,184,168;
   --secondary-bright-rgb: 92,214,199;
 
   --warn-rgb: 224,158,63;
@@ -67,9 +59,6 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
   --card-rgb: 250,252,251;
   --border-rgb: 203,214,207;
   --text-rgb: 20,32,27;
-  /* FIX: muted text was too light (100,116,107) against white/near-white
-     panels -> low contrast, hard to read (mission log, QR status, clock).
-     Darkened for proper legibility while keeping the same green-gray hue. */
   --muted-rgb: 68,84,77;
 
   --primary-rgb: 15,157,100;
@@ -89,25 +78,28 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
 
 body {
   font-family: var(--font-ui);
+  background-color: var(--bg);
+  color: var(--text);
   transition: background-color .25s ease, color .25s ease;
 }
 
-/* ─── Scrollbar ─── */
+/* Fallback class jika tailwind utility terlambat compile */
+.bg-rov-panel { background-color: var(--panel) !important; }
+.bg-rov-card { background-color: var(--card) !important; }
+.border-rov-border { border-color: var(--border) !important; }
+
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--primary-dim); border-radius: 4px; }
 
-/* ─── Grid BG ─── */
 .grid-bg {
   background-color: var(--bg);
   background-image:
     linear-gradient(rgba(var(--primary-rgb),.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(var(--primary-rgb),.04) 1px, transparent 1px);
   background-size: 34px 34px;
-  transition: background-color .25s ease;
 }
 
-/* ─── Ocean FPV (fallback shown before/behind the live stream) ─── */
 .ocean-bg {
   background: linear-gradient(180deg,
     #040e28 0%, #071a44 18%, #0a2456 35%,
@@ -120,52 +112,9 @@ body {
   background-size: 32px 32px;
 }
 
-/* ─── Bottom cam fallback ─── */
-.bottomcam-bg {
-  background: linear-gradient(168deg, #1a1005 0%, #211608 35%, #1c1508 60%, #171005 100%);
-  background-image:
-    linear-gradient(rgba(var(--warn-rgb),.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--warn-rgb),.06) 1px, transparent 1px);
-  background-size: 18px 18px;
-}
-
-/* ─── Animations ─── */
 @keyframes scan {
   0%   { transform: translateY(-100%); }
   100% { transform: translateY(600%); }
-}
-@keyframes bob {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%       { transform: translateX(-50%) translateY(-7px); }
-}
-@keyframes particle {
-  0%   { opacity: 0; transform: translate(0, 0) scale(1); }
-  40%  { opacity: .6; }
-  100% { opacity: 0; transform: translate(var(--dx,5px), var(--dy,-52px)) scale(.5); }
-}
-@keyframes led-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: .35; transform: scale(1.7); }
-}
-@keyframes leak-flash {
-  0%, 100% { background: rgba(var(--danger-rgb),.9); border-color: var(--danger-bright); box-shadow: 0 0 22px rgba(var(--danger-bright-rgb),.4); }
-  50%       { background: rgba(var(--danger-rgb),1);   border-color: var(--danger-bright); box-shadow: 0 0 36px rgba(var(--danger-bright-rgb),.6); }
-}
-@keyframes log-slide {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes blink-rec {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: .15; }
-}
-@keyframes tbar-shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-@keyframes horizon-init {
-  from { opacity: 0; }
-  to   { opacity: 1; }
 }
 
 .scanline {
@@ -178,43 +127,12 @@ body {
   animation: scan 3.4s linear infinite;
 }
 
-.rov-arm {
-  position: absolute; bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 130px; height: 110px;
-  z-index: 4;
-  animation: bob 3.5s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.particle {
-  position: absolute;
-  width: 2px; height: 2px;
-  border-radius: 50%;
-  background: rgba(147,210,255,.5);
-  animation: particle linear infinite;
-  z-index: 2;
-}
-
 .led-dot {
   width: 7px; height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
 }
-.led-pulse { animation: led-pulse .85s ease-in-out infinite; }
 
-.leak-safe {
-  border: 1px solid var(--primary-dim);
-  background: rgba(var(--panel-rgb),.85);
-  transition: all .3s;
-}
-.leak-danger { animation: leak-flash .55s ease-in-out infinite; }
-
-/* ─── Panel / card primitives (visual hierarchy) ─── */
-.panel-surface {
-  background: var(--panel);
-  border: 1px solid var(--border);
-}
 .card {
   background: var(--card);
   border: 1px solid rgba(var(--primary-rgb),.22);
@@ -222,6 +140,7 @@ body {
   box-shadow: var(--shadow-panel);
   transition: border-color .2s ease, background-color .25s ease;
 }
+
 .section-title {
   font-family: var(--font-ui);
   font-size: 10px;
@@ -234,7 +153,6 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
-/* ─── Mode buttons ─── */
 .mode-btn {
   flex: 1;
   border: 1px solid var(--border);
@@ -271,7 +189,6 @@ body {
 .mode-btn .mb-sub { font-size: 8px; font-family: var(--font-mono); letter-spacing: .04em; color: var(--muted); }
 .mode-btn.active .mb-sub { color: var(--primary-bright); font-weight: 600; }
 
-/* ─── Thruster bars ─── */
 .tbar-bg {
   height: 7px;
   background: rgba(var(--primary-rgb),.16);
@@ -279,60 +196,37 @@ body {
   border-radius: 999px;
   overflow: hidden;
   flex: 1;
-  min-width: 0; /* FIX: prevent flex item from refusing to shrink and pushing
-                   the row wider than its card, which caused the bar to
-                   visually spill past the panel border */
-}
-.tbar-fill {
-  height: 100%; border-radius: 999px;
-  transition: width .6s cubic-bezier(.4,0,.2,1);
+  min-width: 0;
 }
 
-/* ─── HUD corner brackets ─── */
 .hud-corner { position: absolute; width: 22px; height: 22px; border-color: rgba(var(--secondary-rgb),.6); border-style: solid; pointer-events: none; z-index: 10; }
 .hud-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: var(--r-sm) 0 0 0; }
 .hud-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 var(--r-sm) 0 0; }
 .hud-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 var(--r-sm); }
 .hud-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 var(--r-sm) 0; }
 
-/* ─── Depth gauge glow ─── */
 .depth-fill-cyan  { background: linear-gradient(180deg, var(--secondary-bright), var(--secondary)); }
-.depth-fill-amber { background: linear-gradient(180deg, var(--warn-bright), var(--warn)); }
-.depth-fill-red   { background: linear-gradient(180deg, var(--danger-bright), var(--danger)); }
-
-/* ─── Stat separator ─── */
 .stat-row { border-bottom: 1px solid var(--border); }
 .stat-row:last-of-type { border-bottom: none; }
 
-/* ─── Log entry ─── */
-.log-entry { animation: log-slide .3s ease; }
 #log-terminal {
   font-family: var(--font-mono);
   color: var(--text);
 }
-/* FIX: main.js sets an inline color per log line (e.g. teal/cyan) which was
-   legible on the dark theme but too low-contrast against the light panel
-   background. Inline styles normally beat regular CSS, so we override them
-   directly with !important on every direct child/line of the terminal,
-   forcing a consistently readable color regardless of theme or the inline
-   color main.js applies. */
 #log-terminal > * {
   color: var(--text) !important;
 }
 
-/* ─── Pip border glow ─── */
 .pip-border { border: 1.5px solid rgba(var(--secondary-rgb),.5); box-shadow: var(--shadow-panel); }
 .pip-border:hover { border-color: rgba(var(--secondary-rgb),.85); }
 
-/* Hilangkan panah spinner bawaan browser pada input PID */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 input[type=number] {
-  -moz-appearance: textfield; /* Firefox */
+  -moz-appearance: textfield;
   font-family: var(--font-mono);
   background: var(--bg);
   border: 1px solid var(--border);
@@ -340,15 +234,8 @@ input[type=number] {
   text-align: center;
   outline: none;
   border-radius: var(--r-sm);
-  transition: border-color .15s ease;
-}
-input[type=number]:focus {
-  border-color: rgba(var(--primary-rgb),.7);
 }
 
-/* ══════════════════════════════════════════════════════════
-   THEME TOGGLE SWITCH
-   ══════════════════════════════════════════════════════════ */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -359,9 +246,7 @@ input[type=number]:focus {
   border-radius: 999px;
   padding: 3px 10px 3px 3px;
   user-select: none;
-  transition: border-color .2s ease, background-color .2s ease;
 }
-.theme-toggle:hover { border-color: rgba(var(--primary-rgb),.5); }
 .theme-toggle .track {
   position: relative;
   width: 30px;
@@ -369,7 +254,6 @@ input[type=number]:focus {
   border-radius: 999px;
   background: rgba(var(--primary-dim-rgb),.8);
   border: 1px solid var(--border);
-  transition: background-color .2s ease;
 }
 .theme-toggle .thumb {
   position: absolute;
@@ -379,7 +263,7 @@ input[type=number]:focus {
   height: 12px;
   border-radius: 50%;
   background: var(--primary-bright);
-  transition: transform .2s ease, background-color .2s ease;
+  transition: transform .2s ease;
 }
 [data-theme="light"] .theme-toggle .thumb {
   transform: translateX(14px);

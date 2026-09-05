@@ -1,0 +1,1456 @@
+nohup: ignoring input
+[MAIN-SHIP] Memulai Orkestrasi Sistem ROV Almasena Candrassa...
+[NET-BRIDGE] Pipa UDP aktif. Kirim ke GCS=192.168.1.15:5006 | Mendengar di port=5005
+[PIXHAWK-MAVLINK] Memindai port USB secara otomatis...
+[PIXHAWK-MAVLINK] >> Ditemukan Pixhawk di: /dev/ttyACM0
+[STM32-BALLAST] Terhubung ke STM32 via /dev/serial0!
+[PIXHAWK-MAVLINK] Mencoba menghubungkan ke /dev/ttyACM0...
+[PIXHAWK-MAVLINK] Menunggu heartbeat dari Pixhawk...
+[PIXHAWK-MAVLINK] Heartbeat diterima! Holybro Pix32 Terhubung.
+[PIXHAWK-MAVLINK] Mengubah Mode Penerbangan ke MANUAL...
+[PIXHAWK-MAVLINK] Flight Mode diubah ke: MANUAL
+[PIXHAWK-MAVLINK] Arming & Mengirim Sinyal Netral 1500us...
+[PIXHAWK-MAVLINK] Status: >>> ARMED <<<
+[PIXHAWK-MAVLINK] Inisialisasi & ESC Unlock Selesai. Siap Menerima Target Sumbu!
+[VISION-YOLO] Memuat arsitektur model dari: /home/almasena/almasena-dev/ship_system/src/models/yolov8n.pt
+[VISION-ENGINE] Pipa pengaliran data resmi berjalan aktif.
+
+
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[VISION-ENGINE] SUKSES: Kamera /dev/v4l/by-id/usb-Jieli_Technology_USB_Composite_Device-video-index0 berhasil dibuka.
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[VISION-ENGINE] SUKSES: Kamera /dev/v4l/by-id/usb-SunplusIT_Inc_USB_2.0_Camera_N2020113001-video-index0 berhasil dibuka.
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Flight Mode diubah ke: MANUAL
+[PIXHAWK-MAVLINK] Status: >>> ARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:  725 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:  725 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Flight Mode diubah ke: MANUAL
+[PIXHAWK-MAVLINK] Status: >>> ARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -192 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -278 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  199 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  152 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  207 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  192 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -192 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:  419 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:  419 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  192 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  270 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -129 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -247 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  129 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -160 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  129 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -184 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -286 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -254 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  215 | Pitch: -772 | Ballast: -71 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: -37[F[K[NET-RX LIVE] Surge:    0 | Yaw: -254 | Pitch: -929 | Ballast: -82 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: -80[F[K[NET-RX LIVE] Surge:    0 | Yaw:  160 | Pitch: -999 | Ballast: -82 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: -85[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: -999 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: -76[F[K[NET-RX LIVE] Surge:    0 | Yaw:  223 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -301 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -435 | Pitch:  749 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  239 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -349 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  137 | Pitch: 1000 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:  929 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch: -796 | Ballast: -45 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:  254 | Pitch: -999 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: -53[F[K[NET-RX LIVE] Surge:    0 | Yaw:  231 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -192 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -160 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:  623 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: 1000 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:  694 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -529 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -662 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -756 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -811 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -780 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -835 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -835 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -882 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -905 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -882 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -913 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -874 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -858 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -866 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -882 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -874 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -874 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -866 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -866 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -866 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -866 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge: -647 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -160 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -137 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -160 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -152 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -184 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -160 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -129 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw: -129 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Flight Mode diubah ke: MANUAL
+[PIXHAWK-MAVLINK] Status: >>> ARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Ballast:   0 | Grip:  0 | Z: False | M: False
+[K[STM32-STATUS] ENC: 0 | TGT: 0 | PWM: 0[F[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[PIXHAWK-MAVLINK] Status: >>> DISARMED <<<
+[K[NET-RX LIVE] Surge:    0 | Yaw:    0 | Pitch:    0 | Balla

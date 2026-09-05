@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>ROV GCS — KKI 2026 | TACTICAL DASHBOARD</title>
 
-<script src="js/tailwindcss.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="css/style.css">
 
+<!-- Tailwind CSS CDN & Config -->
+<script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
     theme: {
@@ -31,14 +31,253 @@
   }
 </script>
 
-<script>
-  // Apply saved theme before paint to avoid a flash of the wrong theme.
-  (function () {
-    const saved = localStorage.getItem('gcs-theme');
-    if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
-  })();
-</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
 
+/* ─── DARK THEME (DEFAULT) ─── */
+:root, html[data-theme="dark"] {
+  --font-ui: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px;
+  --sp-4: 16px; --sp-5: 20px; --sp-6: 24px;
+  --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 20px;
+
+  --shadow-panel: 0 1px 2px rgba(0,0,0,.24), 0 8px 24px -12px rgba(0,0,0,.4);
+
+  --bg: #090d0c;
+  --panel: #0f1412;
+  --card: #141b18;
+  --border: #28362f;
+  --text: #e6ede9;
+  --muted: #94a69d;
+
+  --primary: #3ecf8e;
+  --primary-bright: #5ee0a6;
+  --primary-dim: #143626;
+
+  --secondary: #2db8a8;
+  --secondary-bright: #5cd6c7;
+
+  --warn: #e09e3f;
+  --warn-bright: #f0b663;
+  --warn-dim: #5c3f18;
+
+  --danger: #e05a61;
+  --danger-bright: #f0787e;
+
+  --grid-line: rgba(62, 207, 142, 0.04);
+}
+
+/* ─── LIGHT THEME ─── */
+html[data-theme="light"] {
+  --shadow-panel: 0 1px 2px rgba(20,32,27,.06), 0 8px 20px -14px rgba(20,32,27,.18);
+
+  --bg: #f4f6f5;
+  --panel: #ffffff;
+  --card: #f8faf9;
+  --border: #c8d4cd;
+  --text: #121c17;
+  --muted: #53665c;
+
+  --primary: #0f9d64;
+  --primary-bright: #0c8254;
+  --primary-dim: #d5f0e2;
+
+  --secondary: #0f8f82;
+  --secondary-bright: #0c7268;
+
+  --warn: #b3690e;
+  --warn-bright: #945608;
+  --warn-dim: #f4e0c4;
+
+  --danger: #c93b42;
+  --danger-bright: #a82d33;
+
+  --grid-line: rgba(15, 157, 100, 0.06);
+}
+
+body {
+  font-family: var(--font-ui);
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.grid-bg {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+/* Direct Override Class */
+.bg-rov-panel { background-color: var(--panel) !important; }
+.bg-rov-card  { background-color: var(--card) !important; }
+.border-rov-border { border-color: var(--border) !important; }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--primary-dim); border-radius: 4px; }
+
+.ocean-bg {
+  background: linear-gradient(180deg, #040e28 0%, #071a44 18%, #0a2456 35%, #081d47 55%, #050f2a 78%, #020710 100%);
+}
+.ocean-grid {
+  background-image:
+    linear-gradient(rgba(45,184,168,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,184,168,.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+@keyframes scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(600%); }
+}
+.scanline {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 3;
+}
+.scanline::after {
+  content: '';
+  position: absolute; left: 0; right: 0; height: 64px;
+  background: linear-gradient(180deg, transparent, rgba(45,184,168,.05), transparent);
+  animation: scan 3.4s linear infinite;
+}
+
+.hud-corner { position: absolute; width: 22px; height: 22px; border-color: rgba(45,184,168,.6); border-style: solid; pointer-events: none; z-index: 10; }
+.hud-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: var(--r-sm) 0 0 0; }
+.hud-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 var(--r-sm) 0 0; }
+.hud-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 var(--r-sm); }
+.hud-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 var(--r-sm) 0; }
+
+.led-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-panel);
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.section-title {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--primary-bright);
+  text-transform: uppercase;
+  padding-bottom: var(--sp-2);
+  margin-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.mode-btn {
+  flex: 1;
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+  padding: var(--sp-2) 0;
+  font-family: var(--font-ui);
+  color: var(--text);
+}
+.mode-btn.active {
+  border-color: var(--primary);
+  background: var(--primary-dim);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+.mode-btn.active::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary-bright), transparent);
+}
+.mode-btn .mb-title { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; color: inherit; }
+.mode-btn .mb-sub { font-size: 8px; font-family: var(--font-mono); letter-spacing: .04em; color: var(--muted); }
+.mode-btn.active .mb-sub { color: var(--primary-bright); font-weight: 600; }
+
+.tbar-bg {
+  height: 7px;
+  background: var(--primary-dim);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+.depth-fill-cyan { background: linear-gradient(180deg, var(--secondary-bright), var(--secondary)); }
+.stat-row { border-bottom: 1px solid var(--border); }
+.stat-row:last-of-type { border-bottom: none; }
+
+#log-terminal { font-family: var(--font-mono); color: var(--text); }
+#log-terminal > * { color: var(--text) !important; }
+.pip-border { border: 1.5px solid var(--secondary); box-shadow: var(--shadow-panel); }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+  font-family: var(--font-mono);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--primary-bright);
+  text-align: center;
+  outline: none;
+  border-radius: var(--r-sm);
+}
+
+/* Switch Toggle UI */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px 3px 3px;
+  user-select: none;
+}
+.theme-toggle .track {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--primary-dim);
+  border: 1px solid var(--border);
+}
+.theme-toggle .thumb {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary-bright);
+  transition: transform .2s ease, background-color .2s ease;
+}
+html[data-theme="light"] .theme-toggle .thumb {
+  transform: translateX(14px);
+  background: var(--warn);
+}
+.theme-toggle .tt-label {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--muted);
+}
+</style>
 </head>
 
 <body class="w-full h-screen text-[var(--text)] flex flex-col overflow-hidden grid-bg">
@@ -47,14 +286,14 @@
 <div id="topbar" class="flex-shrink-0 h-11 bg-rov-panel border-b border-rov-border flex items-center justify-between" style="padding:0 var(--sp-4);">
   <div class="flex items-center" style="gap:var(--sp-3);">
     <span class="text-rov-em-d font-head font-bold" style="font-size:14px;letter-spacing:.14em;">KKI 2026</span>
-    <div style="width:1px;height:18px;background:var(--rov-border);"></div>
+    <div style="width:1px;height:18px;background:var(--border);"></div>
     <span class="bg-rov-card border border-rov-border rounded-md2 text-rov-em font-head font-medium" style="font-size:9.5px;padding:3px 9px;letter-spacing:.05em;">ROV-ALPHA</span>
     <span class="bg-rov-card border border-rov-border rounded-md2 text-rov-em font-head font-medium" style="font-size:9.5px;padding:3px 9px;letter-spacing:.05em;">DUAL-CAM</span>
     <span class="rounded-md2 text-rov-am font-head font-semibold" id="mode-badge" style="font-size:9.5px;padding:3px 9px;letter-spacing:.05em;background:rgba(var(--warn-dim-rgb),.5);border:1px solid var(--warn-dim);">DEPTH HOLD</span>
   </div>
   <div class="flex items-center" style="gap:var(--sp-3);">
     <button onclick="togglePIDModal(true)" class="bg-rov-card border border-rov-em-b hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 12px;letter-spacing:.03em;">⚙ PID Settings</button>
-    <div style="width:1px;height:18px;background:var(--rov-border);"></div>
+    <div style="width:1px;height:18px;background:var(--border);"></div>
     <div class="flex items-center font-mono" style="gap:var(--sp-2);font-size:10px;">
       <span id="tb-ping" class="text-rov-em">0 ms</span>
       <span class="text-[var(--muted)]">·</span>
@@ -62,7 +301,7 @@
       <span class="text-[var(--muted)]">·</span>
       <span class="text-[var(--muted)]">GCS NOMINAL</span>
     </div>
-    <div style="width:1px;height:18px;background:var(--rov-border);"></div>
+    <div style="width:1px;height:18px;background:var(--border);"></div>
     <div id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" title="Toggle dark / light mode">
       <span class="track"><span class="thumb"></span></span>
       <span class="tt-label" id="theme-label">DARK</span>
@@ -163,15 +402,15 @@
     </div>
 
     <!-- QR SCANNER CARD -->
-    <div class="card" style="padding:var(--sp-3);flex-shrink:0;border-color:rgba(var(--secondary-rgb),.4);">
-      <div class="font-head" style="font-size:9.5px;font-weight:600;color:rgba(var(--secondary-rgb),.85);letter-spacing:.1em;text-transform:uppercase;">QR Scanner</div>
+    <div class="card" style="padding:var(--sp-3);flex-shrink:0;">
+      <div class="font-head" style="font-size:9.5px;font-weight:600;color:var(--secondary);letter-spacing:.1em;text-transform:uppercase;">QR Scanner</div>
       <div id="qr-result" class="font-mono" style="margin-top:var(--sp-2);font-size:10.5px;color:var(--muted);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">MENUNGGU PEMINDAIAN</div>
     </div>
 
     <!-- MISSION LOG CARD -->
     <div class="card flex flex-col" style="padding:var(--sp-3);flex:1;min-height:0;">
       <div class="section-title" style="flex-shrink:0;">Mission Log</div>
-      <div id="log-terminal" style="flex:1;overflow-y:auto;background:rgba(var(--bg-rgb),.5);border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--sp-2);display:flex;flex-direction:column;gap:3px;min-height:0;"></div>
+      <div id="log-terminal" style="flex:1;overflow-y:auto;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);padding:var(--sp-2);display:flex;flex-direction:column;gap:3px;min-height:0;"></div>
     </div>
 
   </div>
@@ -181,7 +420,6 @@
 <!-- BOTTOM BAR -->
 <div class="flex-shrink-0 bg-rov-panel border-t border-rov-border flex items-center" style="min-height:132px;padding:var(--sp-3) var(--sp-4);gap:var(--sp-3);">
 
-  <!-- Mode Buttons -->
   <div class="flex items-stretch" style="gap:var(--sp-2);height:88px;width:180px;flex-shrink:0;">
     <button class="mode-btn active" id="btn-manual" onclick="setMode('manual')">
       <span class="mb-title">MANUAL</span>
@@ -245,13 +483,11 @@
 <div id="pid-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden" style="z-index: 9999;">
   <div class="bg-rov-panel border border-rov-border rounded-lg2 flex flex-col shadow-2xl" style="width: 420px; padding:var(--sp-5); gap:var(--sp-4); box-shadow: var(--shadow-panel), 0 0 40px rgba(var(--secondary-rgb),0.12);">
 
-    <!-- Modal Header -->
     <div class="flex justify-between items-center" style="border-bottom:1px solid var(--border);padding-bottom:var(--sp-3);">
       <span class="text-rov-em font-head font-bold" style="font-size: 13px; letter-spacing: 0.08em;">Ballast Actuator — PID Tuning</span>
       <button onclick="togglePIDModal(false)" class="text-rov-rd hover:text-rov-rd-d font-bold cursor-pointer" style="font-size: 14px;line-height:1;padding:2px;">✕</button>
     </div>
 
-    <!-- Input Parameters -->
     <div class="grid grid-cols-3" style="gap:var(--sp-3);">
       <div class="flex flex-col" style="gap:var(--sp-2);">
         <span class="font-head" style="font-size: 8.5px; font-weight:600; color: var(--muted); letter-spacing:.06em;">KP · PROPORTIONAL</span>
@@ -267,13 +503,11 @@
       </div>
     </div>
 
-    <!-- Action Buttons -->
     <div class="flex" style="gap:var(--sp-3);">
       <button onclick="sendPID()" class="flex-1 bg-rov-card border border-rov-em-b hover:bg-rov-em-b text-rov-em transition-colors rounded-md2 cursor-pointer font-head font-semibold" style="font-size: 10px; letter-spacing: 0.04em;padding:10px 0;">Apply &amp; Save PID</button>
       <button onclick="sendZeroing()" class="flex-1 border border-rov-am hover:bg-rov-am text-rov-am transition-colors rounded-md2 cursor-pointer font-head font-semibold" style="font-size: 10px; letter-spacing: 0.04em;padding:10px 0; background: rgba(var(--warn-rgb),0.1);">Zeroing Encoder</button>
     </div>
 
-    <!-- Live Graph -->
     <div class="flex flex-col" style="gap:var(--sp-2);">
       <div class="flex justify-between font-mono" style="font-size: 9px;">
         <span style="color: rgba(var(--warn-rgb),.9);">┄┄ Target Position</span>
@@ -288,20 +522,23 @@
 </div>
 
 <script>
-  // ── DARK / LIGHT THEME TOGGLE ──
-  function applyThemeLabel() {
-    const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('gcs-theme', theme);
     const label = document.getElementById('theme-label');
     if (label) label.textContent = theme === 'light' ? 'LIGHT' : 'DARK';
   }
+
   window.toggleTheme = function () {
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    const next = isLight ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('gcs-theme', next);
-    applyThemeLabel();
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+    applyTheme(nextTheme);
   };
-  applyThemeLabel();
+
+  (function () {
+    const saved = localStorage.getItem('gcs-theme') || 'dark';
+    applyTheme(saved);
+  })();
 </script>
 
 <script src="js/main.js"></script>

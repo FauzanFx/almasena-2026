@@ -10,6 +10,16 @@
     pidChartData: []
   };
 
+  // Read a theme color (as an rgb()/hex string) from the live CSS variables,
+  // so the PID chart follows the current dark/light theme.
+  function themeColor(varName) {
+    return getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+  }
+  function themeRgba(rgbVarName, alpha) {
+    const triplet = getComputedStyle(document.documentElement).getPropertyValue(rgbVarName).trim();
+    return `rgba(${triplet},${alpha})`;
+  }
+
   // 1. Mission Clock
   setInterval(() => {
     S.missionSec++;
@@ -28,15 +38,15 @@
     if (!logTerminal) return;
 
     const colors = {
-      info: "rgba(52,211,153,.6)",
-      warn: "rgba(245,158,11,.65)",
-      err: "rgba(239,68,68,.7)",
-      sys: "rgba(6,182,212,.55)",
+      info: themeRgba("--primary-bright-rgb", .65),
+      warn: themeRgba("--warn-rgb", .7),
+      err: themeRgba("--danger-rgb", .75),
+      sys: themeRgba("--secondary-rgb", .6),
     };
 
     const el = document.createElement("div");
     el.style.cssText = "display:flex;gap:5px;font-size:7px;letter-spacing:.04em;line-height:1.65;";
-    el.innerHTML = `<span style="color:rgba(52,211,153,.28);flex-shrink:0;">${ts}</span><span style="color:${colors[type] || colors.info};">${msg}</span>`;
+    el.innerHTML = `<span style="color:${themeRgba("--primary-bright-rgb", .3)};flex-shrink:0;">${ts}</span><span style="color:${colors[type] || colors.info};">${msg}</span>`;
 
     logTerminal.appendChild(el);
     while (logTerminal.children.length > 30) {
@@ -118,7 +128,7 @@
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.strokeStyle = "rgba(6,182,212,0.15)";
+    ctx.strokeStyle = themeRgba("--secondary-rgb", .18);
     ctx.lineWidth = 0.5;
     ctx.beginPath();
     for (let i = 0; i < canvas.width; i += 20) { ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); }
@@ -138,9 +148,9 @@
 
     const step = canvas.width / 59;
 
-    // 1. PLOT TARGET (Garis Putus-putus Oranye)
+    // 1. PLOT TARGET (garis putus-putus, warna amber redup)
     ctx.beginPath();
-    ctx.strokeStyle = "rgba(245,158,11,0.8)";
+    ctx.strokeStyle = themeRgba("--warn-rgb", .85);
     ctx.setLineDash([3, 3]);
     ctx.lineWidth = 1;
     S.pidChartData.forEach((pt, i) => {
@@ -152,9 +162,9 @@
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // 2. PLOT ACTUAL (Garis Solid Cyan)
+    // 2. PLOT ACTUAL (garis solid, warna sage/secondary)
     ctx.beginPath();
-    ctx.strokeStyle = "#22d3ee";
+    ctx.strokeStyle = themeColor("--secondary-bright");
     ctx.lineWidth = 1.5;
     S.pidChartData.forEach((pt, i) => {
       const x = i * step;
@@ -254,7 +264,7 @@
     const depthVal = document.getElementById("depth-val");
     const depthFill = document.getElementById("depth-fill");
     const qsDepth = document.getElementById("qs-depth");
-    if (depthVal) depthVal.innerHTML = `${depth.toFixed(1)}<br/><span style="font-size:6px;color:rgba(6,182,212,.4);">m</span>`;
+    if (depthVal) depthVal.innerHTML = `${depth.toFixed(1)}<br/><span style="font-size:6px;color:${themeRgba("--secondary-rgb", .5)};">m</span>`;
     if (depthFill) depthFill.style.height = `${Math.min(100, Math.max(0, (depth / 8) * 100))}%`;
     if (qsDepth) qsDepth.textContent = `${depth.toFixed(1)}m`;
 
@@ -343,7 +353,7 @@
     if (scannedQr) {
       if (qrResult) {
         qrResult.textContent = scannedQr;
-        qrResult.style.color = "#34d399";
+        qrResult.style.color = themeColor("--primary-bright");
       }
       if (scannedQr !== S.lastQrResult) {
         S.lastQrResult = scannedQr;

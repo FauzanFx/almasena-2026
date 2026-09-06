@@ -39,15 +39,15 @@ class MissionManager:
 
         if not self.is_autonomous:
             self.auto_phase = "MANUAL"
-            
-            # --- FIX HARDWARE: TUKAR SURGE & YAW (Mode Manual) ---
-            cmds["surge"] = gcs_commands.get("yaw", 0)
-            cmds["yaw"] = gcs_commands.get("surge", 0)
-            # -----------------------------------------------------
-            
+
+            # --- MAPPING NORMAL: TIDAK DITUKAR ---
+            cmds["surge"] = gcs_commands.get("surge", 0)
+            cmds["yaw"] = gcs_commands.get("yaw", 0)
             cmds["pitch"] = gcs_commands.get("pitch", 0)
-            cmds["ballast_cmd"] = gcs_commands.get("ballast_cmd", 0)
-            cmds["gripper_cmd"] = gcs_commands.get("gripper_cmd", 0)
+            
+            # --- FIX: AMAN DARI PERBEDAAN NAMA KEY GCS ---
+            cmds["ballast_cmd"] = gcs_commands.get("ballast_cmd", gcs_commands.get("ballast", 0))
+            cmds["gripper_cmd"] = gcs_commands.get("gripper_cmd", gcs_commands.get("grip", gcs_commands.get("Grip", 0)))
 
         else:
             if vision_data.get("target_detected", False):

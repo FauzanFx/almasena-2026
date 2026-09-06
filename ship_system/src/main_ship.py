@@ -1,5 +1,3 @@
-# almasena-dev/ship_system/src/main_ship.py
-
 import os
 import sys
 import time
@@ -86,7 +84,22 @@ def main():
 
             software_kill_active = failsafe.update(gcs_commands, logger, pixhawk)
 
-            # --- RENDER DASHBOARD (1Hz) ---
+            cmds = mission.update(
+                gcs_commands=gcs_commands, vision_data=vision_data,
+                current_depth=current_depth, software_kill_active=software_kill_active,
+                logger=logger
+            )
+            cmds["zero_encoder"] = gcs_commands.get("zero_encoder", False)
+            cmds["max_encoder"] = gcs_commands.get("max_encoder", False)
+
+            # Proses gerak & kalkulasi PID IMU
+            motion_telemetry = motion.process_and_send(
+                cmds=cmds, sensor_data=sensor_data, attitude_data=attitude_data,
+                software_kill_active=software_kill_active, stm32=stm32,
+                pixhawk=pixhawk, logger=logger
+            )
+
+            # --- RENDER DASHBOARD TERMINAL LIVE (10Hz / 0.1s) ---
             if loop_start - last_debug_print > 0.1:
                 srg = gcs_commands.get('surge', 0)
                 yw = gcs_commands.get('yaw', 0)
@@ -100,24 +113,16 @@ def main():
                 t_tgt = sensor_data.get('target_stm32', 0)
                 t_pwm = sensor_data.get('pwm_stm32', 0)
 
-                # Cetak NET-RX lalu STM32 di bawahnya, kemudian kursor naik
-                print(f"\r\033[K[NET-RX LIVE] Surge: {srg:4} | Yaw: {yw:4} | Pitch: {pch:4} | Ballast: {blst:3} | Grip: {grp:2} | Z: {z_cmd} | M: {m_cmd}")
+                cur_hdg = attitude_data.get("heading", 0.0)
+                cur_pch = attitude_data.get("pitch", 0.0)
+                p_status = "HOLD" if motion_telemetry.get("pitch_hold", False) else "MAN"
+                h_status = "HOLD" if motion_telemetry.get("heading_hold", False) else "MAN"
+
+                # Cetak baris NET-RX & IMU, lalu STM32 di bawahnya, kemudian kursor naik
+                print(f"\r\033[K[NET-RX LIVE] Srg:{srg:4} | Yaw:{yw:5} | Pch:{pch:5} | Bal:{blst:3} | Grp:{grp:2} | Z:{z_cmd} M:{m_cmd} | IMU Hdg:{cur_hdg:5.1f}° [{h_status}] | Pch:{cur_pch:5.1f}° [{p_status}]")
                 print(f"\r\033[K[STM32-STATUS] ENC: {t_enc} | TGT: {t_tgt} | PWM: {t_pwm}\033[F", end="", flush=True)
 
                 last_debug_print = loop_start
-
-            cmds = mission.update(
-                gcs_commands=gcs_commands, vision_data=vision_data,
-                current_depth=current_depth, software_kill_active=software_kill_active,
-                logger=logger
-            )
-            cmds["zero_encoder"] = gcs_commands.get("zero_encoder", False)
-            cmds["max_encoder"] = gcs_commands.get("max_encoder", False)
-            motion_telemetry = motion.process_and_send(
-                cmds=cmds, sensor_data=sensor_data, attitude_data=attitude_data,
-                software_kill_active=software_kill_active, stm32=stm32,
-                pixhawk=pixhawk, logger=logger
-            )
 
             combined_telemetry = {
                 **sensor_data, **attitude_data, **motion_telemetry,

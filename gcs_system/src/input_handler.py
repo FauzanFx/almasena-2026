@@ -17,7 +17,6 @@ class InputHandler:
         self.prev_auto_btn = False
         self.prev_pitch_btn = False
 
-        # Variabel timer untuk menahan tombol (Hold to trigger)
         self.r3_press_start = 0.0
         self.r3_triggered = False
 
@@ -30,26 +29,32 @@ class InputHandler:
 
     def load_config(self):
         if os.path.exists(self.config_path):
-            with open(self.config_path, "r") as f:
-                return json.load(f)
-        else:
-            return {
-                "axes": {
-                    "surge": {"axis": 3, "invert": True},
-                    "yaw": {"axis": 0, "invert": False},
-                    "pitch": {"axis": 2, "invert": True},
-                    "ballast": {"axis": 1, "invert": False}
-                },
-                "buttons": {
-                    "gripper_close": 3,
-                    "gripper_open": 1,
-                    "kill_switch": 8,
-                    "autonomous": 9,
-                    "hold_pitch": 2,
-                    "zero_encoder": 11,
-                    "max_encoder": 10
-                }
+            try:
+                with open(self.config_path, "r") as f:
+                    cfg = json.load(f)
+                    print(f"[INPUT-HANDLER] Konfigurasi dimuat dari: {self.config_path}")
+                    return cfg
+            except Exception as e:
+                print(f"[INPUT-HANDLER] Gagal parsing {self.config_path}: {e}")
+
+        print("[INPUT-HANDLER] Menggunakan konfigurasi fallback default!")
+        return {
+            "axes": {
+                "surge": {"axis": 1, "invert": True},
+                "yaw": {"axis": 0, "invert": False},
+                "pitch": {"axis": 4, "invert": True},
+                "ballast": {"axis": -1, "invert": False}
+            },
+            "buttons": {
+                "gripper_close": 4,
+                "gripper_open": 5,
+                "ballast_in": 1,
+                "ballast_out": 3,
+                "kill_switch": 8,
+                "autonomous": 9,
+                "hold_pitch": 0,
             }
+        }
 
     def check_connection(self):
         if pygame.joystick.get_count() > 0:
@@ -61,12 +66,21 @@ class InputHandler:
             return False
 
     def read_axis(self, name):
-        cfg = self.config["axes"].get(name, {"axis": 0, "invert": False})
-        val = self.joystick.get_axis(cfg["axis"])
-        if abs(val) < 0.1:
+        if not self.joystick:
             return 0
+
+        cfg = self.config["axes"].get(name, {"axis": -1, "invert": False})
+        axis_idx = cfg.get("axis", -1)
+
+        if axis_idx < 0 or axis_idx >= self.joystick.get_numaxes():
+            return 0
+
+        val = self.joystick.get_axis(axis_idx)
+        if abs(val) < 0.15:
+            return 0
+
         scaled = int(val * 1000)
-        return -scaled if cfg["invert"] else scaled
+        return -scaled if cfg.get("invert", False) else scaled
 
     def get_commands(self):
         pygame.event.pump()
@@ -82,54 +96,75 @@ class InputHandler:
         surge = self.read_axis("surge")
         yaw = self.read_axis("yaw")
         pitch = self.read_axis("pitch")
-        ballast_cmd = int(self.read_axis("ballast") / 10)
 
-        btn_cfg = self.config["buttons"]
-        grip_close = self.joystick.get_button(btn_cfg.get("gripper_close", 3))
-        grip_open = self.joystick.get_button(btn_cfg.get("gripper_open", 1))
+        btn_cfg = self.config.get("buttons", {})
+        num_btns = self.joystick.get_numbuttons()
+
+        def get_btn(key, fallback_idx):
+            idx = btn_cfg.get(key, fallback_idx)
+            return self.joystick.get_button(idx) if 0 <= idx < num_btns else 0
+
+        # --- LOGIKA GRIPPER (Button 4 & 5) ---
+        grip_close = get_btn("gripper_close", 4)  # Button 4
+        grip_open  = get_btn("gripper_open", 5)   # Button 5
         gripper_cmd = int(grip_open) - int(grip_close)
 
-        curr_kill = self.joystick.get_button(btn_cfg.get("kill_switch", 8))
+        # --- LOGIKA BALLAST DARI TOMBOL (Button 2 & 1) ---
+        # Mengirim sinyal kecepatan ballast (misal ±100 pwm) saat tombol ditahan
+        ballast_fill  = get_btn("ballast_in", 2)   # Button 2 (Mengisi / Maju)
+        ballast_drain = get_btn("ballast_out", 1)  # Button 1 (Membuang / Mundur)
+        ballast_cmd = 0
+        if ballast_fill:
+            ballast_cmd = 100
+        elif ballast_drain:
+            ballast_cmd = -100
+
+        # --- TOGGLE BUTTONS ---
+        curr_kill = get_btn("kill_switch", 8)
         if curr_kill and not self.prev_kill_btn:
             self.kill_toggle = not self.kill_toggle
+            print(f"\n[INPUT] Failsafe Kill: {'AKTIF' if self.kill_toggle else 'NONAKTIF'}")
         self.prev_kill_btn = curr_kill
 
-        curr_auto = self.joystick.get_button(btn_cfg.get("autonomous", 9))
+        curr_auto = get_btn("autonomous", 9)
         if curr_auto and not self.prev_auto_btn:
             self.autonomous_toggle = not self.autonomous_toggle
+            print(f"\n[INPUT] Mode Otonom: {'AKTIF' if self.autonomous_toggle else 'MANUAL'}")
         self.prev_auto_btn = curr_auto
 
-        curr_pitch = self.joystick.get_button(btn_cfg.get("hold_pitch", 2))
+        curr_pitch = get_btn("hold_pitch", 3)
         if curr_pitch and not self.prev_pitch_btn:
             self.hold_pitch_toggle = not self.hold_pitch_toggle
+            state_str = "AKTIF (HOLD)" if self.hold_pitch_toggle else "NONAKTIF (MANUAL)"
+            print(f"\n[INPUT] Status Pitch Hold: >>> {state_str} <<<")
         self.prev_pitch_btn = curr_pitch
 
         now = time.time()
 
-        # --- LOGIKA TAHAN R3 1.5 DETIK (ZEROING) ---
-        curr_r3 = self.joystick.get_button(btn_cfg.get("zero_encoder", 11))
+        # R3 (Zeroing)
+        curr_r3 = get_btn("zero_encoder", 11)
         zero_trigger = False
         if curr_r3:
             if self.r3_press_start == 0.0:
                 self.r3_press_start = now
-            elif (now - self.r3_press_start > 1.5):
+            elif (now - self.r3_press_start > 1.5) and not self.r3_triggered:
                 zero_trigger = True
-                self.r3_triggered = True  # Kunci sinyal agar hanya terkirim 1x
-                print("[INPUT] Sinyal Zeroing (R3) Terkirim!")
+                self.r3_triggered = True
+                print("\n[INPUT] Sinyal Zeroing (R3) Terkirim!")
         else:
             self.r3_press_start = 0.0
             self.r3_triggered = False
 
-        # --- LOGIKA TAHAN L3 1.5 DETIK (MAXING) ---
-        curr_l3 = self.joystick.get_button(btn_cfg.get("max_encoder", 10))
+        # L3 (Maxing)
+        curr_l3 = get_btn("max_encoder", 10)
         max_trigger = False
         if curr_l3:
             if self.l3_press_start == 0.0:
                 self.l3_press_start = now
-            elif (now - self.l3_press_start > 1.5):
+            elif (now - self.l3_press_start > 1.5) and not self.l3_triggered:
                 max_trigger = True
-                self.l3_triggered = True  # Kunci sinyal agar hanya terkirim 1x
-                print("[INPUT] Sinyal Max Limit (L3) Terkirim!")
+                self.l3_triggered = True
+                print("\n[INPUT] Sinyal Max Limit (L3) Terkirim!")
         else:
             self.l3_press_start = 0.0
             self.l3_triggered = False

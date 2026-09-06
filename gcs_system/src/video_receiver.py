@@ -20,13 +20,13 @@ class VideoReceiver:
     def __init__(self, port_front=5000, port_bottom=5001):
         self.port_front = port_front
         self.port_bottom = port_bottom
-        
+
         # Shared memory untuk frame terakhir
         self.shared_frames = {
             "front": None,
             "bottom": None
         }
-        
+
         # State QR hasil decode GCS
         self.qr_state = {
             "qr_data": "",
@@ -41,13 +41,13 @@ class VideoReceiver:
     def start(self):
         """Menyalakan thread penerima video di background"""
         self.is_running = True
-        
+
         self.thread_front = threading.Thread(target=self._receiver_worker, args=(self.port_front, "front"))
         self.thread_bottom = threading.Thread(target=self._receiver_worker, args=(self.port_bottom, "bottom"))
-        
+
         self.thread_front.daemon = True
         self.thread_bottom.daemon = True
-        
+
         self.thread_front.start()
         self.thread_bottom.start()
         print(f"[GCS-VIDEO] Modul penerima & QR Decoder aktif (Port: {self.port_front}, {self.port_bottom})")
@@ -68,21 +68,21 @@ class VideoReceiver:
                 frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
                 if frame is not None:
-                    # Injeksi Decoding QR khusus untuk kamera bawah
-                    if camera_key == "bottom" and (time.time() - last_decode_time > 0.2):
+                    # Injeksi Decoding QR untuk KEDUA kamera
+                    if time.time() - last_decode_time > 0.2:
                         last_decode_time = time.time()
                         decoded_objects = decode(frame)
-                        
+
                         with self.memory_lock:
                             if decoded_objects:
                                 obj = decoded_objects[0]
                                 qr_string = obj.data.decode('utf-8')
                                 rect = obj.rect
                                 frame_height, frame_width = frame.shape[:2]
-                                
+
                                 # Format normalisasi: x_norm, y_norm, w_norm, h_norm
                                 self.qr_state["qr_data"] = qr_string
-                                self.qr_state["qr_camera"] = "bottom"
+                                self.qr_state["qr_camera"] = camera_key  # Dinamis: mencatat kamera mana yang mendeteksi
                                 self.qr_state["qr_bbox"] = [
                                     rect.left / frame_width,
                                     rect.top / frame_height,
@@ -91,11 +91,13 @@ class VideoReceiver:
                                 ]
                                 self.last_qr_time = time.time()
                             else:
-                                # Hilangkan state QR jika tidak terdeteksi selama lebih dari 1 detik
-                                if time.time() - self.last_qr_time > 1.0:
-                                    self.qr_state["qr_data"] = ""
-                                    self.qr_state["qr_bbox"] = []
-                                    self.qr_state["qr_camera"] = ""
+                                # Pengaman: Hanya izinkan kamera penemu (atau jika kosong) yang bisa mereset state
+                                # agar kamera depan & bawah tidak saling hapus data.
+                                if self.qr_state["qr_camera"] == camera_key or self.qr_state["qr_camera"] == "":
+                                    if time.time() - self.last_qr_time > 1.0:
+                                        self.qr_state["qr_data"] = ""
+                                        self.qr_state["qr_bbox"] = []
+                                        self.qr_state["qr_camera"] = ""
 
                     # Simpan frame ke shared memory
                     with self.memory_lock:

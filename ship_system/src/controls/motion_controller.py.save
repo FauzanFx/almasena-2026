@@ -1,5 +1,3 @@
-# ship_system/src/controls/motion_controller.py
-
 from controls.pid_controller import MiniPID
 
 def clamp(val, min_val=1100, max_val=1900):
@@ -7,9 +5,9 @@ def clamp(val, min_val=1100, max_val=1900):
 
 class MotionController:
     def __init__(self):
-        self.pid_depth = MiniPID(kp=80.0, ki=1.0,  kd=5.0,  output_limits=(-100, 100))
-        self.pid_pitch = MiniPID(kp=2.5,  ki=0.05, kd=1.5,  output_limits=(-150, 150))
-        self.pid_yaw   = MiniPID(kp=2.0,  ki=0.0,  kd=0.2,  output_limits=(-100, 100))
+        self.pid_depth   = MiniPID(kp=80.0, ki=1.0,  kd=5.0,  output_limits=(-100, 100))
+        self.pid_pitch   = MiniPID(kp=3.0,  ki=0.1,  kd=0.5,  output_limits=(-150, 150))
+        self.pid_yaw     = MiniPID(kp=2.0,  ki=0.0,  kd=0.2,  output_limits=(-100, 100))
 
         self.target_depth = 0.0
         self.target_heading = 0.0
@@ -21,12 +19,13 @@ class MotionController:
         self.last_pitch_effort = 0.0
 
         self.SURGE_MAX_OFFSET = 400 * 0.5
-        self.PITCH_MAX_OFFSET = 300 * 0.4
+        self.PITCH_MAX_OFFSET = 300 * 0.3
         self.YAW_MAX_OFFSET   = 300 * 0.5
 
     def process_and_send(self, cmds: dict, sensor_data: dict, attitude_data: dict,
                          software_kill_active: bool, stm32, pixhawk, logger) -> dict:
 
+        # Failsafe kill switch
         if software_kill_active:
             pixhawk.emergency_disarm_stop()
             stm32.send_manual_speed(0)
@@ -46,15 +45,19 @@ class MotionController:
         target_depth_auto = cmds.get("target_depth", None)
 
         pwm_speed = 0
+
+        # Hitung target kecepatan ballast
         if cmds.get("is_autonomous", False) and target_depth_auto is not None:
             pwm_speed = int(self.pid_depth.compute(target_depth_auto, current_depth))
         else:
             if abs(ballast_cmd) > 15:
                 pwm_speed = int(ballast_cmd)
 
+        # Kirim perintah mentah ke mikrokontroler
         stm32.send_manual_speed(pwm_speed)
-        stm32.send_target_position(0, gripper_cmd)
+        stm32.send_target_position(0, gripper_cmd) 
 
+        # Update status GUI
         if pwm_speed > 5:
             ballast_status_str = "MENGISI"
         elif pwm_speed < -5:
@@ -62,67 +65,40 @@ class MotionController:
         else:
             ballast_status_str = "IDLE"
 
-        # --- KALKULASI PITCH & HEAVE ---
+        # Kalkulasi pergerakan Pixhawk
         raw_p = float(cmds.get("pitch", 0))
-
-        # Transisi toggle tombol hold pitch
-        if hold_pitch_toggle and not self.prev_hold_pitch_toggle:
-            self.target_pitch = current_pitch
-            self.pitch_baseline = self.last_pitch_effort
-            self.pid_pitch.reset()
-            if logger:
-                logger.push(f"[CTRL] Pitch Hold AKTIF di {self.target_pitch:.1f}°", "ctrl")
-        elif not hold_pitch_toggle and self.prev_hold_pitch_toggle:
-            self.target_pitch = 0.0
-            self.pitch_baseline = 0.0
-            self.pid_pitch.reset()
-            if logger:
-                logger.push("[CTRL] Pitch Hold NONAKTIF -> Target kembali 0.0°", "ctrl")
-
-        if abs(raw_p) > 50:
-            pitch_axis = (raw_p / 1000.0) * self.PITCH_MAX_OFFSET
-            self.last_pitch_effort = pitch_axis
-            self.pid_pitch.reset()
-            if hold_pitch_toggle:
+        if hold_pitch_toggle:
+            if not self.prev_hold_pitch_toggle:
                 self.target_pitch = current_pitch
+                self.pitch_baseline = self.last_pitch_effort
+                self.pid_pitch.reset()
+            pitch_axis = self.pitch_baseline + self.pid_pitch.compute(self.target_pitch, current_pitch)
         else:
-            effort = self.pid_pitch.compute(self.target_pitch, current_pitch)
-            pitch_axis = self.pitch_baseline + effort
+            if abs(raw_p) > 50: pitch_axis = (raw_p / 1000.0) * self.PITCH_MAX_OFFSET
+            else: pitch_axis = self.pid_pitch.compute(0.0, current_pitch)
             self.last_pitch_effort = pitch_axis
-
         self.prev_hold_pitch_toggle = hold_pitch_toggle
 
-        # --- KALKULASI YAW ---
         raw_y = float(cmds.get("yaw", 0))
         if abs(raw_y) > 50:
-            if self.heading_hold_active and logger:
-                logger.push(f"[CTRL] Belok manual (Yaw: {int(raw_y)})", "ctrl")
             self.heading_hold_active = False
-            yaw_axis = -(raw_y / 1000.0) * self.YAW_MAX_OFFSET
-            self.target_heading = current_heading
-            self.pid_yaw.reset()
+            yaw_axis = (raw_y / 1000.0) * self.YAW_MAX_OFFSET
         else:
             if not self.heading_hold_active:
                 self.target_heading = current_heading
                 self.heading_hold_active = True
                 self.pid_yaw.reset()
-                if logger:
-                    logger.push(f"[CTRL] Heading Hold TERKUNCI di {self.target_heading:.1f}°", "ctrl")
-
-            err_heading = (self.target_heading - current_heading + 180) % 360 - 180
-            yaw_axis = self.pid_yaw.compute(0, -err_heading)
+            yaw_axis = self.pid_yaw.compute(self.target_heading, current_heading)
 
         surge_axis = (float(cmds.get("surge", 0)) / 1000.0) * self.SURGE_MAX_OFFSET
 
         pixhawk.send_movement_target(
-            pitch=1500, roll=1500,
-            heave=clamp(1500 + pitch_axis),
-            yaw=clamp(1500 + yaw_axis),
-            surge=clamp(1500 + surge_axis)
+            pitch=1500, roll=1500, heave=clamp(1500 + pitch_axis),
+            yaw=clamp(1500 + yaw_axis), surge=clamp(1500 + surge_axis)
         )
 
         return {
-            "ballast_pct": 0,
+            "ballast_pct": 0, 
             "ballast_status": ballast_status_str,
             "depth_hold": False,
             "heading_hold": self.heading_hold_active,

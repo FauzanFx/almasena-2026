@@ -21,10 +21,7 @@
           'rov-rd': 'var(--danger)', 'rov-rd-d': 'var(--danger-bright)',
           'rov-bg': 'var(--bg)', 'rov-panel': 'var(--panel)', 'rov-card': 'var(--card)', 'rov-border': 'var(--border)',
         },
-        fontFamily: {
-          mono: ['"JetBrains Mono"', 'monospace'],
-          head: ['Inter', 'sans-serif'],
-        },
+        fontFamily: { mono: ['"JetBrains Mono"', 'monospace'], head: ['Inter', 'sans-serif'] },
         borderRadius: { md2: '10px', lg2: '16px' }
       }
     }
@@ -32,7 +29,6 @@
 </script>
 
 <script>
-  // Apply saved theme before paint to avoid a flash of the wrong theme.
   (function () {
     const saved = localStorage.getItem('gcs-theme');
     if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
@@ -53,6 +49,9 @@
     <span class="rounded-md2 text-rov-am font-head font-semibold" id="mode-badge" style="font-size:9.5px;padding:3px 9px;letter-spacing:.05em;background:rgba(var(--warn-dim-rgb),.5);border:1px solid var(--warn-dim);">DEPTH HOLD</span>
   </div>
   <div class="flex items-center" style="gap:var(--sp-3);">
+    <button onclick="takeScreenshot()" class="bg-rov-card border border-rov-border hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 10px;letter-spacing:.03em;">📸 Screenshot</button>
+    <button id="btn-autolog" onclick="toggleAutoLog()" class="bg-rov-card border border-rov-border hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 10px;letter-spacing:.03em;">⏺ Auto-Log: OFF</button>
+    <div style="width:1px;height:18px;background:var(--rov-border);"></div>
     <button onclick="togglePIDModal(true)" class="bg-rov-card border border-rov-em-b hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 12px;letter-spacing:.03em;">⚙ PID Settings</button>
     <div style="width:1px;height:18px;background:var(--rov-border);"></div>
     <div class="flex items-center font-mono" style="gap:var(--sp-2);font-size:10px;">
@@ -70,8 +69,71 @@
   </div>
 </div>
 
+<!-- TOP INFO BAR -->
+<div id="info-bar" class="flex-shrink-0 bg-rov-panel border-b border-rov-border flex items-center justify-between" style="height:26px;padding:0 var(--sp-4);">
+  <div class="flex items-center font-mono" style="gap:var(--sp-2);font-size:9.5px;color:var(--muted);letter-spacing:.04em;">
+    <span>TIM: <span class="text-rov-em-d font-semibold">GAMANTARAY ALMASENA CANDRASSSA</span></span>
+    <span>·</span>
+    <span>PT: <span class="text-rov-em-d font-semibold">UNIVERSITAS GADJAH MADA</span></span>
+  </div>
+  <div class="font-mono" id="info-daydate" style="font-size:9.5px;color:var(--muted);letter-spacing:.04em;">--- , -- ---- ----</div>
+</div>
+
 <!-- MAIN ROW -->
 <div class="flex flex-1 overflow-hidden min-h-0" style="gap:var(--sp-3);padding:var(--sp-3);">
+
+  <!-- LEFT SIDEBAR: ROV Design + Trajectory Map + Replay (evenly split, no overlap) -->
+  <div class="w-64 flex-shrink-0 bg-rov-panel border border-rov-border rounded-lg2 flex flex-col overflow-hidden min-h-0" style="padding:var(--sp-3);gap:var(--sp-3);box-shadow:var(--shadow-panel);">
+
+    <!-- ROV DESIGN / AXIS CARD -->
+    <div class="card flex flex-col" style="padding:var(--sp-3);flex:1;min-height:0;">
+      <div class="section-title" style="flex-shrink:0;">ROV Design</div>
+      <div style="position:relative;width:100%;flex:1;min-height:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;display:flex;align-items:center;justify-content:center;">
+        <img src="/assets/rov_design.png" alt="ROV Design" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+        <span class="font-mono" style="display:none;font-size:9px;color:var(--muted);">ROV DESIGN IMAGE</span>
+        <svg viewBox="0 0 60 60" style="position:absolute;bottom:4px;right:4px;width:34px;height:34px;">
+          <line x1="30" y1="30" x2="52" y2="30" stroke="var(--danger-bright)" stroke-width="2"/>
+          <text x="53" y="33" font-size="7" fill="var(--danger-bright)">X</text>
+          <line x1="30" y1="30" x2="30" y2="8" stroke="var(--primary-bright)" stroke-width="2"/>
+          <text x="26" y="6" font-size="7" fill="var(--primary-bright)">Y</text>
+          <circle cx="30" cy="30" r="3" fill="var(--secondary-bright)"/>
+          <text x="34" y="42" font-size="7" fill="var(--secondary-bright)">Z</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- TRAJECTORY MAP CARD -->
+    <div class="card flex flex-col" style="padding:var(--sp-3);flex:1;min-height:0;">
+      <div class="section-title flex items-center justify-between" style="flex-shrink:0;">
+        <span>Trajectory Map</span>
+        <div class="flex" style="gap:4px;">
+          <button id="btn-traj-h" onclick="setTrajView('h')" class="traj-view-btn active" style="font-family:var(--font-mono);font-size:8px;padding:2px 7px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;letter-spacing:.04em;">HORZ</button>
+          <button id="btn-traj-v" onclick="setTrajView('v')" class="traj-view-btn" style="font-family:var(--font-mono);font-size:8px;padding:2px 7px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;letter-spacing:.04em;">VERT</button>
+        </div>
+      </div>
+      <div id="traj-canvas-wrap" style="position:relative;width:100%;flex:1;min-height:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;">
+        <canvas id="traj-canvas" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+      </div>
+      <div class="flex justify-between font-mono" style="font-size:8px;margin-top:6px;flex-shrink:0;color:var(--muted);">
+        <span><span style="color:var(--primary-bright);">●</span> Start (S)</span>
+        <span><span style="color:var(--secondary-bright);">—</span> Path</span>
+        <span><span style="color:var(--warn-bright);">●</span> End (E)</span>
+      </div>
+    </div>
+
+    <!-- REPLAY CONTROLLER CARD -->
+    <div class="card flex flex-col justify-center" style="padding:var(--sp-3);flex:1;min-height:0;">
+      <div class="section-title" style="flex-shrink:0;">Replay Controller</div>
+      <div class="flex items-center justify-center" style="gap:var(--sp-3);margin-bottom:8px;flex-shrink:0;">
+        <button onclick="replayControl('prev')" class="font-mono" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:4px 8px;cursor:pointer;font-size:11px;">⏮</button>
+        <button id="btn-replay-play" onclick="replayControl('play')" class="font-mono" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:4px 10px;cursor:pointer;font-size:11px;">▶</button>
+        <button onclick="replayControl('next')" class="font-mono" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:4px 8px;cursor:pointer;font-size:11px;">⏭</button>
+      </div>
+      <input id="replay-seek" type="range" min="0" max="100" value="0" style="width:100%;flex-shrink:0;" oninput="replaySeek(this.value)"/>
+      <div class="font-mono" style="font-size:8px;color:var(--muted);text-align:center;margin-top:6px;flex-shrink:0;">Camera &amp; Trajectory Playback</div>
+    </div>
+
+  </div>
 
   <!-- FPV CENTER ZONE -->
   <div id="fpv-zone" class="relative flex-1 overflow-hidden ocean-bg rounded-lg2 border border-rov-border" style="box-shadow:var(--shadow-panel);">
@@ -88,6 +150,11 @@
     <div class="hud-corner hud-tr"></div>
     <div class="hud-corner hud-bl"></div>
     <div class="hud-corner hud-br"></div>
+
+    <!-- DEPTH ALARM BANNER -->
+    <div id="depth-alarm-banner" style="display:none;position:absolute;top:0;left:0;right:0;z-index:30;background:rgba(var(--danger-rgb),.85);color:#fff;text-align:center;font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:.08em;padding:5px 0;">
+      ⚠ DANGER DEPTH THRESHOLD EXCEEDED ⚠
+    </div>
 
     <!-- COMPASS STRIP -->
     <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);width:230px;height:28px;background:rgba(var(--panel-rgb),.92);border:1px solid rgba(var(--secondary-rgb),.35);border-radius:var(--r-md);overflow:hidden;z-index:10;box-shadow:var(--shadow-panel);">
@@ -110,13 +177,17 @@
       <div id="rp-readout" class="font-mono" style="font-size:8px;color:rgba(var(--secondary-rgb),.85);letter-spacing:.02em;">R+0.0° P+0.0°</div>
     </div>
 
-    <!-- DEPTH GAUGE -->
+    <!-- DEPTH GAUGE (+ ALTITUDE) -->
     <div style="position:absolute;top:14px;right:14px;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:10;">
       <div class="font-mono" style="font-size:8px;color:rgba(var(--secondary-rgb),.85);letter-spacing:.06em;font-weight:500;">DPTH</div>
       <div style="width:14px;height:150px;background:rgba(var(--panel-rgb),.9);border:1px solid rgba(var(--secondary-rgb),.35);border-radius:var(--r-sm);position:relative;overflow:hidden;box-shadow:var(--shadow-panel);">
         <div id="depth-fill" class="depth-fill-cyan" style="position:absolute;bottom:0;left:0;right:0;height:0%;border-radius:0 0 4px 4px;transition:height 0.5s ease;"></div>
       </div>
       <div id="depth-val" class="font-mono" style="font-size:9px;color:var(--secondary-bright);letter-spacing:.02em;text-align:center;line-height:1.3;font-weight:600;">0.0<br/><span style="font-size:7px;color:rgba(var(--secondary-rgb),.55);font-weight:400;">m</span></div>
+      <div style="width:100%;border-top:1px solid var(--border);margin-top:2px;padding-top:4px;text-align:center;">
+        <div class="font-mono" style="font-size:7px;color:rgba(var(--warn-rgb),.85);letter-spacing:.05em;">ALT (FLOOR)</div>
+        <div id="alt-val" class="font-mono" style="font-size:9px;color:var(--warn-bright);font-weight:600;">--.-m</div>
+      </div>
     </div>
 
     <!-- PiP BOTTOM CAMERA -->
@@ -162,10 +233,14 @@
       </div>
     </div>
 
-    <!-- QR SCANNER CARD -->
+    <!-- QR SCANNER CARD (ENHANCED) -->
     <div class="card" style="padding:var(--sp-3);flex-shrink:0;border-color:rgba(var(--secondary-rgb),.4);">
       <div class="font-head" style="font-size:9.5px;font-weight:600;color:rgba(var(--secondary-rgb),.85);letter-spacing:.1em;text-transform:uppercase;">QR Scanner</div>
       <div id="qr-result" class="font-mono" style="margin-top:var(--sp-2);font-size:10.5px;color:var(--muted);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">MENUNGGU PEMINDAIAN</div>
+      <div class="flex items-center justify-between" style="margin-top:8px;">
+        <span id="qr-side" class="font-mono" style="font-size:9px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--border);color:var(--muted);letter-spacing:.05em;">SIDE: -</span>
+        <span id="qr-valid" class="font-mono" style="font-size:9px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--border);color:var(--muted);letter-spacing:.05em;">STATUS: -</span>
+      </div>
     </div>
 
     <!-- MISSION LOG CARD -->
@@ -179,17 +254,8 @@
 </div>
 
 <!-- BOTTOM BAR -->
-<!-- FIX: was a fixed height:96px, which is not enough room for the title +
-     3 thruster rows (FWD/VERT/YAW) + their gaps, causing the last row (YAW)
-     to spill out past the bottom edge of the box. Switched to min-height and
-     let it size to content instead. -->
 <div class="flex-shrink-0 bg-rov-panel border-t border-rov-border flex items-center" style="min-height:132px;padding:var(--sp-3) var(--sp-4);gap:var(--sp-3);">
 
-  <!-- Mode Buttons -->
-  <!-- FIX: height:100% made these stretch into tall vertical rectangles once
-       the bottom bar grew taller. Fixed height keeps them closer to square
-       (cube-like), and the parent's items-center already centers them
-       vertically in the bar. -->
   <div class="flex items-stretch" style="gap:var(--sp-2);height:88px;width:180px;flex-shrink:0;">
     <button class="mode-btn active" id="btn-manual" onclick="setMode('manual')">
       <span class="mb-title">MANUAL</span>
@@ -203,7 +269,6 @@
 
   <div style="width:1px;align-self:stretch;background:var(--border);flex-shrink:0;"></div>
 
-  <!-- THRUSTER PANEL (FWD, VERT, YAW) -->
   <div class="card" style="flex:1;height:100%;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:var(--sp-3) var(--sp-5);min-width:0;overflow:hidden;">
     <div class="section-title" style="margin-bottom:0;">Thrusters Input</div>
 
@@ -234,12 +299,15 @@
 
   <div style="width:1px;align-self:stretch;background:var(--border);flex-shrink:0;"></div>
 
-  <!-- QUICK STATS -->
   <div class="card" style="height:100%;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:var(--sp-3) var(--sp-4);flex-shrink:0;min-width:120px;">
     <div class="section-title" style="margin-bottom:2px;padding-bottom:4px;">Quick Stats</div>
     <div class="flex items-center justify-between">
       <span class="font-head" style="font-size:9px;color:var(--muted);letter-spacing:.04em;">Depth</span>
       <span id="qs-depth" class="font-mono" style="font-size:11px;color:var(--secondary-bright);font-weight:600;">0.0m</span>
+    </div>
+    <div class="flex items-center justify-between">
+      <span class="font-head" style="font-size:9px;color:var(--muted);letter-spacing:.04em;">Altitude</span>
+      <span id="qs-alt" class="font-mono" style="font-size:11px;color:var(--warn-bright);font-weight:600;">--.-m</span>
     </div>
     <div class="flex items-center justify-between">
       <span class="font-head" style="font-size:9px;color:var(--muted);letter-spacing:.04em;">Heading</span>
@@ -252,14 +320,10 @@
 <!-- PID SETTINGS MODAL -->
 <div id="pid-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden" style="z-index: 9999;">
   <div class="bg-rov-panel border border-rov-border rounded-lg2 flex flex-col shadow-2xl" style="width: 420px; padding:var(--sp-5); gap:var(--sp-4); box-shadow: var(--shadow-panel), 0 0 40px rgba(var(--secondary-rgb),0.12);">
-
-    <!-- Modal Header -->
     <div class="flex justify-between items-center" style="border-bottom:1px solid var(--border);padding-bottom:var(--sp-3);">
       <span class="text-rov-em font-head font-bold" style="font-size: 13px; letter-spacing: 0.08em;">Ballast Actuator — PID Tuning</span>
       <button onclick="togglePIDModal(false)" class="text-rov-rd hover:text-rov-rd-d font-bold cursor-pointer" style="font-size: 14px;line-height:1;padding:2px;">✕</button>
     </div>
-
-    <!-- Input Parameters -->
     <div class="grid grid-cols-3" style="gap:var(--sp-3);">
       <div class="flex flex-col" style="gap:var(--sp-2);">
         <span class="font-head" style="font-size: 8.5px; font-weight:600; color: var(--muted); letter-spacing:.06em;">KP · PROPORTIONAL</span>
@@ -274,14 +338,10 @@
         <input type="number" id="pid-kd" value="0.0" step="0.1" style="font-size: 13px;padding:8px 0;" />
       </div>
     </div>
-
-    <!-- Action Buttons -->
     <div class="flex" style="gap:var(--sp-3);">
       <button onclick="sendPID()" class="flex-1 bg-rov-card border border-rov-em-b hover:bg-rov-em-b text-rov-em transition-colors rounded-md2 cursor-pointer font-head font-semibold" style="font-size: 10px; letter-spacing: 0.04em;padding:10px 0;">Apply &amp; Save PID</button>
       <button onclick="sendZeroing()" class="flex-1 border border-rov-am hover:bg-rov-am text-rov-am transition-colors rounded-md2 cursor-pointer font-head font-semibold" style="font-size: 10px; letter-spacing: 0.04em;padding:10px 0; background: rgba(var(--warn-rgb),0.1);">Zeroing Encoder</button>
     </div>
-
-    <!-- Live Graph -->
     <div class="flex flex-col" style="gap:var(--sp-2);">
       <div class="flex justify-between font-mono" style="font-size: 9px;">
         <span style="color: rgba(var(--warn-rgb),.9);">┄┄ Target Position</span>
@@ -291,12 +351,10 @@
         <canvas id="pid-chart" width="380" height="140" style="width: 100%; height: 100%; display: block;"></canvas>
       </div>
     </div>
-
   </div>
 </div>
 
 <script>
-  // ── DARK / LIGHT THEME TOGGLE ──
   function applyThemeLabel() {
     const theme = document.documentElement.getAttribute('data-theme') || 'dark';
     const label = document.getElementById('theme-label');

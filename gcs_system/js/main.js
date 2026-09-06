@@ -1,3 +1,26 @@
+/* ==========================================================================
+   js/main.js
+   Gabungan dari main.js (logic telemetry asli) + ui-extras.js (UI tambahan).
+
+   REVISI (data dummy dihilangkan, disiapkan untuk data REAL dari backend):
+   1. TRAJECTORY MAP  -> tidak lagi menggambar jalur sinus palsu. Sekarang
+      menunggu data asli lewat window.pushTrajectoryPoint(...) atau
+      window.setTrajectoryHistory(...). Cari tag [BACKEND INTEGRATION] TRAJECTORY MAP.
+   2. QR SIDE / STATUS VALID / ALTITUDE -> simulator dummy (DUMMY_SIDES,
+      dummyTick, runDummyWsTick, dst) sudah DIHAPUS. Sekarang altitude &
+      qr_side/qr_valid dibaca langsung dari payload WebSocket telemetry
+      (data.altitude, data.qr_side, data.qr_valid). Cari tag
+      [BACKEND INTEGRATION] QR SIDE & ALTITUDE.
+   3. REPLAY CONTROLLER -> masih UI stub (belum terhubung ke data apapun,
+      dummy maupun real). Cari tag [BACKEND INTEGRATION] REPLAY CONTROLLER
+      untuk titik yang perlu disambungkan.
+
+   Semua bagian lain (WebSocket telemetry, PID chart, QR bounding-box
+   overlay di video, depth alarm, screenshot, auto-log, mode manual/auto)
+   TIDAK diubah karena sudah memakai data real / sudah benar.
+   ========================================================================== */
+
+/* ============ BAGIAN 1: Telemetry & Kontrol Utama (UNCHANGED, sudah pakai data real) ============ */
 (function () {
   "use strict";
 
@@ -10,7 +33,6 @@
     pidChartData: []
   };
 
-  // 1. Mission Clock
   setInterval(() => {
     S.missionSec++;
     const clockEl = document.getElementById("tb-clock");
@@ -22,7 +44,6 @@
     }
   }, 1000);
 
-  // 2. System Logger
   function appendLog(ts, msg, type) {
     const logTerminal = document.getElementById("log-terminal");
     if (!logTerminal) return;
@@ -45,7 +66,6 @@
     logTerminal.scrollTop = logTerminal.scrollHeight;
   }
 
-  /* ── MODE SELECTION (MANUAL VS AUTONOMOUS) ── */
   window.setMode = function (m) {
     const isAuto = (m === "auto");
 
@@ -69,7 +89,6 @@
     if (modeBadge) modeBadge.textContent = isAuto ? "AUTONOMOUS" : "MANUAL";
   }
 
-  /* ── PID SETTINGS MODAL CONTROLLER ── */
   window.togglePIDModal = function (show) {
     const modal = document.getElementById("pid-modal");
     if (modal) {
@@ -82,7 +101,6 @@
     }
   };
 
-  /* ── HARDWARE CONTROL (PID & ZEROING) ── */
   window.sendPID = function () {
     const kp = parseFloat(document.getElementById("pid-kp").value);
     const ki = parseFloat(document.getElementById("pid-ki").value);
@@ -107,7 +125,6 @@
     appendLog("00:00", "Zeroing Encoder Command Dispatched", "warn");
   };
 
-  /* ── LIVE PID RESPONSE GRAPH ── */
   function updatePIDChart(targetVal, currentVal) {
     const canvas = document.getElementById("pid-chart");
     if (!canvas) return;
@@ -138,7 +155,6 @@
 
     const step = canvas.width / 59;
 
-    // 1. PLOT TARGET (Garis Putus-putus Oranye)
     ctx.beginPath();
     ctx.strokeStyle = "rgba(245,158,11,0.8)";
     ctx.setLineDash([3, 3]);
@@ -152,7 +168,6 @@
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // 2. PLOT ACTUAL (Garis Solid Cyan)
     ctx.beginPath();
     ctx.strokeStyle = "#22d3ee";
     ctx.lineWidth = 1.5;
@@ -165,7 +180,6 @@
     ctx.stroke();
   }
 
-  /* ── CAMERA STREAM SWAP HANDLER ── */
   window.swapCams = function () {
     S.isCamSwapped = !S.isCamSwapped;
 
@@ -191,6 +205,11 @@
     }
   };
 
+  /* ---------------------------------------------------------------------
+     QR BOUNDING-BOX OVERLAY DI ATAS VIDEO (REAL, sudah pakai data asli
+     dari WebSocket: data.qr_data, data.qr_bbox, data.qr_camera).
+     JANGAN DIUBAH — ini bukan bagian dummy.
+     --------------------------------------------------------------------- */
   function renderQrOverlay(qrData) {
     const overlay = document.getElementById("qr-overlay");
     const label = document.getElementById("qr-overlay-label");
@@ -211,7 +230,6 @@
       return;
     }
 
-    // Match the browser overlay to object-fit: cover used by the primary feed.
     const frameRect = frame.getBoundingClientRect();
     const imageRect = mainCam.getBoundingClientRect();
     const sourceWidth = mainCam.naturalWidth || 640;
@@ -230,7 +248,6 @@
     label.textContent = `QR: ${qrData.qr_data}`;
   }
 
-  /* ── TELEMETRY UI RENDERER ── */
   function updateTelemetryUI(data) {
     if (!data) return;
 
@@ -238,14 +255,12 @@
       updateModeUI(Boolean(data.autonomous_active));
     }
 
-    // Ping / Latency
     const pingMs = data.ping_ms !== undefined ? data.ping_ms : 0;
     const pingVal = document.getElementById("ping-val");
     const tbPing = document.getElementById("tb-ping");
     if (pingVal) pingVal.textContent = `${pingMs} ms`;
     if (tbPing) tbPing.textContent = `${pingMs}ms`;
 
-    // Depth & Compass
     const depth = data.depth_raw !== undefined ? data.depth_raw : 0.0;
     const heading = data.heading !== undefined ? data.heading : 0.0;
     const roll = data.roll !== undefined ? data.roll : 0.0;
@@ -258,6 +273,25 @@
     if (depthFill) depthFill.style.height = `${Math.min(100, Math.max(0, (depth / 8) * 100))}%`;
     if (qsDepth) qsDepth.textContent = `${depth.toFixed(1)}m`;
 
+    /* ===================================================================
+       [BACKEND INTEGRATION] QR SIDE & ALTITUDE
+       Field yang diharapkan dari payload WebSocket /ws/telemetry:
+         - data.altitude : number  (meter, tinggi ROV dari dasar kolam)
+         - data.qr_side  : "A" | "B" | "C" | "D"
+         - data.qr_valid : boolean
+       Selama backend belum mengirim field ini, kartu ALT (FLOOR) dan
+       QR SIDE / STATUS akan tetap menampilkan placeholder default
+       ("--.-m", "SIDE: -", "STATUS: -") sesuai HTML.
+       =================================================================== */
+    if (typeof data.altitude === "number" && !isNaN(data.altitude) &&
+        typeof window.renderAltitude === "function") {
+      window.renderAltitude(data.altitude);
+    }
+    if (data.qr_side !== undefined && data.qr_valid !== undefined &&
+        typeof window.renderQrSideValid === "function") {
+      window.renderQrSideValid(data.qr_side, Boolean(data.qr_valid));
+    }
+
     const compassStrip = document.getElementById("compass-strip");
     const hdgVal = document.getElementById("hdg-val");
     const qsHdg = document.getElementById("qs-hdg");
@@ -265,7 +299,6 @@
     if (hdgVal) hdgVal.textContent = `${String(Math.round(heading)).padStart(3, "0")}°`;
     if (qsHdg) qsHdg.textContent = `${String(Math.round(heading)).padStart(3, "0")}°`;
 
-    // IMU Roll & Pitch
     const rollVal = document.getElementById("roll-val");
     const pitchVal = document.getElementById("pitch-val");
     const rpReadout = document.getElementById("rp-readout");
@@ -282,7 +315,6 @@
     if (ahiGnd) ahiGnd.style.transform = t;
     if (ahiLine) ahiLine.style.transform = `translateY(calc(-50% + ${pitch * 2.5}px)) rotate(${roll}deg) scaleX(1.7)`;
 
-    // Ballast Status
     const ballastPct = data.ballast_pct !== undefined ? data.ballast_pct : 0;
     const ballastStatus = data.ballast_status || "IDLE";
     const ballastVal = document.getElementById("ballast-val");
@@ -295,7 +327,6 @@
     if (ballastStatusEl) ballastStatusEl.textContent = ballastStatus;
     if (qsBallast) qsBallast.textContent = `${ballastPct}%`;
 
-    // Mapping Real Thrusters Input (-1000..1000 -> -100%..100%)
     const surgeCmd = data.surge_cmd !== undefined ? data.surge_cmd : 0;
     const pitchCmd = data.pitch_cmd !== undefined ? data.pitch_cmd : 0;
     const yawCmd = data.yaw_cmd !== undefined ? data.yaw_cmd : 0;
@@ -318,12 +349,10 @@
     if (tbarYaw) tbarYaw.style.width = `${Math.abs(yawPct)}%`;
     if (tvalYaw) tvalYaw.textContent = `${yawPct >= 0 ? "+" : ""}${yawPct}%`;
 
-    // Render Grafik PID Response (Berjalan otomatis di background / modal)
     const targetStm = data.target_stm32 !== undefined ? data.target_stm32 : 0;
     const currentStm = data.encoder_ticks !== undefined ? data.encoder_ticks : 0;
     updatePIDChart(targetStm, currentStm);
 
-    // Sync Mission Log Terminal
     if (data.ship_logs && Array.isArray(data.ship_logs) && data.ship_logs.length > 0) {
       const latestLog = data.ship_logs[data.ship_logs.length - 1];
       const sig = `${latestLog.ts}_${latestLog.msg}`;
@@ -337,7 +366,6 @@
       }
     }
 
-    // QR is scanned on the Raspberry Pi and forwarded by main_gcs_alter.py.
     const scannedQr = String(data.qr_data || "").trim();
     const qrResult = document.getElementById("qr-result");
     if (scannedQr) {
@@ -349,8 +377,6 @@
         S.lastQrResult = scannedQr;
         appendLog("QR", `QR BERHASIL DI-SCAN! Hasil: ${scannedQr}`, "info");
 
-        // Promote the camera that found the QR to the primary display so the
-        // annotated bounding box and text are immediately visible.
         const qrCamera = data.qr_camera;
         const shouldShowBottom = qrCamera === "bottom";
         if ((shouldShowBottom && !S.isCamSwapped) || (!shouldShowBottom && S.isCamSwapped)) {
@@ -365,11 +391,26 @@
       qr_bbox: data.qr_bbox
     };
     renderQrOverlay(S.lastQrOverlay);
+
+    /* -------------------------------------------------------------------
+       [BACKEND INTEGRATION] TRAJECTORY MAP — sumber data opsional #1
+       Jika backend mengirim posisi ROV per-tick di dalam payload telemetry
+       yang sama (mis. data.pos_x, data.pos_y dalam meter relatif titik
+       start), baris di bawah ini otomatis akan menambah titik ke
+       Trajectory Map horizontal & vertikal setiap kali telemetry masuk.
+       Jika backend TIDAK mengirim field ini, baris ini tidak melakukan
+       apa-apa dan tidak akan error — silakan sesuaikan nama field bila
+       berbeda, atau panggil window.pushTrajectoryPoint(...) /
+       window.setTrajectoryHistory(...) secara manual dari tempat lain.
+       ------------------------------------------------------------------- */
+    if (typeof window.pushTrajectoryPoint === "function" &&
+        (typeof data.pos_x === "number" || typeof data.depth_raw === "number")) {
+      window.pushTrajectoryPoint({ x: data.pos_x, y: data.pos_y, depth: depth });
+    }
   }
 
   window.addEventListener("resize", () => renderQrOverlay(S.lastQrOverlay || {}));
 
-  // 5. WebSocket Client dengan Auto-Reconnect
   function connectWebSocket() {
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
     const wsUrl = `${protocol}//${window.location.host}/ws/telemetry`;
@@ -395,4 +436,362 @@
 
   appendLog("00:00", "GUI Init Complete", "sys");
   connectWebSocket();
+
+})();
+
+
+/* ============ BAGIAN 2: UI Tambahan (trajectory, replay, QR side, alarm, dsb) ============ */
+(function () {
+  "use strict";
+
+  // NOTE: placeholder ambang bahaya kedalaman — konfirmasi ke tim safety/mekanik
+  // nilai real-nya, atau ganti agar bisa dikirim dari backend (mis. via
+  // data.depth_danger_threshold pada payload telemetry) jika perlu dinamis.
+  const DEPTH_DANGER_THRESHOLD = 6.0; // meter
+  let autoLogOn = false;
+  let autoLogTimer = null;
+  let audioCtx = null;
+  let alarmPlaying = false;
+  let replayPlaying = false;
+
+  /* ── Day/Date (Top Info Bar) — REAL, pakai jam sistem browser, JANGAN DIUBAH ── */
+  function updateDayDate() {
+    const el = document.getElementById("info-daydate");
+    if (!el) return;
+    const now = new Date();
+    const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateStr = now.toLocaleDateString('id-ID', opts);
+    const timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
+    el.textContent = `${dateStr} · ${timeStr}`;
+  }
+  setInterval(updateDayDate, 1000);
+  updateDayDate();
+
+  /* =======================================================================
+     [BACKEND INTEGRATION] TRAJECTORY MAP
+     -----------------------------------------------------------------------
+     Data dummy (jalur sinus palsu) SUDAH DIHAPUS. Sekarang canvas hanya
+     menggambar grid + label "WAITING FOR TRAJECTORY DATA" sampai backend
+     mengirim titik jalur asli.
+
+     Cara mengisi data real, pilih salah satu:
+
+     1) Dorong satu titik setiap kali ada telemetry baru (real-time trail):
+          window.pushTrajectoryPoint({ x: 1.2, y: 0.8, depth: 2.4 });
+        - x, y  -> dipakai untuk mode HORIZONTAL (top-down). Satuan bebas
+                   (meter / normalized), yang penting konsisten antar titik.
+        - depth -> dipakai untuk mode VERTICAL (profil kedalaman), satuan meter.
+
+     2) Atau kirim seluruh histori jalur sekaligus (mis. saat load replay
+        / mission sudah selesai):
+          window.setTrajectoryHistory(
+            [{x:0,y:0}, {x:1,y:0.4}, ...],      // untuk mode horizontal
+            [{depth:0.5}, {depth:1.2}, ...]     // untuk mode vertical
+          );
+
+     3) window.clearTrajectoryHistory() untuk mengosongkan saat mission baru
+        dimulai / reset.
+
+     updateTelemetryUI() di Bagian 1 sudah mencoba memanggil
+     pushTrajectoryPoint() otomatis jika field data.pos_x / data.pos_y /
+     data.depth_raw ada di payload WebSocket — sesuaikan nama field di sana
+     jika kontrak backend berbeda.
+     ======================================================================= */
+  let trajView = "h"; // "h" = horizontal (top-down), "v" = vertical (profil kedalaman)
+  let trajHistoryH = []; // titik real horizontal: [{x, y}, ...]
+  let trajHistoryV = []; // titik real vertical (kedalaman): [{depth}, ...] berurutan waktu
+
+  function resizeTrajCanvas() {
+    const canvas = document.getElementById("traj-canvas");
+    const wrap = document.getElementById("traj-canvas-wrap");
+    if (!canvas || !wrap) return;
+    const rect = wrap.getBoundingClientRect();
+    canvas.width = Math.max(40, Math.floor(rect.width));
+    canvas.height = Math.max(40, Math.floor(rect.height));
+  }
+
+  function drawTrajGrid(ctx, w, h) {
+    ctx.strokeStyle = "rgba(45,184,168,.15)";
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < w; i += 20) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, h); ctx.stroke(); }
+    for (let i = 0; i < h; i += 20) { ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(w, i); ctx.stroke(); }
+  }
+
+  function drawTrajWaitingLabel(ctx, w, h) {
+    ctx.font = "9px monospace";
+    ctx.fillStyle = "rgba(148,166,157,.6)";
+    ctx.textAlign = "center";
+    ctx.fillText("WAITING FOR TRAJECTORY DATA", w / 2, h / 2);
+    ctx.textAlign = "left";
+  }
+
+  // Mode Horizontal: top-down (X-Y) — sekarang pakai trajHistoryH (data real).
+  function drawTrajectoryHorizontal(ctx, w, h) {
+    drawTrajGrid(ctx, w, h);
+
+    if (trajHistoryH.length < 2) {
+      drawTrajWaitingLabel(ctx, w, h);
+      return;
+    }
+
+    const margin = 18;
+    const xs = trajHistoryH.map(p => p.x);
+    const ys = trajHistoryH.map(p => p.y);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+    const rangeX = (maxX - minX) || 1;
+    const rangeY = (maxY - minY) || 1;
+
+    const path = trajHistoryH.map(p => [
+      margin + ((p.x - minX) / rangeX) * (w - margin * 2),
+      margin + ((p.y - minY) / rangeY) * (h - margin * 2)
+    ]);
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#2db8a8";
+    ctx.lineWidth = 2;
+    path.forEach((p, i) => i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]));
+    ctx.stroke();
+
+    ctx.fillStyle = "#3ecf8e";
+    ctx.beginPath(); ctx.arc(path[0][0], path[0][1], 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#e09e3f";
+    const last = path[path.length - 1];
+    ctx.beginPath(); ctx.arc(last[0], last[1], 4, 0, Math.PI * 2); ctx.fill();
+
+    ctx.font = "9px monospace";
+    ctx.fillStyle = "#3ecf8e"; ctx.fillText("S", path[0][0] - 3, path[0][1] - 8);
+    ctx.fillStyle = "#e09e3f"; ctx.fillText("E", last[0] - 3, last[1] - 8);
+  }
+
+  // Mode Vertical: profil kedalaman ROV — sekarang pakai trajHistoryV (data real),
+  // garis putus-putus tetap sebagai referensi dasar kolam (FLOOR).
+  function drawTrajectoryVertical(ctx, w, h) {
+    drawTrajGrid(ctx, w, h);
+
+    if (trajHistoryV.length < 2) {
+      drawTrajWaitingLabel(ctx, w, h);
+      return;
+    }
+
+    const margin = 18;
+    const floorY = h - margin * 0.6;
+    // NOTE: skala kedalaman maksimum dibuat konsisten dengan normalisasi
+    // depth-fill di Bagian 1 (depth / 8). Sesuaikan bila kedalaman
+    // kolam/misi real berbeda.
+    const MAX_DEPTH_M = 8;
+    const n = trajHistoryV.length;
+
+    const path = trajHistoryV.map((p, i) => {
+      const px = margin + ((w - margin * 2) * i) / (n - 1);
+      const depthNorm = Math.min(1, Math.max(0, p.depth / MAX_DEPTH_M));
+      const py = margin + depthNorm * (floorY - margin);
+      return [px, py];
+    });
+
+    ctx.beginPath();
+    ctx.strokeStyle = "rgba(224,158,63,.35)";
+    ctx.setLineDash([2, 3]);
+    ctx.lineWidth = 1;
+    ctx.moveTo(0, floorY);
+    ctx.lineTo(w, floorY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#2db8a8";
+    ctx.lineWidth = 2;
+    path.forEach((p, i) => i === 0 ? ctx.moveTo(p[0], p[1]) : ctx.lineTo(p[0], p[1]));
+    ctx.stroke();
+
+    ctx.fillStyle = "#3ecf8e";
+    ctx.beginPath(); ctx.arc(path[0][0], path[0][1], 4, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#e09e3f";
+    const last = path[path.length - 1];
+    ctx.beginPath(); ctx.arc(last[0], last[1], 4, 0, Math.PI * 2); ctx.fill();
+
+    ctx.font = "9px monospace";
+    ctx.fillStyle = "#3ecf8e"; ctx.fillText("S", path[0][0] - 3, path[0][1] - 8);
+    ctx.fillStyle = "#e09e3f"; ctx.fillText("E", last[0] - 3, last[1] - 8);
+
+    ctx.font = "7px monospace";
+    ctx.fillStyle = "rgba(224,158,63,.7)";
+    ctx.fillText("FLOOR", 4, floorY - 3);
+  }
+
+  function drawTrajectory() {
+    const canvas = document.getElementById("traj-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    if (trajView === "v") {
+      drawTrajectoryVertical(ctx, w, h);
+    } else {
+      drawTrajectoryHorizontal(ctx, w, h);
+    }
+  }
+
+  // Dipanggil dari tombol HORZ / VERT di card Trajectory Map (index.html)
+  window.setTrajView = function (mode) {
+    trajView = (mode === "v") ? "v" : "h";
+    const btnH = document.getElementById("btn-traj-h");
+    const btnV = document.getElementById("btn-traj-v");
+    if (btnH) btnH.classList.toggle("active", trajView === "h");
+    if (btnV) btnV.classList.toggle("active", trajView === "v");
+    drawTrajectory();
+  };
+
+  // --- API publik untuk backend: isi titik trajectory REAL di sini ---
+  window.pushTrajectoryPoint = function (point) {
+    // point: { x, y, depth }
+    // x/y  -> untuk peta horizontal (top-down)
+    // depth -> untuk peta vertical (profil kedalaman), satuan meter
+    if (!point) return;
+    if (typeof point.x === "number" && typeof point.y === "number") {
+      trajHistoryH.push({ x: point.x, y: point.y });
+      if (trajHistoryH.length > 500) trajHistoryH.shift();
+    }
+    if (typeof point.depth === "number") {
+      trajHistoryV.push({ depth: point.depth });
+      if (trajHistoryV.length > 500) trajHistoryV.shift();
+    }
+    drawTrajectory();
+  };
+
+  window.setTrajectoryHistory = function (pointsH, pointsV) {
+    if (Array.isArray(pointsH)) trajHistoryH = pointsH;
+    if (Array.isArray(pointsV)) trajHistoryV = pointsV;
+    drawTrajectory();
+  };
+
+  window.clearTrajectoryHistory = function () {
+    trajHistoryH = [];
+    trajHistoryV = [];
+    drawTrajectory();
+  };
+
+  resizeTrajCanvas();
+  drawTrajectory();
+  setInterval(resizeTrajCanvas, 250); // jaga-jaga bila ukuran panel berubah tanpa event resize
+  window.addEventListener("resize", () => { resizeTrajCanvas(); drawTrajectory(); });
+
+  /* =======================================================================
+     [BACKEND INTEGRATION] REPLAY CONTROLLER
+     -----------------------------------------------------------------------
+     Masih berupa UI stub (tombol & slider sudah jalan secara visual, tapi
+     belum terhubung ke data replay apapun). Yang perlu disambungkan:
+       - replayControl('prev' | 'play' | 'next') : saat ini 'play' hanya
+         mengganti ikon tombol ▶ / ⏸. Hubungkan ke endpoint/command backend
+         untuk mulai/berhenti/loncat frame replay kamera & trajectory.
+       - replaySeek(val) : val = 0-100 (persen posisi slider). Hubungkan ke
+         seek posisi waktu pada sesi rekaman yang dipilih.
+     ======================================================================= */
+  window.replayControl = function (action) {
+    const btn = document.getElementById("btn-replay-play");
+    if (action === "play") {
+      replayPlaying = !replayPlaying;
+      if (btn) btn.textContent = replayPlaying ? "⏸" : "▶";
+    }
+    // TODO(backend): kirim command replay ('prev' | 'play' | 'next') ke server di sini.
+  };
+  window.replaySeek = function (val) {
+    // TODO(backend): kirim posisi seek (val, 0-100%) ke server / player replay di sini.
+  };
+
+  /* ── Screenshot & Auto-Logging — REAL (screenshot client-side dari <img> video), JANGAN DIUBAH ── */
+  window.takeScreenshot = function () {
+    try {
+      const img = document.getElementById("main-cam");
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth || 640;
+      canvas.height = img.naturalHeight || 360;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const link = document.createElement("a");
+      link.download = `screenshot_${Date.now()}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (e) {
+      console.warn("Screenshot capture blocked (CORS on video stream):", e);
+    }
+  };
+
+  window.toggleAutoLog = function () {
+    autoLogOn = !autoLogOn;
+    const btn = document.getElementById("btn-autolog");
+    if (btn) btn.textContent = autoLogOn ? "⏺ Auto-Log: ON" : "⏺ Auto-Log: OFF";
+    if (autoLogOn) {
+      autoLogTimer = setInterval(window.takeScreenshot, 10000);
+    } else if (autoLogTimer) {
+      clearInterval(autoLogTimer);
+    }
+  };
+
+  /* ── Depth Danger Alarm — REAL (baca depth-val di DOM), JANGAN DIUBAH ── */
+  function beep() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.frequency.value = 880;
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.18);
+    } catch (e) { /* audio not available */ }
+  }
+
+  function checkDepthAlarm() {
+    const depthValEl = document.getElementById("depth-val");
+    const banner = document.getElementById("depth-alarm-banner");
+    if (!depthValEl || !banner) return;
+    const depth = parseFloat(depthValEl.textContent) || 0;
+    const danger = depth >= DEPTH_DANGER_THRESHOLD;
+    banner.style.display = danger ? "block" : "none";
+    if (danger && !alarmPlaying) { alarmPlaying = true; beep(); }
+    if (!danger) alarmPlaying = false;
+  }
+  setInterval(checkDepthAlarm, 1000);
+
+  /* =======================================================================
+     [BACKEND INTEGRATION] QR SIDE & ALTITUDE — render functions
+     -----------------------------------------------------------------------
+     Simulator dummy (DUMMY_SIDES, dummyTick, runDummyWsTick,
+     renderDummyQrResult, setInterval fabrikasi data) SUDAH DIHAPUS.
+
+     Dua fungsi di bawah ini di-expose ke window supaya bisa dipanggil dari
+     updateTelemetryUI() di Bagian 1, yang sudah otomatis memanggilnya saat
+     payload WebSocket berisi data.altitude / data.qr_side / data.qr_valid.
+     Kartu ALT (FLOOR) dan QR SIDE/STATUS akan tetap menampilkan placeholder
+     default ("--.-m", "SIDE: -", "STATUS: -") sampai data real pertama
+     kali diterima — tidak ada lagi data fiktif yang tampil.
+     ======================================================================= */
+  function renderAltitude(altitude) {
+    const altEl = document.getElementById("alt-val");
+    const qsAlt = document.getElementById("qs-alt");
+    if (typeof altitude !== "number" || isNaN(altitude)) return;
+    if (altEl) altEl.textContent = `${altitude.toFixed(1)}m`;
+    if (qsAlt) qsAlt.textContent = `${altitude.toFixed(1)}m`;
+  }
+
+  function renderQrSideValid(qr_side, qr_valid) {
+    const qrSideEl = document.getElementById("qr-side");
+    const qrValidEl = document.getElementById("qr-valid");
+    if (qrSideEl) {
+      qrSideEl.textContent = `SIDE: ${qr_side}`;
+      qrSideEl.classList.remove("qr-pill-side");
+      void qrSideEl.offsetWidth;
+      qrSideEl.classList.add("qr-pill-side");
+    }
+    if (qrValidEl) {
+      qrValidEl.textContent = qr_valid ? "STATUS: VALID" : "STATUS: INVALID";
+      qrValidEl.classList.remove("qr-pill-valid", "qr-pill-invalid");
+      qrValidEl.classList.add(qr_valid ? "qr-pill-valid" : "qr-pill-invalid");
+    }
+  }
+
+  window.renderAltitude = renderAltitude;
+  window.renderQrSideValid = renderQrSideValid;
+
 })();

@@ -1,8 +1,11 @@
 import os
 import sys
 import time
+import json
+import math
 import yaml
 from pathlib import Path
+from datetime import datetime
 
 # Setup Path Modul
 current_file = Path(__file__).resolve()
@@ -66,11 +69,23 @@ def main():
     if vision.init_model():
         vision.start_cameras()
 
+    pos_x = 0.0
+    pos_y = 0.0
+    last_odom_time = time.time()
+    SURGE_VELOCITY_MAX = 0.4
+
+    # Blackbox Logger
+
+    log_dir = os.path.join(ship_system_root, "logs")
+    os.makedirs(log_dir, exist_ok=True)
+    mission_log_file = os.path.join(log_dir, f"blackbox_trajectory_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jsonl")
+    log_handle = open(mission_log_file, "a", buffering=1)
+    last_blackbox_save = time.time()
+
     loop_interval = 0.05
     last_debug_print = time.time()
 
     try:
-        # Pancing 1 baris kosong di awal
         print("\n")
 
         while True:
@@ -82,6 +97,25 @@ def main():
             gcs_commands = net.receive_commands() or {}
             current_depth = attitude_data.get("depth_raw", 0.0)
 
+            # Kalkulasi Dead Reckogning (X, Y)
+            dt = loop_start - last_odom_time
+            last_odom_time = loop_start
+
+            cur_hdg_deg = attitude_data.get("heading", 0.0)
+            cur_hdg_rad = math.radians(cur_hdg_deg)
+            srg_input = gcs_commands.get("surge", 0)
+            v_est = (srg_input / 1000.0) * SURGE_VELOCITY_MAX
+
+            # Dead-reckoning integration saat ada daya dorong
+            if abs(v_est) > 0.05:
+                pos_x += v_est * math.cos(cur_hdg_rad) * dt
+                pos_y += v_est * math.sin(cur_hdg_rad) * dt
+
+            # Prioritaskan koordinat hardware/MAVLink jika ada, fallback ke kalkulasi lokal
+            final_x = attitude_data.get("pos_x", 0.0) or round(pos_x, 3)
+            final_y = attitude_data.get("pos_y", 0.0) or round(pos_y, 3)
+            is_armed = pixhawk.get_arm_status()
+
             software_kill_active = failsafe.update(gcs_commands, logger, pixhawk)
 
             cmds = mission.update(
@@ -92,14 +126,25 @@ def main():
             cmds["zero_encoder"] = gcs_commands.get("zero_encoder", False)
             cmds["max_encoder"] = gcs_commands.get("max_encoder", False)
 
-            # Proses gerak & kalkulasi PID IMU
             motion_telemetry = motion.process_and_send(
                 cmds=cmds, sensor_data=sensor_data, attitude_data=attitude_data,
                 software_kill_active=software_kill_active, stm32=stm32,
                 pixhawk=pixhawk, logger=logger
             )
 
-            # --- RENDER DASHBOARD TERMINAL LIVE (10Hz / 0.1s) ---
+            if loop_start - last_blackbox_save >= 0.2:
+                blackbox_entry = {
+                    "ts": round(loop_start, 2),
+                    "x": final_x,
+                    "y": final_y,
+                    "depth": round(current_depth, 2),
+                    "heading": round(cur_hdg_deg, 1),
+                    "armed": is_armed,
+                    "surge": srg_input
+                }
+                log_handle.write(json.dumps(blackbox_entry) + "\n")
+                last_blackbox_save = loop_start
+
             if loop_start - last_debug_print > 0.1:
                 srg = gcs_commands.get('surge', 0)
                 yw = gcs_commands.get('yaw', 0)
@@ -113,19 +158,21 @@ def main():
                 t_tgt = sensor_data.get('target_stm32', 0)
                 t_pwm = sensor_data.get('pwm_stm32', 0)
 
-                cur_hdg = attitude_data.get("heading", 0.0)
                 cur_pch = attitude_data.get("pitch", 0.0)
                 p_status = "HOLD" if motion_telemetry.get("pitch_hold", False) else "MAN"
                 h_status = "HOLD" if motion_telemetry.get("heading_hold", False) else "MAN"
+                arm_str = "ARM" if is_armed else "DISARM"
 
-                # Cetak baris NET-RX & IMU, lalu STM32 di bawahnya, kemudian kursor naik
-                print(f"\r\033[K[NET-RX LIVE] Srg:{srg:4} | Yaw:{yw:5} | Pch:{pch:5} | Bal:{blst:3} | Grp:{grp:2} | Z:{z_cmd} M:{m_cmd} | IMU Hdg:{cur_hdg:5.1f}° [{h_status}] | Pch:{cur_pch:5.1f}° [{p_status}]")
-                print(f"\r\033[K[STM32-STATUS] ENC: {t_enc} | TGT: {t_tgt} | PWM: {t_pwm}\033[F", end="", flush=True)
+                # Cetak baris NET-RX
+                print(f"\r\033[K[NET-RX LIVE] Srg:{srg:4} | Yaw:{yw:5} | Pch:{pch:5} | Bal:{blst:3} | Grp:{grp:2} | [{arm_str}] | Pos:({final_x:.1f},{final_y:.1f}) | IMU Hdg:{cur_hdg_deg:5.1f}° [{h_status}] | Pch:{cur_pch:5.1f}° [{p_status}]")
 
                 last_debug_print = loop_start
 
             combined_telemetry = {
                 **sensor_data, **attitude_data, **motion_telemetry,
+                "pos_x": final_x,
+                "pos_y": final_y,
+                "is_armed": is_armed,
                 "software_kill_active": software_kill_active,
                 "autonomous_active": cmds.get("is_autonomous", False),
                 "auto_phase": cmds.get("auto_phase", "MANUAL"),
@@ -140,6 +187,8 @@ def main():
     except KeyboardInterrupt:
         print("\n\n[MAIN-SHIP] Mematikan sistem...")
     finally:
+        if 'log_handle' in locals() and not log_handle.closed:
+            log_handle.close()
         vision.stop()
         pixhawk.close()
         stm32.close()

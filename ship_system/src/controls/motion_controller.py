@@ -20,9 +20,9 @@ class MotionController:
         self.pitch_baseline = 0.0
         self.last_pitch_effort = 0.0
 
-        self.SURGE_MAX_OFFSET = 400 * 0.5
+        self.SURGE_MAX_OFFSET = 400 * 0.35
         self.PITCH_MAX_OFFSET = 300 * 0.4
-        self.YAW_MAX_OFFSET   = 300 * 0.5
+        self.YAW_MAX_OFFSET   = 300 * 0.35
 
     def process_and_send(self, cmds: dict, sensor_data: dict, attitude_data: dict,
                          software_kill_active: bool, stm32, pixhawk, logger) -> dict:

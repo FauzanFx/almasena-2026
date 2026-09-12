@@ -1,5 +1,3 @@
-# almasena-dev/gcs_system/src/main_gcs_alter.py
-
 import os
 import sys
 import time
@@ -34,7 +32,7 @@ def main():
     loop_interval = 0.05  # Loop 20Hz (~50ms)
     last_telemetry_time = 0.0
 
-    # State Data Terakumulasi
+    # State Data Telemetri Lengkap GCS
     gcs_state = {
         "ping_ms": 0,
         "surge_cmd": 0,
@@ -45,8 +43,15 @@ def main():
         "pitch": 0.0,
         "depth_raw": 0.0,
         "heading": 0.0,
+        "pos_x": 0.0,
+        "pos_y": 0.0,
+        "is_armed": False,
+        "encoder_ticks": 0,
+        "target_stm32": 0,
+        "pwm_stm32": 0,
         "ballast_pct": 0,
         "ballast_status": "IDLE",
+        "altitude": None,
         "ship_logs": [],
         "qr_data": "",
         "qr_camera": "",
@@ -64,10 +69,8 @@ def main():
             # 1. BACA LANGSUNG INPUT JOYSTICK DARI INPUT_HANDLER
             cmds = input_manager.get_commands()
             if cmds:
-                # Kirim ke Raspi via UDP
                 net_manager.send_commands_to_rov(cmds)
 
-                # Ekstrak langsung key resmi dari InputHandler
                 gcs_state["surge_cmd"] = cmds.get("surge", 0)
                 gcs_state["pitch_cmd"] = cmds.get("pitch", 0)
                 gcs_state["yaw_cmd"] = cmds.get("yaw", 0)
@@ -77,7 +80,7 @@ def main():
             telemetry = net_manager.receive_telemetry_from_rov()
 
             if telemetry:
-                # Hitung interval waktu terima paket UDP (Ping Latency dalam ms)
+                # Hitung interval waktu terima paket UDP (Ping Latency ms)
                 if last_telemetry_time > 0:
                     delta_ms = int((now - last_telemetry_time) * 1000)
                     gcs_state["ping_ms"] = max(1, min(999, delta_ms))
@@ -86,22 +89,40 @@ def main():
 
                 last_telemetry_time = now
 
-                # Parsing data sensor dari Raspi
+                # Bongkar sub-dictionary sensors yang dibungkus oleh kapal
                 sensors = telemetry.get("sensors", telemetry) if isinstance(telemetry, dict) else {}
+
                 if isinstance(sensors, dict):
+                    # Salin semua field mentah agar tidak ada data yang tercecer
+                    gcs_state.update(sensors)
+
+                    # Standarisasi tipe data dan penamaan kunci untuk GUI & Trigger Hybrid
                     gcs_state["roll"] = float(sensors.get("roll", 0.0))
                     gcs_state["pitch"] = float(sensors.get("pitch", 0.0))
                     gcs_state["depth_raw"] = float(sensors.get("depth_raw", sensors.get("depth", 0.0)))
                     gcs_state["heading"] = float(sensors.get("heading", sensors.get("hdg", 0.0)))
+                    gcs_state["pos_x"] = float(sensors.get("pos_x", 0.0))
+                    gcs_state["pos_y"] = float(sensors.get("pos_y", 0.0))
+                    gcs_state["is_armed"] = bool(sensors.get("is_armed", False))
+                    gcs_state["encoder_ticks"] = int(sensors.get("encoder_ticks", 0))
+                    gcs_state["target_stm32"] = int(sensors.get("target_stm32", 0))
+                    gcs_state["pwm_stm32"] = int(sensors.get("pwm_stm32", 0))
                     gcs_state["ballast_pct"] = int(sensors.get("ballast_pct", 0))
-                    gcs_state["ballast_status"] = sensors.get("ballast_status", "IDLE")
+                    gcs_state["ballast_status"] = str(sensors.get("ballast_status", "IDLE"))
 
+                    if "altitude" in sensors and sensors["altitude"] is not None:
+                        try:
+                            gcs_state["altitude"] = float(sensors["altitude"])
+                        except (ValueError, TypeError):
+                            pass
+
+                # Ekstraksi log kapal
                 if isinstance(sensors, dict) and "ship_logs" in sensors:
                     gcs_state["ship_logs"] = sensors["ship_logs"]
                 elif isinstance(telemetry, dict) and "ship_logs" in telemetry:
                     gcs_state["ship_logs"] = telemetry["ship_logs"]
             else:
-                # Jika tidak ada data telemetri > 1.5 detik, set ping ke 0 (Offline)
+                # Jika tidak ada paket telemetri > 1.5 detik, set ping ke 0 (Offline)
                 if last_telemetry_time > 0 and (now - last_telemetry_time) > 1.5:
                     gcs_state["ping_ms"] = 0
 
@@ -111,10 +132,10 @@ def main():
             gcs_state["qr_camera"] = qr_info.get("qr_camera", "")
             gcs_state["qr_bbox"] = qr_info.get("qr_bbox", [])
 
-            # 4. SIARKAN KE WEBSOCKET BROWSER SETIAP ITERASI LOOP (20Hz)
+            # 4. SIARKAN KE WEBSOCKET BROWSER (20Hz)
             gui.broadcast_telemetry(gcs_state)
 
-            # 5. PREVIEW VIDEO OPENCV
+            # 5. PREVIEW VIDEO OPENCV (Opsional)
             frame_front, frame_bottom = video_engine.get_latest_frames()
             if frame_front is not None:
                 cv2.imshow("GCS Feed - Kamera Depan", frame_front)
@@ -133,6 +154,7 @@ def main():
         video_engine.stop()
         cv2.destroyAllWindows()
         net_manager.close()
+
 
 if __name__ == "__main__":
     main()

@@ -19,8 +19,10 @@ class PixhawkBridge:
             "heading": 0.0,
             "roll": 0.0,
             "pitch": 0.0,
-            "depth_raw": 0.0
-        }
+            "depth_raw": 0.0,
+            "pos_x": 0.0,
+            "pos_y": 0.0
+            }
 
     def _auto_detect_port(self, fallback_port):
         ports = serial.tools.list_ports.comports()
@@ -126,6 +128,10 @@ class PixhawkBridge:
 
                 elif msg_type == 'VFR_HUD':
                     self.latest_attitude_data["depth_raw"] = abs(msg.alt)
+
+                elif msg_type == 'LOCAL_POSITION_NED':
+                    self.latest_attitude_data["pos_x"] = round(msg.x, 3)
+                    self.latest_attitude_data["pos_y"] = round(msg.y, 3)
 
                 elif msg_type == 'HEARTBEAT':
                     is_armed = bool(msg.base_mode & mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED)

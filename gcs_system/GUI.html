@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
   <!-- Tailwind Script & Configuration -->
-  <script src="/js/tailwindcss.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -37,331 +37,441 @@
     })();
   </script>
 
-  <!-- Embedded Tactical GCS Styles -->
+  <!-- Inlined stylesheet (dulu: css/style.css) -->
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 100%; height: 100%; overflow: hidden; }
+/* ================= style.css (FULL FILE) ================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
 
-    :root {
-      --font-ui: 'Inter', -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
+:root {
+  --font-ui: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
 
-      --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px;
-      --sp-4: 16px; --sp-5: 20px; --sp-6: 24px;
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px;
+  --sp-4: 16px; --sp-5: 20px; --sp-6: 24px;
 
-      --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 20px;
+  --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 20px;
 
-      --shadow-panel: 0 1px 2px rgba(0,0,0,.24), 0 8px 24px -12px rgba(0,0,0,.4);
+  --shadow-panel: 0 1px 2px rgba(0,0,0,.24), 0 8px 24px -12px rgba(0,0,0,.4);
 
-      --bg-rgb: 9,13,12;
-      --panel-rgb: 15,20,18;
-      --card-rgb: 20,27,24;
-      --border-rgb: 40,54,47;
-      --text-rgb: 230,237,233;
-      --muted-rgb: 148,166,157;
+  --bg-rgb: 9,13,12;
+  --panel-rgb: 15,20,18;
+  --card-rgb: 20,27,24;
+  --border-rgb: 40,54,47;
+  --text-rgb: 230,237,233;
+  --muted-rgb: 148,166,157;
 
-      --primary-rgb: 62,207,142;
-      --primary-bright-rgb: 94,224,166;
-      --primary-dim-rgb: 20,54,38;
+  --primary-rgb: 62,207,142;
+  --primary-bright-rgb: 94,224,166;
+  --primary-dim-rgb: 20,54,38;
 
-      --secondary-rgb: 45,184,168;
-      --secondary-bright-rgb: 92,214,199;
+  --secondary-rgb: 45,184,168;
+  --secondary-bright-rgb: 92,214,199;
 
-      --warn-rgb: 224,158,63;
-      --warn-bright-rgb: 240,182,99;
-      --warn-dim-rgb: 92,63,24;
+  --warn-rgb: 224,158,63;
+  --warn-bright-rgb: 240,182,99;
+  --warn-dim-rgb: 92,63,24;
 
-      --danger-rgb: 224,90,97;
-      --danger-bright-rgb: 240,120,126;
+  --danger-rgb: 224,90,97;
+  --danger-bright-rgb: 240,120,126;
 
-      --bg: rgb(var(--bg-rgb));
-      --panel: rgb(var(--panel-rgb));
-      --card: rgb(var(--card-rgb));
-      --border: rgb(var(--border-rgb));
-      --text: rgb(var(--text-rgb));
-      --muted: rgb(var(--muted-rgb));
-      --primary: rgb(var(--primary-rgb));
-      --primary-bright: rgb(var(--primary-bright-rgb));
-      --primary-dim: rgb(var(--primary-dim-rgb));
-      --secondary: rgb(var(--secondary-rgb));
-      --secondary-bright: rgb(var(--secondary-bright-rgb));
-      --warn: rgb(var(--warn-rgb));
-      --warn-bright: rgb(var(--warn-bright-rgb));
-      --warn-dim: rgb(var(--warn-dim-rgb));
-      --danger: rgb(var(--danger-rgb));
-      --danger-bright: rgb(var(--danger-bright-rgb));
-    }
+  --bg: rgb(var(--bg-rgb));
+  --panel: rgb(var(--panel-rgb));
+  --card: rgb(var(--card-rgb));
+  --border: rgb(var(--border-rgb));
+  --text: rgb(var(--text-rgb));
+  --muted: rgb(var(--muted-rgb));
+  --primary: rgb(var(--primary-rgb));
+  --primary-bright: rgb(var(--primary-bright-rgb));
+  --primary-dim: rgb(var(--primary-dim-rgb));
+  --secondary: rgb(var(--secondary-rgb));
+  --secondary-bright: rgb(var(--secondary-bright-rgb));
+  --warn: rgb(var(--warn-rgb));
+  --warn-bright: rgb(var(--warn-bright-rgb));
+  --warn-dim: rgb(var(--warn-dim-rgb));
+  --danger: rgb(var(--danger-rgb));
+  --danger-bright: rgb(var(--danger-bright-rgb));
+}
 
-    [data-theme="light"] {
-      --shadow-panel: 0 1px 2px rgba(20,32,27,.06), 0 8px 20px -14px rgba(20,32,27,.18);
+/* ===== LIGHT MODE ==================================================
+   Sebelumnya --primary/--secondary di light mode masih mengarah ke
+   warna hijau/teal yang kontrasnya rendah di atas latar putih.
+   Di bawah ini warna "aksen netral" (teks, border, judul section,
+   badge) diganti ke abu-abu gelap / nyaris hitam supaya jelas
+   terbaca, sementara warna semantik (warn/danger) tetap dipertahankan
+   agar makna warnanya tidak hilang. Dark mode TIDAK disentuh sama
+   sekali oleh blok ini. */
+[data-theme="light"] {
+  --shadow-panel: 0 1px 2px rgba(20,32,27,.06), 0 8px 20px -14px rgba(20,32,27,.18);
 
-      --bg-rgb: 248,250,252;
-      --panel-rgb: 255,255,255;
-      --card-rgb: 250,252,251;
-      --border-rgb: 203,214,207;
-      --text-rgb: 20,32,27;
-      --muted-rgb: 68,84,77;
+  --bg-rgb: 248,250,252;
+  --panel-rgb: 255,255,255;
+  --card-rgb: 250,252,251;
+  --border-rgb: 190,197,193;
+  --text-rgb: 17,24,21;
+  --muted-rgb: 90,101,96;
 
-      --primary-rgb: 15,157,100;
-      --primary-bright-rgb: 12,130,84;
-      --primary-dim-rgb: 213,240,226;
+  /* "primary" dipakai untuk judul section, teks aksen, badge, dsb.
+     Diganti ke abu-abu gelap / nyaris hitam agar kontras tinggi
+     di atas latar putih. */
+  --primary-rgb: 33,39,36;
+  --primary-bright-rgb: 15,18,17;
+  --primary-dim-rgb: 224,228,226;
 
-      --secondary-rgb: 15,143,130;
-      --secondary-bright-rgb: 12,114,104;
+  /* "secondary" dipakai untuk border/aksen kedua (compass, AHI, dsb) */
+  --secondary-rgb: 51,60,57;
+  --secondary-bright-rgb: 24,29,27;
 
-      --warn-rgb: 179,105,14;
-      --warn-bright-rgb: 148,86,8;
-      --warn-dim-rgb: 244,224,196;
+  --warn-rgb: 179,105,14;
+  --warn-bright-rgb: 148,86,8;
+  --warn-dim-rgb: 244,224,196;
 
-      --danger-rgb: 201,59,66;
-      --danger-bright-rgb: 168,45,51;
-    }
+  --danger-rgb: 201,59,66;
+  --danger-bright-rgb: 168,45,51;
+}
 
-    body {
-      font-family: var(--font-ui);
-      transition: background-color .25s ease, color .25s ease;
-    }
+body {
+  font-family: var(--font-ui);
+  transition: background-color .25s ease, color .25s ease;
+}
 
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: var(--primary-dim); border-radius: 4px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--primary-dim); border-radius: 4px; }
 
-    .grid-bg {
-      background-color: var(--bg);
-      background-image:
-        linear-gradient(rgba(var(--primary-rgb),.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(var(--primary-rgb),.04) 1px, transparent 1px);
-      background-size: 34px 34px;
-      transition: background-color .25s ease;
-    }
+.grid-bg {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(var(--primary-rgb),.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--primary-rgb),.04) 1px, transparent 1px);
+  background-size: 34px 34px;
+  transition: background-color .25s ease;
+}
 
-    .ocean-bg {
-      background: linear-gradient(180deg,
-        #040e28 0%, #071a44 18%, #0a2456 35%,
-        #081d47 55%, #050f2a 78%, #020710 100%);
-    }
-    .ocean-grid {
-      background-image:
-        linear-gradient(rgba(var(--secondary-rgb),.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(var(--secondary-rgb),.06) 1px, transparent 1px);
-      background-size: 32px 32px;
-    }
+.ocean-bg {
+  background: linear-gradient(180deg,
+    #040e28 0%, #071a44 18%, #0a2456 35%,
+    #081d47 55%, #050f2a 78%, #020710 100%);
+}
+.ocean-grid {
+  background-image:
+    linear-gradient(rgba(var(--secondary-rgb),.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--secondary-rgb),.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
 
-    @keyframes scan {
-      0%   { transform: translateY(-100%); }
-      100% { transform: translateY(600%); }
-    }
-    @keyframes bob {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50%       { transform: translateX(-50%) translateY(-7px); }
-    }
-    @keyframes particle {
-      0%   { opacity: 0; transform: translate(0, 0) scale(1); }
-      40%  { opacity: .6; }
-      100% { opacity: 0; transform: translate(var(--dx,5px), var(--dy,-52px)) scale(.5); }
-    }
-    @keyframes led-pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: .35; transform: scale(1.7); }
-    }
-    @keyframes leak-flash {
-      0%, 100% { background: rgba(var(--danger-rgb),.9); border-color: var(--danger-bright); box-shadow: 0 0 22px rgba(var(--danger-bright-rgb),.4); }
-      50%       { background: rgba(var(--danger-rgb),1);   border-color: var(--danger-bright); box-shadow: 0 0 36px rgba(var(--danger-bright-rgb),.6); }
-    }
-    @keyframes log-slide {
-      from { opacity: 0; transform: translateX(-8px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
+.bottomcam-bg {
+  background: linear-gradient(168deg, #1a1005 0%, #211608 35%, #1c1508 60%, #171005 100%);
+  background-image:
+    linear-gradient(rgba(var(--warn-rgb),.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--warn-rgb),.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
 
-    .scanline {
-      position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 3;
-    }
-    .scanline::after {
-      content: '';
-      position: absolute; left: 0; right: 0; height: 64px;
-      background: linear-gradient(180deg, transparent, rgba(var(--secondary-rgb),.05), transparent);
-      animation: scan 3.4s linear infinite;
-    }
+@keyframes scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(600%); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(-7px); }
+}
+@keyframes particle {
+  0%   { opacity: 0; transform: translate(0, 0) scale(1); }
+  40%  { opacity: .6; }
+  100% { opacity: 0; transform: translate(var(--dx,5px), var(--dy,-52px)) scale(.5); }
+}
+@keyframes led-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: .35; transform: scale(1.7); }
+}
+@keyframes leak-flash {
+  0%, 100% { background: rgba(var(--danger-rgb),.9); border-color: var(--danger-bright); box-shadow: 0 0 22px rgba(var(--danger-bright-rgb),.4); }
+  50%       { background: rgba(var(--danger-rgb),1);   border-color: var(--danger-bright); box-shadow: 0 0 36px rgba(var(--danger-bright-rgb),.6); }
+}
+@keyframes log-slide {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes blink-rec {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .15; }
+}
+@keyframes tbar-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes horizon-init {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
-    .led-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+.scanline {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 3;
+}
+.scanline::after {
+  content: '';
+  position: absolute; left: 0; right: 0; height: 64px;
+  background: linear-gradient(180deg, transparent, rgba(var(--secondary-rgb),.05), transparent);
+  animation: scan 3.4s linear infinite;
+}
 
-    .card {
-      background: var(--card);
-      border: 1px solid rgba(var(--primary-rgb),.22);
-      border-radius: var(--r-md);
-      box-shadow: var(--shadow-panel);
-      transition: border-color .2s ease, background-color .25s ease;
-    }
-    .section-title {
-      font-family: var(--font-ui);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .12em;
-      color: var(--primary-bright);
-      text-transform: uppercase;
-      padding-bottom: var(--sp-2);
-      margin-bottom: var(--sp-2);
-      border-bottom: 1px solid var(--border);
-    }
+.rov-arm {
+  position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 130px; height: 110px;
+  z-index: 4;
+  animation: bob 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
 
-    .mode-btn {
-      flex: 1;
-      border: 1px solid var(--border);
-      background: var(--card);
-      border-radius: var(--r-md);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      transition: all .18s ease;
-      position: relative;
-      overflow: hidden;
-      padding: var(--sp-2) 0;
-      font-family: var(--font-ui);
-      color: var(--text);
-    }
-    .mode-btn:hover {
-      border-color: rgba(var(--primary-rgb),.5);
-      background: rgba(var(--primary-dim-rgb),.35);
-    }
-    .mode-btn.active {
-      border-color: var(--primary);
-      background: rgba(var(--primary-dim-rgb),.55);
-      box-shadow: inset 0 0 0 1px rgba(var(--primary-rgb),.25);
-    }
-    .mode-btn.active::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, transparent, var(--primary-bright), transparent);
-    }
-    .mode-btn .mb-title { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; color: inherit; }
-    .mode-btn .mb-sub { font-size: 8px; font-family: var(--font-mono); letter-spacing: .04em; color: var(--muted); }
-    .mode-btn.active .mb-sub { color: var(--primary-bright); font-weight: 600; }
+.particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: rgba(147,210,255,.5);
+  animation: particle linear infinite;
+  z-index: 2;
+}
 
-    .tbar-bg {
-      height: 7px;
-      background: rgba(var(--primary-rgb),.16);
-      border: 1px solid rgba(var(--primary-rgb),.16);
-      border-radius: 999px;
-      overflow: hidden;
-      flex: 1;
-      min-width: 0;
-    }
+.led-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.led-pulse { animation: led-pulse .85s ease-in-out infinite; }
 
-    .hud-corner { position: absolute; width: 22px; height: 22px; border-color: rgba(var(--secondary-rgb),.6); border-style: solid; pointer-events: none; z-index: 10; }
-    .hud-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: var(--r-sm) 0 0 0; }
-    .hud-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 var(--r-sm) 0 0; }
-    .hud-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 var(--r-sm); }
-    .hud-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 var(--r-sm) 0; }
+.leak-safe {
+  border: 1px solid var(--primary-dim);
+  background: rgba(var(--panel-rgb),.85);
+  transition: all .3s;
+}
+.leak-danger { animation: leak-flash .55s ease-in-out infinite; }
 
-    .depth-fill-cyan  { background: linear-gradient(180deg, var(--secondary-bright), var(--secondary)); }
-    .depth-fill-amber { background: linear-gradient(180deg, var(--warn-bright), var(--warn)); }
-    .depth-fill-red   { background: linear-gradient(180deg, var(--danger-bright), var(--danger)); }
+.panel-surface {
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+.card {
+  background: var(--card);
+  border: 1px solid rgba(var(--primary-rgb),.22);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-panel);
+  transition: border-color .2s ease, background-color .25s ease;
+}
+.section-title {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--primary-bright);
+  text-transform: uppercase;
+  padding-bottom: var(--sp-2);
+  margin-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+}
 
-    .stat-row { border-bottom: 1px solid var(--border); }
-    .stat-row:last-of-type { border-bottom: none; }
+.mode-btn {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all .18s ease;
+  position: relative;
+  overflow: hidden;
+  padding: var(--sp-2) 4px;
+  font-family: var(--font-ui);
+  color: var(--text);
+}
+.mode-btn:hover {
+  border-color: rgba(var(--primary-rgb),.5);
+  background: rgba(var(--primary-dim-rgb),.35);
+}
+.mode-btn.active {
+  border-color: var(--primary);
+  background: rgba(var(--primary-dim-rgb),.55);
+  box-shadow: inset 0 0 0 1px rgba(var(--primary-rgb),.25);
+}
+.mode-btn.active::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary-bright), transparent);
+}
+.mode-btn .mb-title {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: inherit;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.mode-btn .mb-sub {
+  font-size: 7.5px;
+  font-family: var(--font-mono);
+  letter-spacing: .01em;
+  color: var(--muted);
+  white-space: nowrap;
+  max-width: 100%;
+}
+.mode-btn.active .mb-sub { color: var(--primary-bright); font-weight: 600; }
 
-    .log-entry { animation: log-slide .3s ease; }
-    #log-terminal { font-family: var(--font-mono); color: var(--text); }
-    #log-terminal > * { color: var(--text) !important; }
+.tbar-bg {
+  height: 7px;
+  background: rgba(var(--primary-rgb),.16);
+  border: 1px solid rgba(var(--primary-rgb),.16);
+  border-radius: 999px;
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+}
+.tbar-fill {
+  height: 100%; border-radius: 999px;
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
 
-    .pip-border { border: 1.5px solid rgba(var(--secondary-rgb),.5); box-shadow: var(--shadow-panel); }
-    .pip-border:hover { border-color: rgba(var(--secondary-rgb),.85); }
+.hud-corner { position: absolute; width: 22px; height: 22px; border-color: rgba(var(--secondary-rgb),.6); border-style: solid; pointer-events: none; z-index: 10; }
+.hud-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: var(--r-sm) 0 0 0; }
+.hud-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 var(--r-sm) 0 0; }
+.hud-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 var(--r-sm); }
+.hud-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 var(--r-sm) 0; }
 
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+.depth-fill-cyan  { background: linear-gradient(180deg, var(--secondary-bright), var(--secondary)); }
+.depth-fill-amber { background: linear-gradient(180deg, var(--warn-bright), var(--warn)); }
+.depth-fill-red   { background: linear-gradient(180deg, var(--danger-bright), var(--danger)); }
 
-    input[type=number] {
-      -moz-appearance: textfield;
-      font-family: var(--font-mono);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--primary-bright);
-      text-align: center;
-      outline: none;
-      border-radius: var(--r-sm);
-      transition: border-color .15s ease;
-    }
-    input[type=number]:focus {
-      border-color: rgba(var(--primary-rgb),.7);
-    }
+.stat-row { border-bottom: 1px solid var(--border); }
+.stat-row:last-of-type { border-bottom: none; }
 
-    .theme-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 3px 10px 3px 3px;
-      user-select: none;
-      transition: border-color .2s ease, background-color .2s ease;
-    }
-    .theme-toggle:hover { border-color: rgba(var(--primary-rgb),.5); }
-    .theme-toggle .track {
-      position: relative;
-      width: 30px;
-      height: 16px;
-      border-radius: 999px;
-      background: rgba(var(--primary-dim-rgb),.8);
-      border: 1px solid var(--border);
-      transition: background-color .2s ease;
-    }
-    .theme-toggle .thumb {
-      position: absolute;
-      top: 1px;
-      left: 1px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--primary-bright);
-      transition: transform .2s ease, background-color .2s ease;
-    }
-    [data-theme="light"] .theme-toggle .thumb {
-      transform: translateX(14px);
-      background: var(--warn);
-    }
-    .theme-toggle .tt-label {
-      font-family: var(--font-ui);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: .08em;
-      color: var(--muted);
-    }
+.log-entry { animation: log-slide .3s ease; }
+#log-terminal {
+  font-family: var(--font-mono);
+  color: var(--text);
+}
+#log-terminal > * {
+  color: var(--text) !important;
+}
 
-    #depth-alarm-banner { animation: leak-flash 0.6s ease-in-out infinite; }
+.pip-border { border: 1.5px solid rgba(var(--secondary-rgb),.5); box-shadow: var(--shadow-panel); }
+.pip-border:hover { border-color: rgba(var(--secondary-rgb),.85); }
 
-    #replay-seek {
-      -webkit-appearance: none;
-      height: 4px;
-      border-radius: 999px;
-      background: rgba(var(--primary-rgb),.2);
-      outline: none;
-    }
-    #replay-seek::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 11px; height: 11px; border-radius: 50%;
-      background: var(--primary-bright);
-      cursor: pointer;
-    }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
-    .traj-view-btn { transition: border-color .15s ease, color .15s ease, background-color .15s ease; }
-    .traj-view-btn:hover { border-color: rgba(var(--primary-rgb),.5); }
-    .traj-view-btn.active {
-      border-color: rgba(var(--primary-rgb),.6) !important;
-      color: var(--primary-bright) !important;
-      background: rgba(var(--primary-dim-rgb),.4) !important;
-    }
+input[type=number] {
+  -moz-appearance: textfield;
+  font-family: var(--font-mono);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--primary-bright);
+  text-align: center;
+  outline: none;
+  border-radius: var(--r-sm);
+  transition: border-color .15s ease;
+}
+input[type=number]:focus {
+  border-color: rgba(var(--primary-rgb),.7);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px 3px 3px;
+  user-select: none;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+.theme-toggle:hover { border-color: rgba(var(--primary-rgb),.5); }
+.theme-toggle .track {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  border-radius: 999px;
+  background: rgba(var(--primary-dim-rgb),.8);
+  border: 1px solid var(--border);
+  transition: background-color .2s ease;
+}
+.theme-toggle .thumb {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary-bright);
+  transition: transform .2s ease, background-color .2s ease;
+}
+[data-theme="light"] .theme-toggle .thumb {
+  transform: translateX(14px);
+  background: var(--warn);
+}
+.theme-toggle .tt-label {
+  font-family: var(--font-ui);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--muted);
+}
+
+/* ============ UI-ONLY ADDITIONS ============ */
+#info-bar { font-family: var(--font-mono); }
+
+#traj-canvas-wrap { display:block; }
+
+#depth-alarm-banner { animation: leak-flash 0.6s ease-in-out infinite; }
+
+#replay-seek {
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(var(--primary-rgb),.2);
+  outline: none;
+}
+#replay-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: var(--primary-bright);
+  cursor: pointer;
+}
+
+.qr-pill-valid   { border-color: rgba(var(--primary-rgb),.6) !important; color: var(--primary-bright) !important; background: rgba(var(--primary-dim-rgb),.4) !important; }
+.qr-pill-invalid { border-color: rgba(var(--danger-rgb),.6) !important; color: var(--danger-bright) !important; background: rgba(var(--danger-rgb),.12) !important; }
+.qr-pill-side    { border-color: rgba(var(--secondary-rgb),.6) !important; color: var(--secondary-bright) !important; background: rgba(var(--secondary-rgb),.12) !important; }
+
+/* ============ Trajectory Map: Horizontal / Vertical toggle ============ */
+.traj-view-btn { transition: border-color .15s ease, color .15s ease, background-color .15s ease; }
+.traj-view-btn:hover { border-color: rgba(var(--primary-rgb),.5); }
+.traj-view-btn.active {
+  border-color: rgba(var(--primary-rgb),.6) !important;
+  color: var(--primary-bright) !important;
+  background: rgba(var(--primary-dim-rgb),.4) !important;
+}
+
+/* ============ Light Mode: Mission Log kontras ============
+   Di dark mode teks log (hijau/kuning/biru/merah) sudah kontras dan
+   dibiarkan apa adanya. Di light mode warna-warna terang itu terlalu
+   nyatu dengan latar putih, jadi dipaksa jadi warna gelap/kontras
+   (var(--text) sudah hampir hitam di light mode) HANYA saat
+   data-theme="light". */
+[data-theme="light"] #log-terminal > div > span {
+  color: var(--text) !important;
+}
+[data-theme="light"] #log-terminal > div > span:first-child {
+  color: var(--muted) !important;
+}
   </style>
 </head>
 
@@ -370,17 +480,15 @@
 <!-- TOP BAR -->
 <div id="topbar" class="flex-shrink-0 h-11 bg-rov-panel border-b border-rov-border flex items-center justify-between" style="padding:0 var(--sp-4);">
   <div class="flex items-center" style="gap:var(--sp-3);">
+    <img src="assets/Lambang_UGM.png" alt="Logo UGM" style="height:26px;width:26px;object-fit:contain;flex-shrink:0;" />
     <span class="text-rov-em-d font-head font-bold" style="font-size:14px;letter-spacing:.14em;">KKI 2026</span>
     <div style="width:1px;height:18px;background:var(--rov-border);"></div>
-    <span class="bg-rov-card border border-rov-border rounded-md2 text-rov-em font-head font-medium" style="font-size:9.5px;padding:3px 9px;letter-spacing:.05em;">ROV-ALPHA</span>
     <span class="bg-rov-card border border-rov-border rounded-md2 text-rov-em font-head font-medium" style="font-size:9.5px;padding:3px 9px;letter-spacing:.05em;">DUAL-CAM</span>
     <span class="rounded-md2 text-rov-am font-head font-semibold" id="mode-badge" style="font-size:9.5px;padding:3px 9px;letter-spacing:.05em;background:rgba(var(--warn-dim-rgb),.5);border:1px solid var(--warn-dim);">DEPTH HOLD</span>
   </div>
   <div class="flex items-center" style="gap:var(--sp-3);">
-    <button onclick="takeScreenshot()" class="bg-rov-card border border-rov-border hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 10px;letter-spacing:.03em;">📸 Screenshot</button>
+    <button onclick="takeScreenshot()" class="bg-rov-card border border-rov-border hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 10px;letter-spacing:.03em;">Screenshot</button>
     <button id="btn-autolog" onclick="toggleAutoLog()" class="bg-rov-card border border-rov-border hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 10px;letter-spacing:.03em;">⏺ Auto-Log: OFF</button>
-    <div style="width:1px;height:18px;background:var(--rov-border);"></div>
-    <button onclick="togglePIDModal(true)" class="bg-rov-card border border-rov-em-b hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 12px;letter-spacing:.03em;">⚙ PID Settings</button>
     <div style="width:1px;height:18px;background:var(--rov-border);"></div>
     <div class="flex items-center font-mono" style="gap:var(--sp-2);font-size:10px;">
       <span id="tb-ping" class="text-rov-em">0 ms</span>
@@ -398,7 +506,7 @@
 </div>
 
 <!-- TOP INFO BAR -->
-<div id="info-bar" class="flex-shrink-0 bg-rov-panel border-b border-rov-border flex items-center justify-between" style="height:26px;padding:0 var(--sp-4);">
+<div id="info-bar" class="flex-shrink-0 bg-rov-panel border-b border-rov-border flex items-center justify-between" style="height:20px;padding:0 var(--sp-4);">
   <div class="flex items-center font-mono" style="gap:var(--sp-2);font-size:9.5px;color:var(--muted);letter-spacing:.04em;">
     <span>TIM: <span class="text-rov-em-d font-semibold">GAMANTARAY ALMASENA CANDRASSSA</span></span>
     <span>·</span>
@@ -408,30 +516,26 @@
 </div>
 
 <!-- MAIN ROW -->
-<div class="flex flex-1 overflow-hidden min-h-0" style="gap:var(--sp-3);padding:var(--sp-3);">
+<div class="flex flex-1 overflow-hidden min-h-0" style="gap:var(--sp-3);padding:8px;">
 
   <!-- LEFT SIDEBAR: ROV Design + Trajectory Map + Replay -->
-  <div class="w-64 flex-shrink-0 bg-rov-panel border border-rov-border rounded-lg2 flex flex-col overflow-hidden min-h-0" style="padding:var(--sp-3);gap:var(--sp-3);box-shadow:var(--shadow-panel);">
+  <div class="w-64 flex-shrink-0 h-full bg-rov-panel border border-rov-border rounded-lg2 flex flex-col overflow-hidden min-h-0" style="padding:8px;gap:8px;box-shadow:var(--shadow-panel);">
 
-    <!-- ROV DESIGN / AXIS CARD -->
-    <div class="card flex flex-col" style="padding:var(--sp-3);flex:1;min-height:0;">
-      <div class="section-title" style="flex-shrink:0;">ROV Design</div>
-      <div style="position:relative;width:100%;flex:1;min-height:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;display:flex;align-items:center;justify-content:center;">
-        <img src="/assets/rov_design.png" alt="ROV Design" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
-        <span class="font-mono" style="display:none;font-size:9px;color:var(--muted);">ROV DESIGN IMAGE</span>
-        <svg viewBox="0 0 60 60" style="position:absolute;bottom:4px;right:4px;width:34px;height:34px;">
-          <line x1="30" y1="30" x2="52" y2="30" stroke="var(--danger-bright)" stroke-width="2"/>
-          <text x="53" y="33" font-size="7" fill="var(--danger-bright)">X</text>
-          <line x1="30" y1="30" x2="30" y2="8" stroke="var(--primary-bright)" stroke-width="2"/>
-          <text x="26" y="6" font-size="7" fill="var(--primary-bright)">Y</text>
-          <circle cx="30" cy="30" r="3" fill="var(--secondary-bright)"/>
-          <text x="34" y="42" font-size="7" fill="var(--secondary-bright)">Z</text>
-        </svg>
+    <!-- ROV DESIGN / AXIS CARD (enlarged) -->
+    <div class="card flex flex-col" style="padding:var(--sp-3);flex:1 1 0%;min-height:0;">
+      <div class="section-title flex items-center justify-between" style="flex-shrink:0;">
+        <span>ROV Design</span>
+        <span class="font-mono" style="font-size:7px;color:var(--muted);letter-spacing:.03em;">X_FINAL_STL</span>
+      </div>
+      <div id="stl-viewer-wrap" style="position:relative;width:100%;flex:1;min-height:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;display:flex;align-items:center;justify-content:center;">
+        <div id="stl-viewer" style="position:absolute;inset:0;cursor:grab;"></div>
+        <span id="stl-loading-label" class="font-mono" style="position:relative;z-index:1;font-size:9px;color:var(--muted);letter-spacing:.03em;pointer-events:none;">LOADING 3D MODEL…</span>
+        <div id="axis-gizmo" style="position:absolute;bottom:4px;right:4px;width:52px;height:52px;z-index:2;pointer-events:none;"></div>
       </div>
     </div>
 
-    <!-- TRAJECTORY MAP CARD -->
-    <div class="card flex flex-col" style="padding:var(--sp-3);flex:1;min-height:0;">
+    <!-- TRAJECTORY MAP CARD (enlarged, takes the larger share of the growth) -->
+    <div class="card flex flex-col" style="padding:var(--sp-3);flex:1.2 1 0%;min-height:0;">
       <div class="section-title flex items-center justify-between" style="flex-shrink:0;">
         <span>Trajectory Map</span>
         <div class="flex" style="gap:4px;">
@@ -443,37 +547,16 @@
         <canvas id="traj-canvas" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
       </div>
       <div class="flex justify-between font-mono" style="font-size:8px;margin-top:6px;flex-shrink:0;color:var(--muted);">
-        <span><span style="color:var(--primary-bright);">●</span> Start (S)</span>
-        <span><span style="color:var(--secondary-bright);">—</span> Path</span>
-        <span><span style="color:var(--warn-bright);">●</span> End (E)</span>
+        <span><span style="color:var(--primary-bright);">●</span> Start (S) (m)</span>
+        <span><span style="color:var(--secondary-bright);">—</span> Path (m)</span>
+        <span><span style="color:var(--warn-bright);">●</span> End (E) (m)</span>
       </div>
-    </div>
-
-    <!-- REPLAY CONTROLLER CARD -->
-    <div class="card flex flex-col justify-center" style="padding:var(--sp-3);flex:1;min-height:0;">
-      <div class="section-title flex items-center justify-between" style="flex-shrink:0;">
-        <span>Replay Controller</span>
-        <span id="replay-mode-badge" class="font-mono text-rov-em" style="font-size:8px;font-weight:700;">LIVE</span>
-      </div>
-
-      <select id="replay-session-select" onchange="onSelectReplaySession(this.value)" class="font-mono" style="width:100%;font-size:9px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--r-sm);padding:3px 6px;margin-bottom:8px;outline:none;cursor:pointer;">
-        <option value="">-- [ LIVE MONITORING ] --</option>
-      </select>
-
-      <div class="flex items-center justify-center" style="gap:var(--sp-3);margin-bottom:8px;flex-shrink:0;">
-        <button onclick="replayControl('prev')" class="font-mono" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:4px 8px;cursor:pointer;font-size:11px;">⏮</button>
-        <button id="btn-replay-play" onclick="replayControl('play')" class="font-mono" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:4px 10px;cursor:pointer;font-size:11px;">▶</button>
-        <button onclick="replayControl('next')" class="font-mono" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:4px 8px;cursor:pointer;font-size:11px;">⏭</button>
-      </div>
-
-      <input id="replay-seek" type="range" min="0" max="100" value="0" style="width:100%;flex-shrink:0;" oninput="replaySeek(this.value)"/>
-      <div id="replay-time-display" class="font-mono" style="font-size:8px;color:var(--muted);text-align:center;margin-top:6px;flex-shrink:0;">00:00 / 00:00</div>
     </div>
 
   </div> <!-- Penutup Left Sidebar -->
 
   <!-- FPV CENTER ZONE -->
-  <div id="fpv-zone" class="relative flex-1 overflow-hidden ocean-bg rounded-lg2 border border-rov-border" style="box-shadow:var(--shadow-panel);">
+  <div id="fpv-zone" class="relative flex-1 h-full overflow-hidden ocean-bg rounded-lg2 border border-rov-border" style="box-shadow:var(--shadow-panel);">
     <img id="main-cam" src="/video/front" alt="Main FPV Camera" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; background:var(--bg);" />
 
     <div id="qr-overlay" style="display:none;position:absolute;border:2px solid var(--primary-bright);box-shadow:0 0 12px rgba(var(--primary-bright-rgb),.75);pointer-events:none;z-index:15;border-radius:4px;">
@@ -539,7 +622,7 @@
   </div> <!-- Penutup FPV Center Zone -->
 
   <!-- RIGHT SIDEBAR -->
-  <div class="w-64 flex-shrink-0 bg-rov-panel border border-rov-border rounded-lg2 flex flex-col overflow-hidden" style="padding:var(--sp-3);gap:var(--sp-3);box-shadow:var(--shadow-panel);">
+  <div class="w-64 flex-shrink-0 h-full bg-rov-panel border border-rov-border rounded-lg2 flex flex-col overflow-hidden" style="padding:var(--sp-3);gap:var(--sp-3);box-shadow:var(--shadow-panel);">
 
     <!-- TELEMETRY CARD -->
     <div class="card" style="padding:var(--sp-3);flex-shrink:0;">
@@ -574,10 +657,7 @@
     <div class="card" style="padding:var(--sp-3);flex-shrink:0;border-color:rgba(var(--secondary-rgb),.4);">
       <div class="font-head" style="font-size:9.5px;font-weight:600;color:rgba(var(--secondary-rgb),.85);letter-spacing:.1em;text-transform:uppercase;">QR Scanner</div>
       <div id="qr-result" class="font-mono" style="margin-top:var(--sp-2);font-size:10.5px;color:var(--muted);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">MENUNGGU PEMINDAIAN</div>
-      <div class="flex items-center justify-between" style="margin-top:8px;">
-        <span id="qr-side" class="font-mono" style="font-size:9px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--border);color:var(--muted);letter-spacing:.05em;">SIDE: -</span>
-        <span id="qr-valid" class="font-mono" style="font-size:9px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--border);color:var(--muted);letter-spacing:.05em;">STATUS: -</span>
-      </div>
+      <div id="qr-confirm" class="font-mono" style="margin-top:6px;font-size:9.5px;color:var(--primary-bright);letter-spacing:.02em;display:none;"></div>
     </div>
 
     <!-- MISSION LOG CARD -->
@@ -591,51 +671,87 @@
 </div> <!-- Penutup Main Row -->
 
 <!-- BOTTOM BAR -->
-<div class="flex-shrink-0 bg-rov-panel border-t border-rov-border flex items-center" style="min-height:132px;padding:var(--sp-3) var(--sp-4);gap:var(--sp-3);">
+<div class="flex-shrink-0 bg-rov-panel border-t border-rov-border flex items-center" style="min-height:96px;padding:var(--sp-2) var(--sp-4);gap:var(--sp-3);">
 
-  <div class="flex items-stretch" style="gap:var(--sp-2);height:88px;width:180px;flex-shrink:0;">
-    <button class="mode-btn active" id="btn-manual" onclick="setMode('manual')">
-      <span class="mb-title">MANUAL</span>
-      <span class="mb-sub">FULL CTRL</span>
-    </button>
-    <button class="mode-btn" id="btn-auto" onclick="setMode('auto')">
-      <span class="mb-title">AUTONOMOUS</span>
-      <span class="mb-sub">AI MISSION</span>
-    </button>
-  </div>
-
-  <div style="width:1px;align-self:stretch;background:var(--border);flex-shrink:0;"></div>
-
-  <div class="card" style="flex:1;height:100%;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:var(--sp-3) var(--sp-5);min-width:0;overflow:hidden;">
-    <div class="section-title" style="margin-bottom:0;">Thrusters Input</div>
-
-    <div class="flex items-center" style="gap:var(--sp-3);">
-      <span class="font-head" style="width:34px;font-size:9px;color:var(--muted);letter-spacing:.06em;font-weight:600;flex-shrink:0;">FWD</span>
-      <div class="tbar-bg">
-        <div id="tbar-fwd" style="height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--primary-bright));transition:width 0.1s linear;"></div>
+  <!-- SPACER KOSONG: lebar disamakan dengan Left Sidebar (w-64) supaya area
+       kiri-bawah benar-benar kosong, tanpa elemen panel apa pun di sini. -->
+  <!-- REPLAY CONTROLLER: dipindahkan ke sini, sejajar dengan Mode Selector -->
+  <div class="w-64 flex-shrink-0">
+    <div class="card flex flex-col justify-center" style="height:96px;padding:6px 10px;">
+      <div class="section-title flex items-center justify-between" style="flex-shrink:0;margin-bottom:4px;padding-bottom:3px;">
+        <span style="font-size:9px;">Replay Controller</span>
+        <span id="replay-mode-badge" class="font-mono text-rov-em" style="font-size:8px;font-weight:700;">LIVE</span>
       </div>
-      <span id="tval-fwd" class="font-mono" style="width:42px;font-size:10px;color:var(--primary-bright);text-align:right;flex-shrink:0;font-weight:600;">0%</span>
-    </div>
 
-    <div class="flex items-center" style="gap:var(--sp-3);">
-      <span class="font-head" style="width:34px;font-size:9px;color:var(--muted);letter-spacing:.06em;font-weight:600;flex-shrink:0;">VERT</span>
-      <div class="tbar-bg">
-        <div id="tbar-vert" style="height:100%;width:0%;background:linear-gradient(90deg,var(--secondary),var(--secondary-bright));transition:width 0.1s linear;"></div>
-      </div>
-      <span id="tval-vert" class="font-mono" style="width:42px;font-size:10px;color:var(--secondary-bright);text-align:right;flex-shrink:0;font-weight:600;">0%</span>
-    </div>
+      <select id="replay-session-select" onchange="onSelectReplaySession(this.value)" class="font-mono" style="width:100%;font-size:9px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:var(--r-sm);padding:2px 6px;margin-bottom:4px;outline:none;cursor:pointer;">
+        <option value="">-- [ LIVE MONITORING ] --</option>
+      </select>
 
-    <div class="flex items-center" style="gap:var(--sp-3);">
-      <span class="font-head" style="width:34px;font-size:9px;color:var(--muted);letter-spacing:.06em;font-weight:600;flex-shrink:0;">YAW</span>
-      <div class="tbar-bg">
-        <div id="tbar-yaw" style="height:100%;width:0%;background:linear-gradient(90deg,var(--warn),var(--warn-bright));transition:width 0.1s linear;"></div>
+      <div class="flex items-center justify-between" style="gap:var(--sp-2);flex-shrink:0;">
+        <div class="flex items-center" style="gap:6px;">
+          <button onclick="replayControl('prev')" class="font-mono" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:2px 6px;cursor:pointer;font-size:10px;">⏮</button>
+          <button id="btn-replay-play" onclick="replayControl('play')" class="font-mono" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:2px 8px;cursor:pointer;font-size:10px;">▶</button>
+          <button onclick="replayControl('next')" class="font-mono" style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);padding:2px 6px;cursor:pointer;font-size:10px;">⏭</button>
+        </div>
+        <div id="replay-time-display" class="font-mono" style="font-size:8px;color:var(--muted);flex-shrink:0;">00:00 / 00:00</div>
       </div>
-      <span id="tval-yaw" class="font-mono" style="width:42px;font-size:10px;color:var(--warn-bright);text-align:right;flex-shrink:0;font-weight:600;">0%</span>
+
+      <input id="replay-seek" type="range" min="0" max="100" value="0" style="width:100%;flex-shrink:0;margin-top:4px;" oninput="replaySeek(this.value)"/>
     </div>
   </div>
 
+  <!-- GRUP TENGAH: Mode Selector + Thrusters Input, sejajar (side-by-side)
+       dan diposisikan di tengah area bawah, di bawah FPV Center Zone. -->
+  <div class="flex-1 flex items-center min-w-0" style="gap:var(--sp-3);">
+
+    <!-- MODE SELECTOR (ukuran diperkecil, lebar cukup agar teks 'AUTONOMOUS' tidak overflow) -->
+    <div class="flex items-stretch" style="gap:var(--sp-2);height:76px;width:190px;flex-shrink:0;">
+      <button class="mode-btn active" id="btn-manual" onclick="setMode('manual')">
+        <span class="mb-title">MANUAL</span>
+        <span class="mb-sub">FULL CTRL</span>
+      </button>
+      <button class="mode-btn" id="btn-auto" onclick="setMode('auto')">
+        <span class="mb-title">AUTONOMOUS</span>
+        <span class="mb-sub">AI MISSION</span>
+      </button>
+    </div>
+
+    <div style="width:1px;align-self:stretch;background:var(--border);flex-shrink:0;"></div>
+
+    <!-- THRUSTERS INPUT (diperpendek: lebar tetap/terbatas, bukan flex:1) -->
+    <div class="card" style="flex:1;height:96px;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:var(--sp-2) var(--sp-4);min-width:0;overflow:hidden;">
+      <div class="section-title" style="margin-bottom:0;padding-bottom:3px;font-size:8.5px;">Thrusters Input</div>
+
+      <div class="flex items-center" style="gap:var(--sp-3);">
+        <span class="font-head" style="width:30px;font-size:8px;color:var(--muted);letter-spacing:.06em;font-weight:600;flex-shrink:0;">FWD</span>
+        <div class="tbar-bg" style="height:5px;">
+          <div id="tbar-fwd" style="height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--primary-bright));transition:width 0.1s linear;"></div>
+        </div>
+        <span id="tval-fwd" class="font-mono" style="width:36px;font-size:9px;color:var(--primary-bright);text-align:right;flex-shrink:0;font-weight:600;">0%</span>
+      </div>
+
+      <div class="flex items-center" style="gap:var(--sp-3);">
+        <span class="font-head" style="width:30px;font-size:8px;color:var(--muted);letter-spacing:.06em;font-weight:600;flex-shrink:0;">VERT</span>
+        <div class="tbar-bg" style="height:5px;">
+          <div id="tbar-vert" style="height:100%;width:0%;background:linear-gradient(90deg,var(--secondary),var(--secondary-bright));transition:width 0.1s linear;"></div>
+        </div>
+        <span id="tval-vert" class="font-mono" style="width:36px;font-size:9px;color:var(--secondary-bright);text-align:right;flex-shrink:0;font-weight:600;">0%</span>
+      </div>
+
+      <div class="flex items-center" style="gap:var(--sp-3);">
+        <span class="font-head" style="width:30px;font-size:8px;color:var(--muted);letter-spacing:.06em;font-weight:600;flex-shrink:0;">YAW</span>
+        <div class="tbar-bg" style="height:5px;">
+          <div id="tbar-yaw" style="height:100%;width:0%;background:linear-gradient(90deg,var(--warn),var(--warn-bright));transition:width 0.1s linear;"></div>
+        </div>
+        <span id="tval-yaw" class="font-mono" style="width:36px;font-size:9px;color:var(--warn-bright);text-align:right;flex-shrink:0;font-weight:600;">0%</span>
+      </div>
+    </div>
+
+  </div> <!-- Penutup Grup Tengah -->
+
   <div style="width:1px;align-self:stretch;background:var(--border);flex-shrink:0;"></div>
 
+  <!-- QUICK STATS: tetap di kanan, tidak berubah -->
   <div class="card" style="height:100%;display:flex;flex-direction:column;justify-content:center;gap:6px;padding:var(--sp-3) var(--sp-4);flex-shrink:0;min-width:120px;">
     <div class="section-title" style="margin-bottom:2px;padding-bottom:4px;">Quick Stats</div>
     <div class="flex items-center justify-between">
@@ -654,7 +770,7 @@
 
 </div> <!-- Penutup Bottom Bar -->
 
-<!-- PID SETTINGS MODAL -->
+<!-- PID SETTINGS MODAL (tetap ada di DOM, hanya trigger tombol di topbar yang dihapus) -->
 <div id="pid-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center hidden" style="z-index: 9999;">
   <div class="bg-rov-panel border border-rov-border rounded-lg2 flex flex-col shadow-2xl" style="width: 420px; padding:var(--sp-5); gap:var(--sp-4); box-shadow: var(--shadow-panel), 0 0 40px rgba(var(--secondary-rgb),0.12);">
     <div class="flex justify-between items-center" style="border-bottom:1px solid var(--border);padding-bottom:var(--sp-3);">
@@ -704,12 +820,162 @@
     document.documentElement.setAttribute('data-theme', next);
     localStorage.setItem('gcs-theme', next);
     applyThemeLabel();
+    if (typeof window.redrawTrajectory === 'function') window.redrawTrajectory();
   };
   applyThemeLabel();
 </script>
 
 <!-- Main Telemetry, Video & Replay Controller -->
-<script src="/js/main.js"></script>
+<script src="js/main.js"></script>
+
+<!-- ROV 3D Design Viewer (GLB) + Live Axis Gizmo -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+  import * as THREE from 'three';
+  import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+  const mount = document.getElementById('stl-viewer');
+  const loadingLabel = document.getElementById('stl-loading-label');
+  const gizmoMount = document.getElementById('axis-gizmo');
+
+  if (mount) {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(window.devicePixelRatio || 1);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    mount.appendChild(renderer.domElement);
+
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x223322, 1.1));
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+    dirLight.position.set(1, 1, 1);
+    scene.add(dirLight);
+    const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
+    dirLight2.position.set(-1, 0.5, -1);
+    scene.add(dirLight2);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+
+    function resizeViewer() {
+      const w = mount.clientWidth || 1;
+      const h = mount.clientHeight || 1;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    resizeViewer();
+    window.addEventListener('resize', resizeViewer);
+
+    const loader = new GLTFLoader();
+    loader.load(
+      'assets/X_FINAL_GLB.glb',
+      (gltf) => {
+        const model = gltf.scene;
+
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        model.position.sub(center);
+
+        scene.add(model);
+
+        const sphere = box.getBoundingSphere(new THREE.Sphere());
+        const radius = sphere.radius || 50;
+        camera.position.set(radius * 1.8, radius * 1.4, radius * 1.8);
+        camera.near = radius / 100;
+        camera.far = radius * 100;
+        camera.updateProjectionMatrix();
+        controls.target.set(0, 0, 0);
+        controls.update();
+
+        if (loadingLabel) loadingLabel.style.display = 'none';
+      },
+      (xhr) => {
+        if (loadingLabel && xhr.total) {
+          const pct = Math.round((xhr.loaded / xhr.total) * 100);
+          loadingLabel.textContent = `LOADING 3D MODEL… ${pct}%`;
+        }
+      },
+      (err) => {
+        console.error('Gagal memuat model GLB:', err);
+        if (loadingLabel) loadingLabel.textContent = 'GAGAL MEMUAT MODEL 3D';
+      }
+    );
+
+    function makeAxisLabel(text, colorHex) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64; canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      ctx.font = 'bold 44px sans-serif';
+      ctx.fillStyle = colorHex;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 32, 34);
+      const tex = new THREE.CanvasTexture(canvas);
+      const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false });
+      const sprite = new THREE.Sprite(mat);
+      sprite.scale.set(0.55, 0.55, 0.55);
+      return sprite;
+    }
+
+    let gizmoRenderer, gizmoScene, gizmoCamera;
+    if (gizmoMount) {
+      gizmoScene = new THREE.Scene();
+      gizmoCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 10);
+      gizmoRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      gizmoRenderer.setPixelRatio(window.devicePixelRatio || 1);
+      gizmoRenderer.setSize(gizmoMount.clientWidth || 52, gizmoMount.clientHeight || 52);
+      gizmoMount.appendChild(gizmoRenderer.domElement);
+
+      const axisDefs = [
+        { dir: new THREE.Vector3(1, 0, 0), color: 0xf0787e, label: 'X' },
+        { dir: new THREE.Vector3(0, 1, 0), color: 0x5ee0a6, label: 'Y' },
+        { dir: new THREE.Vector3(0, 0, 1), color: 0x5cd6c7, label: 'Z' },
+      ];
+
+      axisDefs.forEach(({ dir, color, label }) => {
+        const points = [new THREE.Vector3(0, 0, 0), dir.clone().multiplyScalar(1.0)];
+        const geom = new THREE.BufferGeometry().setFromPoints(points);
+        const mat = new THREE.LineBasicMaterial({ color, linewidth: 2 });
+        gizmoScene.add(new THREE.Line(geom, mat));
+
+        const tip = new THREE.Mesh(
+          new THREE.SphereGeometry(0.07, 12, 12),
+          new THREE.MeshBasicMaterial({ color })
+        );
+        tip.position.copy(dir.clone().multiplyScalar(1.0));
+        gizmoScene.add(tip);
+
+        const sprite = makeAxisLabel(label, `#${color.toString(16).padStart(6, '0')}`);
+        sprite.position.copy(dir.clone().multiplyScalar(1.35));
+        gizmoScene.add(sprite);
+      });
+    }
+
+    (function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+
+      if (gizmoRenderer) {
+        const dir = new THREE.Vector3().subVectors(camera.position, controls.target).normalize();
+        gizmoCamera.position.copy(dir.multiplyScalar(3.2));
+        gizmoCamera.up.copy(camera.up);
+        gizmoCamera.lookAt(0, 0, 0);
+        gizmoRenderer.render(gizmoScene, gizmoCamera);
+      }
+    })();
+  }
+</script>
 
 </body>
 </html>

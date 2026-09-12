@@ -52,22 +52,34 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
   --danger-bright: rgb(var(--danger-bright-rgb));
 }
 
+/* ===== LIGHT MODE ==================================================
+   Sebelumnya --primary/--secondary di light mode masih mengarah ke
+   warna hijau/teal yang kontrasnya rendah di atas latar putih.
+   Di bawah ini warna "aksen netral" (teks, border, judul section,
+   badge) diganti ke abu-abu gelap / nyaris hitam supaya jelas
+   terbaca, sementara warna semantik (warn/danger) tetap dipertahankan
+   agar makna warnanya tidak hilang. Dark mode TIDAK disentuh sama
+   sekali oleh blok ini. */
 [data-theme="light"] {
   --shadow-panel: 0 1px 2px rgba(20,32,27,.06), 0 8px 20px -14px rgba(20,32,27,.18);
 
   --bg-rgb: 248,250,252;
   --panel-rgb: 255,255,255;
   --card-rgb: 250,252,251;
-  --border-rgb: 203,214,207;
-  --text-rgb: 20,32,27;
-  --muted-rgb: 68,84,77;
+  --border-rgb: 190,197,193;
+  --text-rgb: 17,24,21;
+  --muted-rgb: 90,101,96;
 
-  --primary-rgb: 15,157,100;
-  --primary-bright-rgb: 12,130,84;
-  --primary-dim-rgb: 213,240,226;
+  /* "primary" dipakai untuk judul section, teks aksen, badge, dsb.
+     Diganti ke abu-abu gelap / nyaris hitam agar kontras tinggi
+     di atas latar putih. */
+  --primary-rgb: 33,39,36;
+  --primary-bright-rgb: 15,18,17;
+  --primary-dim-rgb: 224,228,226;
 
-  --secondary-rgb: 15,143,130;
-  --secondary-bright-rgb: 12,114,104;
+  /* "secondary" dipakai untuk border/aksen kedua (compass, AHI, dsb) */
+  --secondary-rgb: 51,60,57;
+  --secondary-bright-rgb: 24,29,27;
 
   --warn-rgb: 179,105,14;
   --warn-bright-rgb: 148,86,8;
@@ -220,6 +232,7 @@ body {
 
 .mode-btn {
   flex: 1;
+  min-width: 0;
   border: 1px solid var(--border);
   background: var(--card);
   border-radius: var(--r-md);
@@ -232,7 +245,7 @@ body {
   transition: all .18s ease;
   position: relative;
   overflow: hidden;
-  padding: var(--sp-2) 0;
+  padding: var(--sp-2) 4px;
   font-family: var(--font-ui);
   color: var(--text);
 }
@@ -250,8 +263,22 @@ body {
   position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent, var(--primary-bright), transparent);
 }
-.mode-btn .mb-title { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; color: inherit; }
-.mode-btn .mb-sub { font-size: 8px; font-family: var(--font-mono); letter-spacing: .04em; color: var(--muted); }
+.mode-btn .mb-title {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: inherit;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.mode-btn .mb-sub {
+  font-size: 7.5px;
+  font-family: var(--font-mono);
+  letter-spacing: .01em;
+  color: var(--muted);
+  white-space: nowrap;
+  max-width: 100%;
+}
 .mode-btn.active .mb-sub { color: var(--primary-bright); font-weight: 600; }
 
 .tbar-bg {
@@ -383,11 +410,24 @@ input[type=number]:focus {
 .qr-pill-invalid { border-color: rgba(var(--danger-rgb),.6) !important; color: var(--danger-bright) !important; background: rgba(var(--danger-rgb),.12) !important; }
 .qr-pill-side    { border-color: rgba(var(--secondary-rgb),.6) !important; color: var(--secondary-bright) !important; background: rgba(var(--secondary-rgb),.12) !important; }
 
-/* ============ Trajectory Map: Horizontal / Vertical toggle (NEW) ============ */
+/* ============ Trajectory Map: Horizontal / Vertical toggle ============ */
 .traj-view-btn { transition: border-color .15s ease, color .15s ease, background-color .15s ease; }
 .traj-view-btn:hover { border-color: rgba(var(--primary-rgb),.5); }
 .traj-view-btn.active {
   border-color: rgba(var(--primary-rgb),.6) !important;
   color: var(--primary-bright) !important;
   background: rgba(var(--primary-dim-rgb),.4) !important;
+}
+
+/* ============ Light Mode: Mission Log kontras ============
+   Di dark mode teks log (hijau/kuning/biru/merah) sudah kontras dan
+   dibiarkan apa adanya. Di light mode warna-warna terang itu terlalu
+   nyatu dengan latar putih, jadi dipaksa jadi warna gelap/kontras
+   (var(--text) sudah hampir hitam di light mode) HANYA saat
+   data-theme="light". */
+[data-theme="light"] #log-terminal > div > span {
+  color: var(--text) !important;
+}
+[data-theme="light"] #log-terminal > div > span:first-child {
+  color: var(--muted) !important;
 }

@@ -284,10 +284,6 @@
         typeof window.renderAltitude === "function") {
       window.renderAltitude(data.altitude);
     }
-    if (data.qr_side !== undefined && data.qr_valid !== undefined &&
-        typeof window.renderQrSideValid === "function") {
-      window.renderQrSideValid(data.qr_side, Boolean(data.qr_valid));
-    }
 
     const compassStrip = document.getElementById("compass-strip");
     const hdgVal = document.getElementById("hdg-val");
@@ -353,6 +349,7 @@
 
     const scannedQr = String(data.qr_data || "").trim();
     const qrResult = document.getElementById("qr-result");
+    const qrConfirm = document.getElementById("qr-confirm");
     if (scannedQr) {
       if (qrResult) {
         qrResult.textContent = scannedQr;
@@ -361,6 +358,11 @@
       if (scannedQr !== S.lastQrResult) {
         S.lastQrResult = scannedQr;
         appendLog("QR", `QR BERHASIL DI-SCAN! Hasil: ${scannedQr}`, "info");
+
+        if (qrConfirm) {
+          qrConfirm.textContent = "QR berhasil dipindai. Gripper siap dioperasikan.";
+          qrConfirm.style.display = "block";
+        }
 
         const qrCamera = data.qr_camera;
         const shouldShowBottom = qrCamera === "bottom";
@@ -429,7 +431,7 @@
         if (data.status === "ok") {
           const statusStr = data.auto_log_enabled ? "STANDBY (ARM DIPERLUKAN)" : "OFF";
           appendLog("REC", `Auto-Log Record status: ${statusStr}`, "sys");
-          loadReplaySessions(); // Refresh list rekaman saat ada sesi baru
+          loadReplaySessions();
         }
       })
       .catch(err => console.error("Error toggle autolog:", err));
@@ -461,7 +463,6 @@
 
   window.onSelectReplaySession = function (sessionId) {
     if (!sessionId) {
-      // Kembali ke LIVE MODE
       S.isReplayMode = false;
       S.activeSessionId = "";
       stopReplayPlayback();
@@ -472,7 +473,6 @@
         badge.className = "font-mono text-rov-em";
       }
 
-      // Kembalikan video live
       const mainCam = document.getElementById("main-cam");
       const pipCam = document.getElementById("pip-cam");
       const ts = Date.now();
@@ -486,7 +486,6 @@
       return;
     }
 
-    // Aktifkan REPLAY MODE
     S.isReplayMode = true;
     S.activeSessionId = sessionId;
     stopReplayPlayback();
@@ -552,7 +551,7 @@
     if (btn) btn.textContent = "⏸";
 
     S.replayTimer = setInterval(() => {
-      S.replayCurrentMs += 100; // Increment 100ms
+      S.replayCurrentMs += 100;
       if (S.replayCurrentMs >= S.replayDurationMs) {
         S.replayCurrentMs = S.replayDurationMs;
         stopReplayPlayback();
@@ -572,7 +571,6 @@
   }
 
   function renderReplayFrameAt(timeMs) {
-    // 1. Update Slider & Label Waktu
     const seek = document.getElementById("replay-seek");
     if (seek && S.replayDurationMs > 0) {
       seek.value = (timeMs / S.replayDurationMs) * 100;
@@ -587,7 +585,6 @@
       timeDisplay.textContent = `${curStr} / ${totStr}`;
     }
 
-    // 2. Potong Trajectory sesuai waktu berjalan
     const slice = S.replayData.filter(p => p.elapsed_ms <= timeMs);
     const ptsH = slice.map(p => ({ x: p.x, y: p.y }));
     const ptsV = slice.map(p => ({ depth: p.depth }));
@@ -595,7 +592,6 @@
       window.setTrajectoryHistory(ptsH, ptsV);
     }
 
-    // 3. Tarik frame gambar MP4 (throttle 15fps untuk kelancaran)
     const now = Date.now();
     if (now - S.lastFrameFetchTime > 60) {
       S.lastFrameFetchTime = now;
@@ -681,8 +677,44 @@
     ctx.textAlign = "left";
   }
 
+  // ── LABEL SUMBU (AXIS) STATIS: nama sumbu + satuan meter ──
+  // Ditampilkan selalu (baik ada data maupun belum) supaya operator langsung
+  // tahu sumbu mana yang mewakili apa dan dalam satuan apa (meter).
+  function drawAxisNames(ctx, w, h, view) {
+    ctx.font = "8px monospace";
+    ctx.textBaseline = "alphabetic";
+
+    const isLight = document.documentElement.getAttribute("data-theme") === "light";
+
+    if (view === "h") {
+      // Tampilan Horizontal (top-down): sumbu X (kanan) & sumbu Y (atas)
+      const xyColor = isLight ? "#14201b" : "rgba(94,224,166,.85)";
+      ctx.fillStyle = xyColor;
+      ctx.textAlign = "right";
+      ctx.fillText("X (m) →", w - 6, h - 6);
+
+      ctx.save();
+      ctx.translate(10, 14);
+      ctx.textAlign = "left";
+      ctx.fillStyle = xyColor;
+      ctx.fillText("↑ Y (m)", 0, 0);
+      ctx.restore();
+    } else {
+      // Tampilan Vertical (profil kedalaman): sumbu Z / Depth (m) di kiri
+      ctx.fillStyle = isLight ? "#2b1c05" : "rgba(224,158,63,.9)";
+      ctx.textAlign = "left";
+      ctx.fillText("Z / DEPTH (m) ↓", 6, 14);
+
+      ctx.fillStyle = isLight ? "#333d38" : "rgba(148,166,157,.75)";
+      ctx.textAlign = "right";
+      ctx.fillText("TIME →", w - 6, h - 6);
+    }
+    ctx.textAlign = "left";
+  }
+
   function drawTrajectoryHorizontal(ctx, w, h) {
     drawTrajGrid(ctx, w, h);
+    drawAxisNames(ctx, w, h, "h");
 
     if (trajHistoryH.length < 2) {
       drawTrajWaitingLabel(ctx, w, h);
@@ -717,10 +749,25 @@
     ctx.font = "9px monospace";
     ctx.fillStyle = "#3ecf8e"; ctx.fillText("S", path[0][0] - 3, path[0][1] - 8);
     ctx.fillStyle = "#e09e3f"; ctx.fillText("E", last[0] - 3, last[1] - 8);
+
+    // ── Label nilai (jarak dalam meter) di ujung-ujung sumbu ──
+    ctx.font = "7px monospace";
+    ctx.fillStyle = "rgba(148,166,157,.85)";
+
+    ctx.textAlign = "left";
+    ctx.fillText(`X:${minX.toFixed(2)}m`, margin, h - 22);
+    ctx.textAlign = "right";
+    ctx.fillText(`X:${maxX.toFixed(2)}m`, w - margin, h - 22);
+
+    ctx.textAlign = "left";
+    ctx.fillText(`Y:${minY.toFixed(2)}m`, 4, margin + 20);
+    ctx.fillText(`Y:${maxY.toFixed(2)}m`, 4, h - margin - 4);
+    ctx.textAlign = "left";
   }
 
   function drawTrajectoryVertical(ctx, w, h) {
     drawTrajGrid(ctx, w, h);
+    drawAxisNames(ctx, w, h, "v");
 
     if (trajHistoryV.length < 2) {
       drawTrajWaitingLabel(ctx, w, h);
@@ -766,7 +813,13 @@
 
     ctx.font = "7px monospace";
     ctx.fillStyle = "rgba(224,158,63,.7)";
+    ctx.textAlign = "left";
     ctx.fillText("FLOOR", 4, floorY - 3);
+
+    // ── Skala kedalaman (Z) dalam meter: 0m di atas, MAX_DEPTH_M di bawah ──
+    ctx.fillStyle = "rgba(148,166,157,.85)";
+    ctx.fillText("0.00m", w - 34, margin + 8);
+    ctx.fillText(`${MAX_DEPTH_M.toFixed(2)}m`, w - 34, floorY - 3);
   }
 
   function drawTrajectory() {
@@ -853,23 +906,7 @@
     if (qsAlt) qsAlt.textContent = `${altitude.toFixed(1)}m`;
   }
 
-  function renderQrSideValid(qr_side, qr_valid) {
-    const qrSideEl = document.getElementById("qr-side");
-    const qrValidEl = document.getElementById("qr-valid");
-    if (qrSideEl) {
-      qrSideEl.textContent = `SIDE: ${qr_side}`;
-      qrSideEl.classList.remove("qr-pill-side");
-      void qrSideEl.offsetWidth;
-      qrSideEl.classList.add("qr-pill-side");
-    }
-    if (qrValidEl) {
-      qrValidEl.textContent = qr_valid ? "STATUS: VALID" : "STATUS: INVALID";
-      qrValidEl.classList.remove("qr-pill-valid", "qr-pill-invalid");
-      qrValidEl.classList.add(qr_valid ? "qr-pill-valid" : "qr-pill-invalid");
-    }
-  }
-
   window.renderAltitude = renderAltitude;
-  window.renderQrSideValid = renderQrSideValid;
+  window.redrawTrajectory = drawTrajectory;
 
 })();

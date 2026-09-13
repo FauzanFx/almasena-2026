@@ -525,7 +525,6 @@ input[type=number]:focus {
     <div class="card flex flex-col" style="padding:var(--sp-3);flex:1 1 0%;min-height:0;">
       <div class="section-title flex items-center justify-between" style="flex-shrink:0;">
         <span>ROV Design</span>
-        <span class="font-mono" style="font-size:7px;color:var(--muted);letter-spacing:.03em;">X_FINAL_STL</span>
       </div>
       <div id="stl-viewer-wrap" style="position:relative;width:100%;flex:1;min-height:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;display:flex;align-items:center;justify-content:center;">
         <div id="stl-viewer" style="position:absolute;inset:0;cursor:grab;"></div>
@@ -846,11 +845,57 @@ input[type=number]:focus {
   const loadingLabel = document.getElementById('stl-loading-label');
   const gizmoMount = document.getElementById('axis-gizmo');
 
-  if (mount) {
+  function detectSoftwareRenderer() {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) return { isSoftware: true, renderer: 'no-webgl' };
+
+      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+      const renderer = debugInfo
+        ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+        : gl.getParameter(gl.RENDERER);
+
+      const rendererStr = String(renderer).toLowerCase();
+      const isSoftware = rendererStr.includes('llvmpipe') ||
+                          rendererStr.includes('swiftshader') ||
+                          rendererStr.includes('software');
+
+      return { isSoftware, renderer: renderer || 'unknown' };
+    } catch (e) {
+      return { isSoftware: true, renderer: 'detection-failed' };
+    }
+  }
+
+  const gpuCheck = detectSoftwareRenderer();
+  console.log('WebGL renderer terdeteksi:', gpuCheck.renderer);
+
+  if (mount && gpuCheck.isSoftware) {
+    // ===== FALLBACK: software rendering terdeteksi, pakai gambar statis =====
+    if (loadingLabel) loadingLabel.style.display = 'none';
+    mount.innerHTML = `
+      <img src="assets/X_FINAL_preview.png"
+           alt="ROV Design Preview"
+           style="width:100%;height:100%;object-fit:contain;padding:8px;" />
+      <div style="position:absolute;bottom:6px;left:6px;right:6px;
+                  font-family:var(--font-mono);font-size:7px;
+                  color:var(--muted);text-align:center;opacity:.7;">
+        Mode ringan aktif (GPU tidak terdeteksi) — tampilan statis
+      </div>
+    `;
+  } else if (mount) {
+    // ===== VIEWER 3D PENUH (render-on-demand) =====
+    const PIXEL_RATIO_CAP = 1.5;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, PIXEL_RATIO_CAP);
+
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(window.devicePixelRatio || 1);
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: 'high-performance'
+    });
+    renderer.setPixelRatio(pixelRatio);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     mount.appendChild(renderer.domElement);
 
@@ -872,13 +917,26 @@ input[type=number]:focus {
       renderer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
+      requestRender();
     }
+
+    let needsRender = true;
+    let dampingSettleFrames = 0;
+    const DAMPING_SETTLE_THRESHOLD = 4;
+
+    function requestRender() {
+      needsRender = true;
+      dampingSettleFrames = 0;
+    }
+
     resizeViewer();
     window.addEventListener('resize', resizeViewer);
+    controls.addEventListener('change', requestRender);
+    controls.addEventListener('start', requestRender);
 
     const loader = new GLTFLoader();
     loader.load(
-      'assets/X_FINAL_GLB.glb',
+      'assets/Gripper_new_final_3.glb',
       (gltf) => {
         const model = gltf.scene;
 
@@ -898,6 +956,7 @@ input[type=number]:focus {
         controls.update();
 
         if (loadingLabel) loadingLabel.style.display = 'none';
+        requestRender();
       },
       (xhr) => {
         if (loadingLabel && xhr.total) {
@@ -932,7 +991,7 @@ input[type=number]:focus {
       gizmoScene = new THREE.Scene();
       gizmoCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 10);
       gizmoRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      gizmoRenderer.setPixelRatio(window.devicePixelRatio || 1);
+      gizmoRenderer.setPixelRatio(pixelRatio);
       gizmoRenderer.setSize(gizmoMount.clientWidth || 52, gizmoMount.clientHeight || 52);
       gizmoMount.appendChild(gizmoRenderer.domElement);
 
@@ -961,8 +1020,10 @@ input[type=number]:focus {
       });
     }
 
-    (function animate() {
-      requestAnimationFrame(animate);
+    function renderLoop() {
+      requestAnimationFrame(renderLoop);
+      if (!needsRender) return;
+
       controls.update();
       renderer.render(scene, camera);
 
@@ -973,7 +1034,15 @@ input[type=number]:focus {
         gizmoCamera.lookAt(0, 0, 0);
         gizmoRenderer.render(gizmoScene, gizmoCamera);
       }
-    })();
+
+      if (controls.enableDamping) {
+        dampingSettleFrames++;
+        needsRender = dampingSettleFrames < DAMPING_SETTLE_THRESHOLD;
+      } else {
+        needsRender = false;
+      }
+    }
+    renderLoop();
   }
 </script>
 

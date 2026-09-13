@@ -857,9 +857,12 @@ input[type=number]:focus {
         : gl.getParameter(gl.RENDERER);
 
       const rendererStr = String(renderer).toLowerCase();
-      const isSoftware = rendererStr.includes('llvmpipe') ||
-                          rendererStr.includes('swiftshader') ||
-                          rendererStr.includes('software');
+
+      const softwareKeywords = [
+        'llvmpipe', 'llvm', 'swiftshader', 'software',
+        'svga3d', 'mesa offscreen', 'basic render'
+      ];
+      const isSoftware = softwareKeywords.some(kw => rendererStr.includes(kw));
 
       return { isSoftware, renderer: renderer || 'unknown' };
     } catch (e) {

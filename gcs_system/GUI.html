@@ -521,15 +521,14 @@ input[type=number]:focus {
   <!-- LEFT SIDEBAR: ROV Design + Trajectory Map + Replay -->
   <div class="w-64 flex-shrink-0 h-full bg-rov-panel border border-rov-border rounded-lg2 flex flex-col overflow-hidden min-h-0" style="padding:8px;gap:8px;box-shadow:var(--shadow-panel);">
 
-    <!-- ROV DESIGN / AXIS CARD (enlarged) -->
+    <!-- ROV DESIGN CARD (sekarang gambar statis, bukan viewer 3D interaktif) -->
     <div class="card flex flex-col" style="padding:var(--sp-3);flex:1 1 0%;min-height:0;">
       <div class="section-title flex items-center justify-between" style="flex-shrink:0;">
         <span>ROV Design</span>
       </div>
       <div id="stl-viewer-wrap" style="position:relative;width:100%;flex:1;min-height:0;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;display:flex;align-items:center;justify-content:center;">
-        <div id="stl-viewer" style="position:absolute;inset:0;cursor:grab;"></div>
-        <span id="stl-loading-label" class="font-mono" style="position:relative;z-index:1;font-size:9px;color:var(--muted);letter-spacing:.03em;pointer-events:none;">LOADING 3D MODEL…</span>
-        <div id="axis-gizmo" style="position:absolute;bottom:4px;right:4px;width:52px;height:52px;z-index:2;pointer-events:none;"></div>
+        <div id="stl-viewer" style="position:absolute;inset:0;"></div>
+        <span id="stl-loading-label" class="font-mono" style="position:relative;z-index:1;font-size:9px;color:var(--muted);letter-spacing:.03em;pointer-events:none;">LOADING…</span>
       </div>
     </div>
 
@@ -827,226 +826,45 @@ input[type=number]:focus {
 <!-- Main Telemetry, Video & Replay Controller -->
 <script src="js/main.js"></script>
 
-<!-- ROV 3D Design Viewer (GLB) + Live Axis Gizmo -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-  }
-}
-</script>
-<script type="module">
-  import * as THREE from 'three';
-  import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+<!--
+  ROV DESIGN VIEWER — VERSI STATIS
 
-  const mount = document.getElementById('stl-viewer');
-  const loadingLabel = document.getElementById('stl-loading-label');
-  const gizmoMount = document.getElementById('axis-gizmo');
+  Sebelumnya bagian ini pakai Three.js untuk merender model 3D (.glb)
+  secara interaktif. Ternyata di beberapa environment (VM VirtualBox,
+  WSL, GPU lemah/terbatas) rendering WebGL jatuh ke software rendering
+  (llvmpipe/SwiftShader) yang membuat performa lag parah, terlepas dari
+  seberapa kecil file model-nya, karena beban render dilakukan oleh CPU
+  bukan GPU.
 
-  function detectSoftwareRenderer() {
-    try {
-      const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      if (!gl) return { isSoftware: true, renderer: 'no-webgl' };
+  Karena tampilan ROV Design ini sifatnya informatif/dekoratif (bukan
+  komponen kontrol utama seperti telemetry/kamera), solusi paling stabil
+  untuk semua environment adalah menggantinya dengan gambar statis.
 
-      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-      const renderer = debugInfo
-        ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
-        : gl.getParameter(gl.RENDERER);
+  CARA GANTI GAMBAR:
+  1. Siapkan 1 file gambar PNG/JPG hasil render/screenshot model 3D-mu
+     dari sudut pandang terbaik (disarankan proyeksi perspektif, sudut
+     3/4, bukan tampak lurus dari depan/samping).
+  2. Simpan gambar itu di folder assets/, misalnya sebagai
+     assets/X_FINAL_preview.png
+  3. Ganti nilai src="assets/X_FINAL_preview.png" di bawah sesuai nama
+     file gambarmu.
+-->
+<script>
+  (function () {
+    const mount = document.getElementById('stl-viewer');
+    const loadingLabel = document.getElementById('stl-loading-label');
 
-      const rendererStr = String(renderer).toLowerCase();
+    if (!mount) return;
 
-      const softwareKeywords = [
-        'llvmpipe', 'llvm', 'swiftshader', 'software',
-        'svga3d', 'mesa offscreen', 'basic render'
-      ];
-      const isSoftware = softwareKeywords.some(kw => rendererStr.includes(kw));
-
-      return { isSoftware, renderer: renderer || 'unknown' };
-    } catch (e) {
-      return { isSoftware: true, renderer: 'detection-failed' };
-    }
-  }
-
-  const gpuCheck = detectSoftwareRenderer();
-  console.log('WebGL renderer terdeteksi:', gpuCheck.renderer);
-
-  if (mount && gpuCheck.isSoftware) {
-    // ===== FALLBACK: software rendering terdeteksi, pakai gambar statis =====
     if (loadingLabel) loadingLabel.style.display = 'none';
+
     mount.innerHTML = `
       <img src="assets/X_FINAL_preview.png"
            alt="ROV Design Preview"
-           style="width:100%;height:100%;object-fit:contain;padding:8px;" />
-      <div style="position:absolute;bottom:6px;left:6px;right:6px;
-                  font-family:var(--font-mono);font-size:7px;
-                  color:var(--muted);text-align:center;opacity:.7;">
-        Mode ringan aktif (GPU tidak terdeteksi) — tampilan statis
-      </div>
+           style="width:100%;height:100%;object-fit:contain;padding:8px;"
+           onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<div style=\\'color:var(--muted);font-family:var(--font-mono);font-size:9px;text-align:center;padding:20px;\\'>Gambar preview belum ditemukan.<br/>Taruh file di assets/X_FINAL_preview.png</div>');" />
     `;
-  } else if (mount) {
-    // ===== VIEWER 3D PENUH (render-on-demand) =====
-    const PIXEL_RATIO_CAP = 1.5;
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, PIXEL_RATIO_CAP);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100000);
-    const renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance'
-    });
-    renderer.setPixelRatio(pixelRatio);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    mount.appendChild(renderer.domElement);
-
-    scene.add(new THREE.HemisphereLight(0xffffff, 0x223322, 1.1));
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
-    dirLight.position.set(1, 1, 1);
-    scene.add(dirLight);
-    const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
-    dirLight2.position.set(-1, 0.5, -1);
-    scene.add(dirLight2);
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.dampingFactor = 0.08;
-
-    function resizeViewer() {
-      const w = mount.clientWidth || 1;
-      const h = mount.clientHeight || 1;
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      requestRender();
-    }
-
-    let needsRender = true;
-    let dampingSettleFrames = 0;
-    const DAMPING_SETTLE_THRESHOLD = 4;
-
-    function requestRender() {
-      needsRender = true;
-      dampingSettleFrames = 0;
-    }
-
-    resizeViewer();
-    window.addEventListener('resize', resizeViewer);
-    controls.addEventListener('change', requestRender);
-    controls.addEventListener('start', requestRender);
-
-    const loader = new GLTFLoader();
-    loader.load(
-      'assets/Gripper_new_final_3.glb',
-      (gltf) => {
-        const model = gltf.scene;
-
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-        model.position.sub(center);
-
-        scene.add(model);
-
-        const sphere = box.getBoundingSphere(new THREE.Sphere());
-        const radius = sphere.radius || 50;
-        camera.position.set(radius * 1.8, radius * 1.4, radius * 1.8);
-        camera.near = radius / 100;
-        camera.far = radius * 100;
-        camera.updateProjectionMatrix();
-        controls.target.set(0, 0, 0);
-        controls.update();
-
-        if (loadingLabel) loadingLabel.style.display = 'none';
-        requestRender();
-      },
-      (xhr) => {
-        if (loadingLabel && xhr.total) {
-          const pct = Math.round((xhr.loaded / xhr.total) * 100);
-          loadingLabel.textContent = `LOADING 3D MODEL… ${pct}%`;
-        }
-      },
-      (err) => {
-        console.error('Gagal memuat model GLB:', err);
-        if (loadingLabel) loadingLabel.textContent = 'GAGAL MEMUAT MODEL 3D';
-      }
-    );
-
-    function makeAxisLabel(text, colorHex) {
-      const canvas = document.createElement('canvas');
-      canvas.width = 64; canvas.height = 64;
-      const ctx = canvas.getContext('2d');
-      ctx.font = 'bold 44px sans-serif';
-      ctx.fillStyle = colorHex;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(text, 32, 34);
-      const tex = new THREE.CanvasTexture(canvas);
-      const mat = new THREE.SpriteMaterial({ map: tex, depthTest: false });
-      const sprite = new THREE.Sprite(mat);
-      sprite.scale.set(0.55, 0.55, 0.55);
-      return sprite;
-    }
-
-    let gizmoRenderer, gizmoScene, gizmoCamera;
-    if (gizmoMount) {
-      gizmoScene = new THREE.Scene();
-      gizmoCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 10);
-      gizmoRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      gizmoRenderer.setPixelRatio(pixelRatio);
-      gizmoRenderer.setSize(gizmoMount.clientWidth || 52, gizmoMount.clientHeight || 52);
-      gizmoMount.appendChild(gizmoRenderer.domElement);
-
-      const axisDefs = [
-        { dir: new THREE.Vector3(1, 0, 0), color: 0xf0787e, label: 'X' },
-        { dir: new THREE.Vector3(0, 1, 0), color: 0x5ee0a6, label: 'Y' },
-        { dir: new THREE.Vector3(0, 0, 1), color: 0x5cd6c7, label: 'Z' },
-      ];
-
-      axisDefs.forEach(({ dir, color, label }) => {
-        const points = [new THREE.Vector3(0, 0, 0), dir.clone().multiplyScalar(1.0)];
-        const geom = new THREE.BufferGeometry().setFromPoints(points);
-        const mat = new THREE.LineBasicMaterial({ color, linewidth: 2 });
-        gizmoScene.add(new THREE.Line(geom, mat));
-
-        const tip = new THREE.Mesh(
-          new THREE.SphereGeometry(0.07, 12, 12),
-          new THREE.MeshBasicMaterial({ color })
-        );
-        tip.position.copy(dir.clone().multiplyScalar(1.0));
-        gizmoScene.add(tip);
-
-        const sprite = makeAxisLabel(label, `#${color.toString(16).padStart(6, '0')}`);
-        sprite.position.copy(dir.clone().multiplyScalar(1.35));
-        gizmoScene.add(sprite);
-      });
-    }
-
-    function renderLoop() {
-      requestAnimationFrame(renderLoop);
-      if (!needsRender) return;
-
-      controls.update();
-      renderer.render(scene, camera);
-
-      if (gizmoRenderer) {
-        const dir = new THREE.Vector3().subVectors(camera.position, controls.target).normalize();
-        gizmoCamera.position.copy(dir.multiplyScalar(3.2));
-        gizmoCamera.up.copy(camera.up);
-        gizmoCamera.lookAt(0, 0, 0);
-        gizmoRenderer.render(gizmoScene, gizmoCamera);
-      }
-
-      if (controls.enableDamping) {
-        dampingSettleFrames++;
-        needsRender = dampingSettleFrames < DAMPING_SETTLE_THRESHOLD;
-      } else {
-        needsRender = false;
-      }
-    }
-    renderLoop();
-  }
+  })();
 </script>
 
 </body>

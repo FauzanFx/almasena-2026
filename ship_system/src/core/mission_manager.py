@@ -1,10 +1,15 @@
 # almasena-dev/ship_system/src/core/mission_manager.py
 
+import time
+
 class MissionManager:
     def __init__(self):
         self.is_autonomous = False
         self.prev_autonomous = False
         self.auto_phase = "MANUAL"
+        
+        # Timer untuk state machine otonom
+        self.phase_start_time = 0.0
 
     def update(self, gcs_commands: dict, vision_data: dict, current_depth: float, software_kill_active: bool, logger) -> dict:
         cmds = {
@@ -31,53 +36,75 @@ class MissionManager:
         cmds["hold_pitch"] = gcs_commands.get("hold_pitch", False)
         cmds["is_autonomous"] = self.is_autonomous
 
+        # --- DETEKSI TOMBOL AUTONOMOUS BARU DITEKAN ---
         if self.is_autonomous and not self.prev_autonomous:
-            self.auto_phase = "DESCENT"
-            logger.push("Mode Otonom Dipicu: DESCENT", "sys")
+            self.auto_phase = "AUTO_MUNDUR"
+            self.phase_start_time = time.time()
+            if logger:
+                logger.push("[AUTO] Sequence Dimulai: Phase 1 (Mundur)", "sys")
 
         self.prev_autonomous = self.is_autonomous
 
+        # --- MODE MANUAL ---
         if not self.is_autonomous:
             self.auto_phase = "MANUAL"
-
-            # --- MAPPING NORMAL: TIDAK DITUKAR ---
             cmds["surge"] = gcs_commands.get("surge", 0)
             cmds["yaw"] = gcs_commands.get("yaw", 0)
             cmds["pitch"] = gcs_commands.get("pitch", 0)
-            
-            # --- FIX: AMAN DARI PERBEDAAN NAMA KEY GCS ---
             cmds["ballast_cmd"] = gcs_commands.get("ballast_cmd", gcs_commands.get("ballast", 0))
             cmds["gripper_cmd"] = gcs_commands.get("gripper_cmd", gcs_commands.get("grip", gcs_commands.get("Grip", 0)))
+            cmds["auto_phase"] = self.auto_phase
+            return cmds
 
-        else:
-            if vision_data.get("target_detected", False):
-                x_center, y_center, _, _ = vision_data["bbox"]
-                err_x = x_center - 320
+        # --- MODE AUTONOMOUS (TIME-BASED STATE MACHINE) ---
+        now = time.time()
+        elapsed = now - self.phase_start_time
 
-                # --- FIX HARDWARE: TUKAR SURGE & YAW (Mode Otonom) ---
-                cmds["surge"] = int(err_x * 1.5)  # Awalnya yaw
-                cmds["yaw"] = 500                 # Awalnya surge
-                # -----------------------------------------------------
-
+        if self.auto_phase == "AUTO_MUNDUR":
+            if elapsed < 1.0:
+                cmds["surge"] = -500  # Mundur 50% power
                 cmds["ballast_cmd"] = 0
-                cmds["target_depth"] = None
-                self.auto_phase = "TRACKING"
             else:
-                if self.auto_phase == "DESCENT":
-                    if current_depth >= 2.5:
-                        self.auto_phase = "ASCENT"
-                        logger.push("Otonom Phase: ASCENT", "sys")
-                        cmds["target_depth"] = 0.2
-                    else:
-                        cmds["target_depth"] = 2.5
+                self.auto_phase = "AUTO_TARIK_BALLAST"
+                self.phase_start_time = now
+                if logger:
+                    logger.push("[AUTO] Phase 2: Tarik Ballast 3 Detik", "sys")
 
-                elif self.auto_phase == "ASCENT":
-                    if current_depth <= 0.2:
-                        self.auto_phase = "DESCENT"
-                        logger.push("Otonom Phase: DESCENT", "sys")
-                        cmds["target_depth"] = 2.5
-                    else:
-                        cmds["target_depth"] = 0.2
+        elif self.auto_phase == "AUTO_TARIK_BALLAST":
+            if elapsed < 3.0:
+                cmds["surge"] = 0
+                cmds["ballast_cmd"] = -100  # Tarik full (STM32 pwm_speed negatif)
+            else:
+                self.auto_phase = "AUTO_MAJU"
+                self.phase_start_time = now
+                if logger:
+                    logger.push("[AUTO] Phase 3: Maju 1 Detik", "sys")
+
+        elif self.auto_phase == "AUTO_MAJU":
+            if elapsed < 1.0:
+                cmds["surge"] = 500  # Maju 50% power
+                cmds["ballast_cmd"] = 0
+            else:
+                self.auto_phase = "AUTO_DORONG_BALLAST"
+                self.phase_start_time = now
+                if logger:
+                    logger.push("[AUTO] Phase 4: Dorong Ballast 3 Detik", "sys")
+
+        elif self.auto_phase == "AUTO_DORONG_BALLAST":
+            if elapsed < 3.0:
+                cmds["surge"] = 0
+                cmds["ballast_cmd"] = 100  # Dorong full (STM32 pwm_speed positif)
+            else:
+                self.auto_phase = "AUTO_SELESAI"
+                if logger:
+                    logger.push("[AUTO] Sequence Selesai. Menunggu Manual Override.", "sys")
+
+        elif self.auto_phase == "AUTO_SELESAI":
+            # Berhenti total
+            cmds["surge"] = 0
+            cmds["yaw"] = 0
+            cmds["pitch"] = 0
+            cmds["ballast_cmd"] = 0
 
         cmds["auto_phase"] = self.auto_phase
         return cmds

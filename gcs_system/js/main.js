@@ -115,6 +115,17 @@
     appendLog("00:00", "Zeroing Encoder Command Dispatched", "warn");
   };
 
+  // ── DISARM (SAFETY CUTOFF) ──
+  window.disarmROV = function () {
+    fetch("/api/command", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ command: "disarm" })
+    }).catch(err => console.error("Disarm Error:", err));
+
+    appendLog("00:00", "DISARM COMMAND SENT — THRUSTERS DISABLED", "err");
+  };
+
   function updatePIDChart(targetVal, currentVal) {
     const canvas = document.getElementById("pid-chart");
     if (!canvas) return;

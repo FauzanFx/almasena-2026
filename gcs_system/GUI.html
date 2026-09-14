@@ -487,6 +487,7 @@ input[type=number]:focus {
     <span class="rounded-md2 text-rov-am font-head font-semibold" id="mode-badge" style="font-size:9.5px;padding:3px 9px;letter-spacing:.05em;background:rgba(var(--warn-dim-rgb),.5);border:1px solid var(--warn-dim);">DEPTH HOLD</span>
   </div>
   <div class="flex items-center" style="gap:var(--sp-3);">
+    <button id="btn-disarm" onclick="disarmROV()" class="bg-rov-card border border-rov-rd hover:bg-rov-rd text-rov-rd hover:text-white font-head font-semibold transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 10px;letter-spacing:.03em;">⏻ DISARM</button>
     <button onclick="takeScreenshot()" class="bg-rov-card border border-rov-border hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 10px;letter-spacing:.03em;">Screenshot</button>
     <button id="btn-autolog" onclick="toggleAutoLog()" class="bg-rov-card border border-rov-border hover:bg-rov-em-b text-rov-em font-head font-medium transition-colors rounded-md2 cursor-pointer" style="font-size:10px;padding:5px 10px;letter-spacing:.03em;">⏺ Auto-Log: OFF</button>
     <div style="width:1px;height:18px;background:var(--rov-border);"></div>
